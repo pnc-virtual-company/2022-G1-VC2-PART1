@@ -1,20 +1,55 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import WelcomeView from ".././views/WelcomeView.vue"
+import StudentsList from '../views/teacher/StudentsList.vue'
+import CheckLeave from '../views/teacher/CheckLeave.vue'
+import StudentListAllLeave from '../views/student/StudentListAllLeave.vue'
+import NewRequest from '../views/student/NewRequest.vue'
+
+import UserInfo from '../views/UserInfo.vue'
+import SignOut from '../views/SignOut.vue'
 
 const routes = [
+  // {
+  //   path: '/',
+  //   name: 'home',
+  //   component: HomeView
+  // },
   {
-    path: '/',
-    name: 'home',
-    component: HomeView
+    path: '/welcome',
+    name: 'welcome',
+    component: WelcomeView
   },
   {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
-  }
+    path: '/studentsList',
+    name: 'studentsList',
+    component: StudentsList
+  },
+  {
+    path: '/checkLeave',
+    name: 'checkLeave',
+    component: CheckLeave
+  },
+  {
+    path: '/studentListAllLeave',
+    name: 'studentListAllLeave',
+    component: StudentListAllLeave
+  },
+  {
+    path: '/newRequest',
+    name: 'newRequest',
+    component: NewRequest
+  },
+  {
+    path: '/userInfo',
+    name: 'userInfo',
+    component: UserInfo
+  },
+  {
+    path: '/signOut',
+    name: 'signOut',
+    component: SignOut
+  },
+ 
 ]
 
 const router = createRouter({
