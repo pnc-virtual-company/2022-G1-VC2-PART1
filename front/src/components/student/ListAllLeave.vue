@@ -3,7 +3,7 @@
     <table>
       <thead>
         <tr>
-          <th>Start Date</th>
+          <th>Start Date </th>
           <th>End Date</th>
           <th>Reason</th>
           <th>Duration</th>
@@ -12,6 +12,7 @@
           <th>Request Date</th>
         </tr>
       </thead>
+
       <tbody>
        <tr v-for:="student in students">
           <th>{{student.start_date}}</th>
@@ -40,8 +41,12 @@
           <td class="canceled">Canceled</td>
           <td>13/4/2022</td>
         </tr>
+=======
+>>>>>>> c3b46a51742422258d823b09167cb31d6b58fc0e
 
+      <tbody  v-for="listOfLeave of ListAllLeave" :key="listOfLeave" >
         <tr>
+<<<<<<< HEAD
           <td>11/4/2022</td>
           <td>13/4/2022</td>
           <td>Go to homtown</td>
@@ -68,6 +73,7 @@
           <td class="padding">Padding</td>
           <td>13/4/2022</td>
         </tr> -->
+
       </tbody>
     </table>
   </div>
@@ -91,7 +97,7 @@ export default {
 
    mounted() {
     this.studentEachStatus()
-  }
+   }
 };
 </script>
 
