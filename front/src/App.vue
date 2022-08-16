@@ -1,31 +1,17 @@
 <template>
-  <teacher-menu v-if="isAdmin"></teacher-menu>
-  <student-menu v-if="isStudent"></student-menu>
-  <button @click="adminlogIn()" v-if="isLogIn">Teacher</button>
-  <button @click="studentLogIn()" v-if="isLogIn">Student</button>
+  <menu-bar></menu-bar>
 </template>
 
 <script>
-import TeacherMenu from "@/components/Menu/TeacherMenu.vue";
-import StudentMenu from "@/components/Menu/StudentMenu.vue";
+import MenubarView from "@/components/Menu/MenubarView.vue";
 export default {
   data() {
     return {
-      isAdmin: false,
-      isStudent: true,
-      isLogIn: true,
+
     };
   },
-  components: { "teacher-menu": TeacherMenu, "student-menu": StudentMenu },
+  components: { "menu-bar": MenubarView,},
   methods: {
-    adminlogIn() {
-      this.isAdmin = true;
-      this.isLogIn = false;
-    },
-    studentLogIn() {
-      this.isStudent = true;
-      this.isLogIn = false;
-    },
   },
 };
 </script>
