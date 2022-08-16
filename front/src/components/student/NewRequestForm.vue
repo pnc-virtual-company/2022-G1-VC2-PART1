@@ -38,14 +38,20 @@
       </div>
     </div>
     <div class="form-group">
-      <p>Duration : <i>7 Days</i></p>
+      <p>Duration : <span>7 Days</span></p>
     </div>
     <div class="form-group">
       <p>Cause(Reason) :</p>
       <textarea cols="53" rows="5"></textarea>
     </div>
-    <div class="form-group">
+    <!-- <div class="form-group">
       <button class="form-control">Submit</button>
+    </div> -->
+    <div class="form-group">
+      <div class="form-controll btn-group">
+        <button class="two-input cancele">Cancel</button>
+        <button class="two-input submit">Submit</button>
+      </div>
     </div>
   </form>
 </template>
@@ -63,7 +69,7 @@ export default {
 <style scoped>
 form {
   width: 30%;
-  margin:2rem auto ;
+  margin: 2rem auto;
   padding: 10px;
   background: #144e5a;
   border: 2px solid rgba(233, 233, 233, 0.54);
@@ -73,11 +79,9 @@ h2 {
   text-align: center;
   color: #3cabce;
   margin: 1rem;
-  
 }
 .form-group {
   margin: 10px;
-  display: f;
 }
 .form-control {
   box-sizing: border-box;
@@ -95,7 +99,7 @@ p {
   border-radius: 5px;
   width: 46%;
 }
-i {
+span {
   color: red;
   font-weight: bold;
 }
@@ -104,8 +108,23 @@ textarea {
 }
 button {
   border: none;
-  background: #e0a102;
-  color: #fff;
   font-weight: bold;
+}
+.btn-group{
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px 0;
+}
+.submit {
+  background: orange;
+  color: #fff;
+  width: 30%;
+}
+
+.cancele {
+  background: #fff;
+  color: #000;
+  width: 30%;
+  margin-right: 10px;
 }
 </style>

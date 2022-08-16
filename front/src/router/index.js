@@ -9,11 +9,12 @@ import UserInfo from '../views/UserInfo.vue'
 import SignOut from '../views/SignOut.vue'
 
 const routes = [
-  // {
-  //   path: '/',
-  //   name: 'home',
-  //   component: HomeView
-  // },
+
+  {
+    path: '/',
+    name: 'welcome',
+    component: WelcomeView
+  },
   {
     path: '/welcome',
     name: 'welcome',
