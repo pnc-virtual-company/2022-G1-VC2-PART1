@@ -3,7 +3,7 @@
     <table>
       <thead>
         <tr>
-          <th>Start Date</th>
+          <th>Start Date </th>
           <th>End Date</th>
           <th>Reason</th>
           <th>Duration</th>
@@ -12,69 +12,29 @@
           <th>Request Date</th>
         </tr>
       </thead>
-      <tbody>
-        <tr>
-          <td>11/4/2022</td>
-          <td>13/4/2022</td>
-          <td>Go to homtown</td>
-          <td>2</td>
-          <td>Family's even</td>
-          <td class="padding">Padding</td>
-          <td>13/4/2022</td>
-        </tr>
-        <tr>
-          <td>11/4/2022</td>
-          <td>13/4/2022</td>
-          <td>Go to homtown</td>
-          <td>2</td>
-          <td>Family's even</td>
-          <td class="approved">Approved</td>
-          <td>13/4/2022</td>
-        </tr>
-        <tr>
-          <td>11/4/2022</td>
-          <td>13/4/2022</td>
-          <td>Go to homtown</td>
-          <td>2</td>
-          <td>Family's even</td>
-          <td class="canceled">Canceled</td>
-          <td>13/4/2022</td>
-        </tr>
 
+      <tbody  v-for="listOfLeave of ListAllLeave" :key="listOfLeave" >
         <tr>
-          <td>11/4/2022</td>
-          <td>13/4/2022</td>
-          <td>Go to homtown</td>
-          <td>2</td>
-          <td>Family's even</td>
-          <td class="rejected">Rejected</td>
-          <td>13/4/2022</td>
+          <td>{{listOfLeave.Start_Date}}</td>
+          <td>{{listOfLeave.End_Date}}</td>
+          <td>{{listOfLeave.Reason}}</td>
+          <td>{{listOfLeave.Duration}}</td>
+          <td>{{listOfLeave.Leave_Type}}</td>
+          <td>{{listOfLeave.Status}}</td>
+          <td>{{listOfLeave.Request_Date}}</td>
         </tr>
-        <tr>
-          <td>11/4/2022</td>
-          <td>13/4/2022</td>
-          <td>Go to homtown</td>
-          <td>2</td>
-          <td>Family's even</td>
-          <td class="canceled">Canceled</td>
-          <td>13/4/2022</td>
-        </tr>
-        <tr>
-          <td>11/4/2022</td>
-          <td>13/4/2022</td>
-          <td>Go to homtown</td>
-          <td>2</td>
-          <td>Family's even</td>
-          <td class="padding">Padding</td>
-          <td>13/4/2022</td>
-        </tr>
+        
       </tbody>
     </table>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  props:{
+    ListAllLeave:[],
+  }
+};
 </script>
 
 <style scoped>
