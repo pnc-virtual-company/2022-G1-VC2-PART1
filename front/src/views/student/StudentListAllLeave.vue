@@ -1,12 +1,15 @@
 <template>
   <div class="studentListAllLeave">
-    <h1>Student List All Leave !</h1>
+    <list-all-leave></list-all-leave>
   </div>
 </template>
 
 <script>
+import ListAllLeave from '@/components/student/ListAllLeave.vue';
 export default {
-
+  components: {
+    'list-all-leave': ListAllLeave,
+  }
 }
 </script>
 
