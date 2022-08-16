@@ -13,16 +13,16 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>11/4/2022</td>
-          <td>13/4/2022</td>
-          <td>Go to homtown</td>
-          <td>2</td>
-          <td>Family's even</td>
-          <td class="padding">Padding</td>
-          <td>13/4/2022</td>
+       <tr v-for:="student in students">
+          <th>{{student.start_date}}</th>
+          <th>{{student.end_date}}</th>
+          <th>{{student.reason}}</th>
+          <th>{{student.duration}}</th>
+          <th>{{student.leave_type}}</th>
+          <th :class="student.status.toLowerCase()">{{student.status}}</th>
+          <th>{{student.current_date}}</th>
         </tr>
-        <tr>
+        <!-- <tr>
           <td>11/4/2022</td>
           <td>13/4/2022</td>
           <td>Go to homtown</td>
@@ -67,14 +67,32 @@
           <td>Family's even</td>
           <td class="padding">Padding</td>
           <td>13/4/2022</td>
-        </tr>
+        </tr> -->
       </tbody>
     </table>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  inject:["student_leaves"],
+  data(){
+    return {
+      students:[],
+      status:"padding",
+    }
+  },
+  methods:{
+    studentEachStatus(){
+     this.students = this.student_leaves.filter(students => students.status.toLowerCase()==this.status)
+     console.log("Students : ", this.students);
+    }
+  },
+
+   mounted() {
+    this.studentEachStatus()
+  }
+};
 </script>
 
 <style scoped>

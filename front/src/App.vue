@@ -14,7 +14,21 @@ export default {
       isAdmin: false,
       isStudent: true,
       isLogIn: true,
+      student_leaves:[
+        {id:1, student_id:1, start_date:"2022-02-04", end_date:"2022-02-10", current_date:"2022-02-01", status: "Padding", duration:"2", reason:"Visit Family", leave_type:"Family event"},
+        {id:2, student_id:2, start_date:"2022-02-04", end_date:"2022-02-10", current_date:"2022-02-01", status: "Padding", duration:"2", reason:"sick", leave_type:"Check health"},
+        {id:3, student_id:3, start_date:"2022-02-04", end_date:"2022-02-10", current_date:"2022-02-01", status: "Approved", duration:"2", reason:"Visit hometown", leave_type:"Ceremony event"},
+        {id:4, student_id:4, start_date:"2022-02-04", end_date:"2022-02-10", current_date:"2022-02-01", status: "Padding", duration:"2", reason:"Visit Family", leave_type:"Family event"},
+        {id:5, student_id:3, start_date:"2022-02-04", end_date:"2022-02-10", current_date:"2022-02-01", status: "Rejected", duration:"2", reason:"sick", leave_type:"Check health"},
+        {id:6, student_id:2, start_date:"2022-02-04", end_date:"2022-02-10", current_date:"2022-02-01", status: "Canceled", duration:"2", reason:"Visit Family", leave_type:"Family event"},
+        {id:7, student_id:3, start_date:"2022-02-04", end_date:"2022-02-10", current_date:"2022-02-01", status: "Padding", duration:"2", reason:"Visit hometown", leave_type:"Ceremony event"},
+      ],
     };
+  },
+  provide(){
+    return {
+      student_leaves:this.student_leaves
+    }
   },
   components: { "teacher-menu": TeacherMenu, "student-menu": StudentMenu },
   methods: {
@@ -27,6 +41,8 @@ export default {
       this.isLogIn = false;
     },
   },
+    
+  
 };
 </script>
 
