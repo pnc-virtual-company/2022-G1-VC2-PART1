@@ -47,6 +47,7 @@
           <th :class="student.status.toLowerCase()">{{student.status}}</th>
           <th>{{student.current_date}}</th>
         </tr>
+
       </tbody>
     </table>
   </div>

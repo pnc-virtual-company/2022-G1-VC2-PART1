@@ -23,6 +23,15 @@ class StudentLeaveRquest extends Model
         'updated_at',
     ];
 
+    // protected $dateFormat = 'm/d/Y';
+
+protected $dates = ['start_date', 'end_date', 'request_date'];
+
+protected $casts = [
+    'start_date'     => 'date:m/d/y',
+    'end_date'     => 'date:m/d/y',
+    'request_date'     => 'date:m/d/y',
+];
     public function student(){
         return $this->belongsTo(Student::class);
     }

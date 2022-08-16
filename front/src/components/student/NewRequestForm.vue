@@ -4,7 +4,7 @@
     <div class="line"></div>
     <div class="form-group">
       <p>Leave Type :</p>
-      <select class="form-control">
+      <select class="form-control" v-model="leaveType">
         <option value=""></option>
         <option value="sick">Sick</option>
         <option value="family event">Family Event</option>
@@ -17,7 +17,7 @@
         class="form-controll"
         style="display: flex; justify-content: space-between"
       >
-        <input type="date" class="two-input" />
+        <input type="date" class="two-input" v-model="startDate" />
         <select class="two-input">
           <option value="Morning">Morning</option>
           <option value="Afternoon">Afternoon</option>
@@ -30,7 +30,7 @@
         class="form-controll"
         style="display: flex; justify-content: space-between"
       >
-        <input type="date" class="two-input" />
+        <input type="date" class="two-input" v-model="endDate" />
         <select class="two-input">
           <option value="Morning">Morning</option>
           <option value="Afternoon">Afternoon</option>
@@ -38,18 +38,25 @@
       </div>
     </div>
     <div class="form-group">
-      <p>Duration : <span>7 Days</span></p>
+      <p>
+        Duration : <span v-if="duration == 0">0 Days</span
+        ><span v-else>{{ duration }} Days</span>
+      </p>
     </div>
     <div class="form-group">
       <p>Cause(Reason) :</p>
-      <textarea cols="53" rows="5"></textarea>
+      <textarea cols="53" rows="5" v-model="cause"></textarea>
     </div>
-    <!-- <div class="form-group">
-      <button class="form-control">Submit</button>
-    </div> -->
+
     <div class="form-group">
       <div class="form-controll btn-group">
-        <button class="two-input cancele">Cancel</button>
+        <button
+          class="two-input cancele"
+          type="submit"
+          @click.prevent="canceleRequest($e)"
+        >
+          Cancel
+        </button>
         <button class="two-input submit">Submit</button>
       </div>
     </div>
@@ -57,7 +64,37 @@
 </template>
 
 <script>
-export default {};
+import moment from "moment";
+
+export default {
+  data() {
+    return {
+      leaveType: "",
+      startDate: "",
+      endDate: "",
+      cause: "",
+    };
+  },
+  methods: {
+    canceleRequest() {
+      this.leaveType = "";
+      this.startDate = "";
+      this.endDate = "";
+      this.cause = "";
+    },
+  },
+  computed: {
+    duration() {
+      let start = moment(this.startDate);
+      let end = moment(this.endDate);
+      let result = " ";
+      if (!isNaN(end.diff(start, "days"))) {
+        result += end.diff(start, "days");
+      }
+      return result;
+    },
+  },
+};
 </script>
 
 <style scoped>
@@ -104,7 +141,7 @@ button {
   border: none;
   font-weight: bold;
 }
-.btn-group{
+.btn-group {
   display: flex;
   justify-content: flex-end;
   padding: 10px 0;

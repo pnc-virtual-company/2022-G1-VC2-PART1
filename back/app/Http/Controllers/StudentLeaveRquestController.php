@@ -27,22 +27,22 @@ class StudentLeaveRquestController extends Controller
     public function store(Request $request)
     {
         //
-        $request->validate([
-            'start_date' => [
-                'required',
-                'date_format:Y-m-d',    
-        ],
-            'end_date' => [
-                'required',
-                'date_format:Y-m-d',    
-        ],
-            'reason' => 'required',
+        // $request->validate([
+        //     'start_date' => [
+        //         'required',
+        //         'date_format:Y-m-d',    
+        // ],
+        //     'end_date' => [
+        //         'required',
+        //         'date_format:Y-m-d',    
+        // ],
+        //     'reason' => 'required',
            
-            'request_date' => [
-                'required',
-                'date_format:Y-m-d',    
-        ],
-        ]);
+        //     'request_date' => [
+        //         'required',
+        //         'date_format:Y-m-d',    
+        // ],
+        // ]);
         $studentLeaveRequest = new StudentLeaveRquest();
         $studentLeaveRequest->start_date = $request->start_date;
         $studentLeaveRequest->end_date = $request->end_date;
@@ -79,22 +79,22 @@ class StudentLeaveRquestController extends Controller
     public function update(Request $request,$id)
     {
         //
-        $request->validate([
-            'start_date' => [
-                'required',
-                'date_format:Y-m-d',    
-        ],
-            'end_date' => [
-                'required',
-                'date_format:Y-m-d',    
-        ],
-            'reason' => 'required',
+        // $request->validate([
+        //     'start_date' => [
+        //         'required',
+        //         'date_format:mm/dd/yy',    
+        // ],
+        //     'end_date' => [
+        //         'required',
+        //         'date_format:mm/dd/yy',    
+        // ],
+        //     'reason' => 'required',
            
-            'request_date' => [
-                'required',
-                'date_format:Y-m-d',    
-        ],
-        ]);
+        //     'request_date' => [
+        //         'required',
+        //         'date_format:mm/dd/yy',    
+        // ],
+        // ]);
         
         $studentLeaveRequest = StudentLeaveRquest::findOrFail($id);
         $studentLeaveRequest->start_date = $request->start_date;
