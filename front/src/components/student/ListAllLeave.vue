@@ -1,4 +1,28 @@
 <template>
+  <div class="cotainer_filter">
+      <div class="status_type">
+         <span>Status Type: </span>
+         <select class="select_controll" v-model="status_type">
+          <option value="show all" selected>Show all</option>
+           <option value="approved">Approved</option>
+           <option value="canceled">Canceled</option>
+           <option value="padding">Padding</option>
+           <option value="rejected">Rejected</option>
+         </select>
+      </div>
+      <div class="leave_type">
+        <span>Leave Type: </span>
+         <select class="select_controll" v-model="leave_type">
+           <option value="show all" selected>Show all</option>
+           <option value="family event">Family Event</option>
+           <option value="check health">Check Health</option>
+           <option value="sick">Sick</option>
+           <option value="ceremony event">Ceremony Event</option>
+         </select>
+      </div>
+      <button @click="studentEachStatus" class="btn-search">Search</button>
+    
+  </div>
   <div class="container">
     <table>
       <thead>
@@ -23,57 +47,6 @@
           <th :class="student.status.toLowerCase()">{{student.status}}</th>
           <th>{{student.current_date}}</th>
         </tr>
-        <!-- <tr>
-          <td>11/4/2022</td>
-          <td>13/4/2022</td>
-          <td>Go to homtown</td>
-          <td>2</td>
-          <td>Family's even</td>
-          <td class="approved">Approved</td>
-          <td>13/4/2022</td>
-        </tr>
-        <tr>
-          <td>11/4/2022</td>
-          <td>13/4/2022</td>
-          <td>Go to homtown</td>
-          <td>2</td>
-          <td>Family's even</td>
-          <td class="canceled">Canceled</td>
-          <td>13/4/2022</td>
-        </tr>
-=======
->>>>>>> c3b46a51742422258d823b09167cb31d6b58fc0e
-
-      <tbody  v-for="listOfLeave of ListAllLeave" :key="listOfLeave" >
-        <tr>
-<<<<<<< HEAD
-          <td>11/4/2022</td>
-          <td>13/4/2022</td>
-          <td>Go to homtown</td>
-          <td>2</td>
-          <td>Family's even</td>
-          <td class="rejected">Rejected</td>
-          <td>13/4/2022</td>
-        </tr>
-        <tr>
-          <td>11/4/2022</td>
-          <td>13/4/2022</td>
-          <td>Go to homtown</td>
-          <td>2</td>
-          <td>Family's even</td>
-          <td class="canceled">Canceled</td>
-          <td>13/4/2022</td>
-        </tr>
-        <tr>
-          <td>11/4/2022</td>
-          <td>13/4/2022</td>
-          <td>Go to homtown</td>
-          <td>2</td>
-          <td>Family's even</td>
-          <td class="padding">Padding</td>
-          <td>13/4/2022</td>
-        </tr> -->
-
       </tbody>
     </table>
   </div>
@@ -85,13 +58,23 @@ export default {
   data(){
     return {
       students:[],
-      status:"padding",
+      status_type:"show all",
+      leave_type:"show all",
     }
   },
   methods:{
     studentEachStatus(){
-     this.students = this.student_leaves.filter(students => students.status.toLowerCase()==this.status)
-     console.log("Students : ", this.students);
+      this.students= this.student_leaves
+      if(this.status_type!==""){
+        this.students = this.student_leaves.filter(students => students.status.toLowerCase()== this.status_type);
+      }
+      if(this.leave_type!==""){        
+        this.students = this.student_leaves.filter(students => students.leave_type.toLowerCase()== this.leave_type);
+      }if(this.status_type=="show all" || this.leave_type=="show all"){
+        this.students = this.student_leaves
+      }
+      this.status_type = ""
+      this.leave_type = ""
     }
   },
 
@@ -106,6 +89,37 @@ export default {
   width: 85%;
   margin: auto;
 }
+.cotainer_filter{
+  display: flex;
+  justify-content: space-between;
+  width: 40%;
+  margin:1rem auto;
+}
+.status_type, .leave_type{
+  padding: 10px 0;
+}
+.select_controll{
+  width: 100%;
+  border: none;
+  border-radius: 5px;
+  box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
+  padding: 10px;
+  outline: none;
+}
+.btn-search{
+  display: flex;
+  align-items: center;
+  height: 1.8rem;
+  margin-left: 4px;
+  margin-top: 2rem;
+  padding: 15px 20px;
+  border-radius: 5px;
+  border: none;
+
+  background-color: #144e5a;
+  color:white
+}
+
 table {
   width: 100%;
   border-collapse: collapse;
