@@ -23,56 +23,6 @@
           <th :class="student.status.toLowerCase()">{{student.status}}</th>
           <th>{{student.current_date}}</th>
         </tr>
-        <!-- <tr>
-          <td>11/4/2022</td>
-          <td>13/4/2022</td>
-          <td>Go to homtown</td>
-          <td>2</td>
-          <td>Family's even</td>
-          <td class="approved">Approved</td>
-          <td>13/4/2022</td>
-        </tr>
-        <tr>
-          <td>11/4/2022</td>
-          <td>13/4/2022</td>
-          <td>Go to homtown</td>
-          <td>2</td>
-          <td>Family's even</td>
-          <td class="canceled">Canceled</td>
-          <td>13/4/2022</td>
-        </tr>
-=======
->>>>>>> c3b46a51742422258d823b09167cb31d6b58fc0e
-
-      <tbody  v-for="listOfLeave of ListAllLeave" :key="listOfLeave" >
-        <tr>
-<<<<<<< HEAD
-          <td>11/4/2022</td>
-          <td>13/4/2022</td>
-          <td>Go to homtown</td>
-          <td>2</td>
-          <td>Family's even</td>
-          <td class="rejected">Rejected</td>
-          <td>13/4/2022</td>
-        </tr>
-        <tr>
-          <td>11/4/2022</td>
-          <td>13/4/2022</td>
-          <td>Go to homtown</td>
-          <td>2</td>
-          <td>Family's even</td>
-          <td class="canceled">Canceled</td>
-          <td>13/4/2022</td>
-        </tr>
-        <tr>
-          <td>11/4/2022</td>
-          <td>13/4/2022</td>
-          <td>Go to homtown</td>
-          <td>2</td>
-          <td>Family's even</td>
-          <td class="padding">Padding</td>
-          <td>13/4/2022</td>
-        </tr> -->
 
       </tbody>
     </table>

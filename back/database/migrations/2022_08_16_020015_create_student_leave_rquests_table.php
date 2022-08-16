@@ -15,13 +15,13 @@ return new class extends Migration
     {
         Schema::create('student_leave_rquests', function (Blueprint $table) {
             $table->id();
+            $table->string('leave_type');
             $table->date('start_date');
             $table->date('end_date');
-            $table->string('reason');
-            $table->string('leave_type');
             $table->string('duration');
             $table->string('status');
-            $table->string('request_date');
+            $table->date('request_date');
+            $table->string('reason');
             $table->foreignId('student_id')->constrained()->onDelete('CASCADE');
             $table->timestamps();
         });

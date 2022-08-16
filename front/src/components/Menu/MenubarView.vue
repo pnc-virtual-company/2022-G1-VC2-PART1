@@ -1,5 +1,6 @@
 <template>
-  <nav v-if="isAdmin">
+<section>
+    <nav v-if="isAdmin">
     <div class="nav-controll">
       <router-link to="/welcome" class="welcome">SLMS</router-link>
       <router-link to="/studentsList">Student List</router-link>
@@ -24,6 +25,7 @@
   <router-view />
   <button @click="adminlogIn()" v-if="isLogIn" class="btn">Teacher</button>
   <button @click="studentLogIn()" v-if="isLogIn" class="btn">Student</button>
+</section>
 </template>
 
 <script>

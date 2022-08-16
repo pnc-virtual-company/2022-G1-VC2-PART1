@@ -4,7 +4,7 @@
     <div class="line"></div>
     <div class="form-group">
       <p>Leave Type :</p>
-      <select class="form-control">
+      <select class="form-control" v-model="leaveType">
         <option value=""></option>
         <option value="sick">Sick</option>
         <option value="family event">Family Event</option>
@@ -16,9 +16,10 @@
       <div
         class="form-controll"
         style="display: flex; justify-content: space-between"
+       
       >
-        <input type="date" class="two-input" />
-        <select class="two-input">
+        <input required type="date" class="two-input" v-model="startdate"/>
+        <select class="two-input" >
           <option value="Morning">Morning</option>
           <option value="Afternoon">Afternoon</option>
         </select>
@@ -30,8 +31,8 @@
         class="form-controll"
         style="display: flex; justify-content: space-between"
       >
-        <input type="date" class="two-input" />
-        <select class="two-input">
+        <input required type="date" class="two-input" v-model="enddate"/>
+        <select class="two-input" >
           <option value="Morning">Morning</option>
           <option value="Afternoon">Afternoon</option>
         </select>
@@ -42,7 +43,7 @@
     </div>
     <div class="form-group">
       <p>Cause(Reason) :</p>
-      <textarea cols="53" rows="5"></textarea>
+      <textarea cols="53" rows="5" v-model="cause"></textarea>
     </div>
     <!-- <div class="form-group">
       <button class="form-control">Submit</button>
@@ -50,19 +51,47 @@
     <div class="form-group">
       <div class="form-controll btn-group">
         <button class="two-input cancele">Cancel</button>
-        <button class="two-input submit">Submit</button>
+        <button class="two-input submit" type="submit" @click.prevent="addRequestLeave($e)">Submit</button>
       </div>
     </div>
   </form>
 </template>
 
 <script>
+import axios from 'axios'
 export default {
+  emits: ["addRequestLeave"],
   data(){
     return{
-      
+      leaveType:"",
+      startdate:"",
+      enddate:"",
+      stime:"",
+      etime:"",
+      cause:"",
     }
-  }
+  },
+
+  methods:{
+      addRequestLeave() {
+            let requestleave = {
+                leave_type:this.leaveType, 
+                start_date:this.startdate, 
+                end_date:this.enddate,
+                reason:this.cause,
+                student_id:1,
+                duration: 6,
+            };
+            console.log(requestleave);
+            axios.post('http://127.0.0.1:8000/api/studentleaveRequest', requestleave).then(res=> {
+                console.log(res);
+                this.leaveType = '';
+                this.startdate = '';
+                this.enddate = '';
+                this.cause = '';
+            })
+        }
+    }
 };
 </script>
 

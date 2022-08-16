@@ -23,8 +23,6 @@ class StudentLeaveRquest extends Model
         'updated_at',
     ];
 
-    // protected $dateFormat = 'm/d/Y';
-
 protected $dates = ['start_date', 'end_date', 'request_date'];
 
 protected $casts = [
