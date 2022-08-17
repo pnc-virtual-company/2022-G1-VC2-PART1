@@ -1,5 +1,6 @@
 <template>
-  <div class="cotainer_filter">
+ <section>
+   <div class="cotainer_filter">
       <div class="status_type">
          <span>Status Type: </span>
          <select class="select_controll" v-model="status_type">
@@ -51,6 +52,7 @@
       </tbody>
     </table>
   </div>
+ </section>
 </template>
 
 <script>
