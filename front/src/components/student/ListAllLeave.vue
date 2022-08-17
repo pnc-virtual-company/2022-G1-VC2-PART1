@@ -21,8 +21,10 @@
          </select>
       </div>
       <button @click="studentEachStatus" class="btn-search">Search</button>
-    
   </div>
+  <section>
+    
+  </section>
   <div class="container">
     <table>
       <thead>
@@ -45,9 +47,8 @@
           <th>{{student.duration}}</th>
           <th>{{student.leave_type}}</th>
           <th :class="student.status.toLowerCase()">{{student.status}}</th>
-          <th>{{student.current_date}}</th>
+          <th>{{student.request_date}}</th>
         </tr>
-
       </tbody>
     </table>
   </div>
@@ -55,7 +56,7 @@
 
 <script>
 export default {
-  inject:["student_leaves"],
+  props:{student_leaves:Array},
   data(){
     return {
       students:[],
@@ -63,25 +64,33 @@ export default {
       leave_type:"show all",
     }
   },
+  // computed:{
+  //   datas(){
+  //     return this.students;
+  //   }
+  // },
   methods:{
     studentEachStatus(){
       this.students= this.student_leaves
-      if(this.status_type!==""){
+      console.log("students:", this.students);
+      if(this.status_type=="show all" || this.leave_type=="show all"){
+        this.students = this.student_leaves
+      }
+      else if(this.status_type!==""){
         this.students = this.student_leaves.filter(students => students.status.toLowerCase()== this.status_type);
       }
-      if(this.leave_type!==""){        
+      else if(this.leave_type!==""){        
         this.students = this.student_leaves.filter(students => students.leave_type.toLowerCase()== this.leave_type);
-      }if(this.status_type=="show all" || this.leave_type=="show all"){
-        this.students = this.student_leaves
       }
       this.status_type = ""
       this.leave_type = ""
-    }
+    }, 
   },
+  mounted(){
+    // this.studentEachStatus()
+    return this.students = this.student_leaves;
+  }
 
-   mounted() {
-    this.studentEachStatus()
-   }
 };
 </script>
 

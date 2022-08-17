@@ -1,84 +1,32 @@
 <template>
   <div class="studentListAllLeave">
-    <list-all-leave :ListAllLeave="ListAllLeave"></list-all-leave>
+    <list-all-leave :student_leaves="student_leaves"></list-all-leave>
   </div>
 </template>
 
 <script>
+import axios from "axios";
 import AllLeave from "@/components/student/ListAllLeave.vue";
 export default {
   components: {
     "list-all-leave": AllLeave,
   },
-  data() {
+  data(){
     return {
-      ListAllLeave: [
-        {
-          Start_Date: "11/4/2022",
-          End_Date: "13/4/2022",
-          Reason: "Go to homtown",
-          Duration: 2,
-          Leave_Type: "	Family's even",
-          Status: "Padding",
-          Request_Date: "13/4/2022",
-        },
-        {
-          Start_Date: "11/4/2022",
-          End_Date: "13/4/2022",
-          Reason: "Go to homtown",
-          Duration: 2,
-          Leave_Type: "	Family's even",
-          Status: "Approved",
-          Request_Date: "13/4/2022",
-        },
-        {
-          Start_Date: "11/4/2022",
-          End_Date: "13/4/2022",
-          Reason: "Go to homtown",
-          Duration: 2,
-          Leave_Type: "	Family's even",
-          Status: "Canceled",
-          Request_Date: "13/4/2022",
-        },
-        {
-          Start_Date: "11/4/2022",
-          End_Date: "13/4/2022",
-          Reason: "Go to homtown",
-          Duration: 2,
-          Leave_Type: "	Family's even",
-          Status: "Rejected",
-          Request_Date: "13/4/2022",
-        },
-        {
-          Start_Date: "11/4/2022",
-          End_Date: "13/4/2022",
-          Reason: "Go to homtown",
-          Duration: 2,
-          Leave_Type: "	Family's even",
-          Status: "Padding",
-          Request_Date: "13/4/2022",
-        },
-        {
-          Start_Date: "11/4/2022",
-          End_Date: "13/4/2022",
-          Reason: "Go to homtown",
-          Duration: 2,
-          Leave_Type: "	Family's even",
-          Status: "Rejected",
-          Request_Date: "13/4/2022",
-        },
-        {
-          Start_Date: "11/4/2022",
-          End_Date: "13/4/2022",
-          Reason: "Go to homtown",
-          Duration: 2,
-          Leave_Type: "	Family's even",
-          Status: "Canceled",
-          Request_Date: "13/4/2022",
-        },
-      ],
-    };
+      student_leaves:[],
+      URL_API:"http://127.0.0.1:8000/api/studentleaveRequest",
+    }
   },
+  methods:{
+    getData(){
+      axios.get(this.URL_API).then((result) => {this.student_leaves=result.data})
+    },
+  },
+
+   mounted() {
+    this.getData()
+   }
+  
 };
 </script>
 
