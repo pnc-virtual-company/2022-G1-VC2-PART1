@@ -33,7 +33,6 @@ class StudentLeaveRquestController extends Controller
         $studentLeaveRequest->end_date = $request->end_date;
         $studentLeaveRequest->duration = $request->duration;
         $studentLeaveRequest->status = "padding";
-        $studentLeaveRequest->request_date = "08/16/2022";
         $studentLeaveRequest->reason = $request->reason;
         $studentLeaveRequest->student_id= $request->student_id;
         $studentLeaveRequest->save();
