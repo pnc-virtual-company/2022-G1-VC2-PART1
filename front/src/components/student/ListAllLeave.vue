@@ -1,5 +1,4 @@
 <template>
-<<<<<<< HEAD
  <section>
    <div class="cotainer_filter">
       <div class="status_type">
@@ -23,34 +22,8 @@
          </select>
       </div>
       <button @click="studentEachStatus" class="btn-search">Search</button>
-    
-=======
-<section>
-    <div class="cotainer_filter">
-    <div class="status_type">
-      <span>Status Type: </span>
-      <select class="select_controll" v-model="status_type">
-        <option value="show all" selected>Show all</option>
-        <option value="approved">Approved</option>
-        <option value="canceled">Canceled</option>
-        <option value="padding">Padding</option>
-        <option value="rejected">Rejected</option>
-      </select>
-    </div>
-    <div class="leave_type">
-      <span>Leave Type: </span>
-      <select class="select_controll" v-model="leave_type">
-        <option value="show all" selected>Show all</option>
-        <option value="family event">Family Event</option>
-        <option value="check health">Check Health</option>
-        <option value="sick">Sick</option>
-        <option value="ceremony event">Ceremony Event</option>
-      </select>
-    </div>
-    <button @click="studentEachStatus" class="btn-search">Search</button>
->>>>>>> 6eb938229dbbfeefd747407e138a21eee4f756a8
-  </div>
-  <section></section>
+   </div>
+  </section>
   <div class="container">
     <table>
       <thead>
@@ -78,11 +51,6 @@
       </tbody>
     </table>
   </div>
-<<<<<<< HEAD
- </section>
-=======
-</section>
->>>>>>> 6eb938229dbbfeefd747407e138a21eee4f756a8
 </template>
 
 <script>
