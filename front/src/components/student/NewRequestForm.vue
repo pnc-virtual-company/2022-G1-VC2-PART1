@@ -16,10 +16,9 @@
       <div
         class="form-controll"
         style="display: flex; justify-content: space-between"
-       
       >
-        <input required type="date" class="two-input" v-model="startDate"/>
-        <select class="two-input" >
+        <input required type="date" class="two-input" v-model="startDate" />
+        <select class="two-input">
           <option value="Morning">Morning</option>
           <option value="Afternoon">Afternoon</option>
         </select>
@@ -31,8 +30,8 @@
         class="form-controll"
         style="display: flex; justify-content: space-between"
       >
-        <input required type="date" class="two-input" v-model="endDate"/>
-        <select class="two-input" >
+        <input required type="date" class="two-input" v-model="endDate" />
+        <select class="two-input">
           <option value="Morning">Morning</option>
           <option value="Afternoon">Afternoon</option>
         </select>
@@ -58,16 +57,20 @@
         >
           Cancel
         </button>
-        <button class="two-input submit" type="submit" @click.prevent="addRequestLeave($e)">Submit</button>
-
+        <button
+          class="two-input submit"
+          type="submit"
+          @click.prevent="addRequestLeave($e)"
+        >
+          Submit
+        </button>
       </div>
     </div>
   </form>
 </template>
 
 <script>
-
-import http from '../../axios-http'
+import http from "../../axios-http";
 import moment from "moment";
 export default {
   emits: ["addRequestLeave"],
@@ -77,9 +80,10 @@ export default {
       leaveType: "",
       startDate: "",
       endDate: "",
-      stime:"",
-      etime:"",
+      stime: "",
+      etime: "",
       cause: "",
+      student_id:""
     };
   },
   methods: {
@@ -91,22 +95,23 @@ export default {
     },
 
     addRequestLeave() {
-            let requestleave = {
-                leave_type:this.leaveType, 
-                start_date:this.startDate, 
-                end_date:this.endDate,
-                reason:this.cause,
-                student_id:1,
-                duration: 6,
-            };
-            http.post('studentleaveRequest', requestleave).then(res=> {
-                console.log(res);
-                this.leaveType = '';
-                this.startDate = '';
-                this.endDate = '';
-                this.cause = '';
-            })
-        }
+      let requestleave = {
+        leave_type: this.leaveType,
+        start_date: this.startDate,
+        end_date: this.endDate,
+        status:"Padding",
+        duration: 6,
+        reason: this.cause,
+        student_id: this.student_id,
+      };
+      http.post("studentleaveRequest", requestleave).then((res) => {
+        console.log(res);
+        this.leaveType = "";
+        this.startDate = "";
+        this.endDate = "";
+        this.cause = "";
+      });
+    },
   },
   computed: {
     duration() {
@@ -119,7 +124,6 @@ export default {
       return result;
     },
   },
-
 };
 </script>
 

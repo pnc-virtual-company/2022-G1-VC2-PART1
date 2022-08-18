@@ -4,8 +4,7 @@ import StudentsList from '../views/teacher/StudentsList.vue'
 import CheckLeave from '../views/teacher/CheckLeave.vue'
 import StudentListAllLeave from '../views/student/StudentListAllLeave.vue'
 import NewRequest from '../views/student/NewRequest.vue'
-
-import UserInfo from '../views/UserInfo.vue'
+import StudentProfile from '../views/student/StudentProfile.vue'
 import SignOut from '../views/SignOut.vue'
 
 const routes = [
@@ -41,9 +40,9 @@ const routes = [
     component: NewRequest
   },
   {
-    path: '/userInfo',
-    name: 'userInfo',
-    component: UserInfo
+    path: '/profile',
+    name: 'profile',
+    component: StudentProfile
   },
   {
     path: '/signOut',
