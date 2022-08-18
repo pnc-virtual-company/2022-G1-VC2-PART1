@@ -1,11 +1,15 @@
 <template>
   <div class="studentsList">
-    <h1>This is students' list ! </h1>
+    <student-list></student-list>
   </div>
 </template>
 
 <script>
+import StudentList from "../../components/teacher/StudentList.vue"
 export default {
+  components: {
+    "student-list":StudentList
+  }
 
 }
 </script>
