@@ -112,7 +112,7 @@ class StudentController extends Controller
             'string',
             'max:4',
         ], 
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            
         ]);
         $student = Student::findOrFail($id);
         $student->username=$request->username;
