@@ -50,7 +50,7 @@ class StudentController extends Controller
             'max:1',             ],
             'class' => 'required',
             'batch' => 'required|min:4',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            
         ]);
         $student = new Student();
         $student->username=$request->username;
@@ -121,7 +121,7 @@ class StudentController extends Controller
         $student->gender=$request->gender;
         $student->class=$request->class;
         $student->batch=$request->batch;
-        // $student->image=$request->file('image')->store('public');
+      $student->image=$request->image;
         $student->save();
         return response()->json(['message:'=>'update student successfully']);
     }

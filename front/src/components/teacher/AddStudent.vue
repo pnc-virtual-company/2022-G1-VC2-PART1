@@ -66,7 +66,7 @@
         
     </div>
     <div id="choose-img">
-      <img :src="previewimage" alt="">
+      <img src="" alt="">
       <input type="file" ref="file" id="up" @change = "onFileSelect" >
     </div>
     <button class="form-group btn" type="submit">ADD</button>
@@ -85,13 +85,11 @@ export default {
       classroom:"",
       generation:"",
       image: null,
-
     }
   },
   methods:{
     onFileSelect(event){
       this.image = event.target.value;
-     
     },
     addStudent(){
       let listStudents = {
