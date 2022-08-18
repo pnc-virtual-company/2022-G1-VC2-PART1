@@ -59,7 +59,7 @@ class StudentController extends Controller
         $student->gender=$request->gender;
         $student->class=$request->class;
         $student->batch=$request->batch;
-        $student->image=$request->file('image')->store('public');
+        $student->image =$request->image;
         $student->save();
         return response()->json(['message:'=>'create student successfully']);
     }
@@ -121,7 +121,7 @@ class StudentController extends Controller
         $student->gender=$request->gender;
         $student->class=$request->class;
         $student->batch=$request->batch;
-        $student->image=$request->file('image')->store('public');
+        // $student->image=$request->file('image')->store('public');
         $student->save();
         return response()->json(['message:'=>'update student successfully']);
     }
