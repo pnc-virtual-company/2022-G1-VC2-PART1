@@ -1,24 +1,37 @@
 <template>
-  <profile-view :student="profile"></profile-view>
+  <profile-view :profile="profile" @updatePassword="update"></profile-view>
 </template>
 
 <script>
 import http from '../../axios-http'
 import StudentProfile from "@/components/student/StudentProfileView.vue"
+
 export default({
   components:{"profile-view":StudentProfile},
+  
   data(){
     return{
-      profile:{}
+      profile:{},
     }
   },
+ 
+   
   methods:{
     getStudentProfile(){
-      http.get("student/1").then(restul =>(this.profile=restul.data[0]))
-    }
+      http.get("student/2").then(result => {this.profile=result.data[0]})
+    },
+
+    // update(newpassword){
+    //   http.put("student/2", newpassword)
+    //   .then(result =>(console.log("Student Updated", result.data)));
+    //   console.log("Local stoe: ", newpassword);
+     
+    // }
   },
+   
   mounted(){
     this.getStudentProfile()
   }
+ 
 })
 </script>

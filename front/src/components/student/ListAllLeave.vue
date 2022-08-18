@@ -37,7 +37,6 @@
           <th>Request Date</th>
         </tr>
       </thead>
-
       <tbody>
        <tr v-for:="student in students">
           <th>{{student.start_date}}</th>
@@ -48,11 +47,9 @@
           <th :class="student.status.toLowerCase()">{{student.status}}</th>
           <th>{{student.current_date}}</th>
         </tr>
-
       </tbody>
     </table>
   </div>
-
 </template>
 
 <script>
@@ -65,6 +62,7 @@ export default {
       leave_type:"show all",
     }
   },
+
   methods:{
     studentEachStatus(){
       this.students= this.student_leaves
@@ -86,7 +84,6 @@ export default {
    }
 };
 </script>
-
 <style scoped>
 .container {
   width: 85%;
