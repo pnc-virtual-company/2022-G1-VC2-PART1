@@ -37,11 +37,16 @@
      
     </div>
   </div>
+  <list-students></list-students>
 </template>
 
 <script>
 import http from "../../axios-http"
+import ListStudents from "./AddStudent.vue"
 export default {
+  components: {
+    "list-students":ListStudents,
+  },
     data(){
     return{
       listOfStudents:[]
