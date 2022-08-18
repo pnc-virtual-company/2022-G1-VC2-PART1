@@ -2,7 +2,7 @@
   <div class="userInfo">
     <div class="profile">
       <div class="imgBx">
-        <img src="../assets/lolo.jpg">
+        <img src="../assets/lolo.jpg" />
       </div>
       <div class="container">
         <div class="data">
@@ -17,25 +17,25 @@
   </div>
 </template>
 <style scoped>
-.userInfo{
+.userInfo {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
 }
-.profile{
+.profile {
   position: relative;
   width: 350px;
   height: 160px;
-  background: #0d3e5b;
+  background: #e1e7ea;
   border-radius: 20px;
-  box-shadow: 0 35px 80px rgba(0,0,0,0.15);
+  box-shadow: 0 35px 80px rgba(0, 0, 0, 0.15);
   transition: 0.5s;
 }
-.profile:hover{
+.profile:hover {
   height: 430px;
 }
-.imgBx{
+.imgBx {
   position: absolute;
   left: 50%;
   top: -50px;
@@ -44,16 +44,15 @@
   height: 150px;
   background: #fff;
   border-radius: 20px;
-  box-shadow: 0 15px 50px rgba(0,0,0,0.35);
+  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.35);
   overflow: hidden;
   transition: 0.5s;
 }
-.profile:hover .imgBx{
+.profile:hover .imgBx {
   width: 230px;
   height: 230px;
-
 }
-.imgBx img{
+.imgBx img {
   position: absolute;
   top: 0;
   left: 0;
@@ -61,7 +60,7 @@
   height: 100%;
   object-fit: cover;
 }
-.profile .container{
+.profile .container {
   position: absolute;
   width: 100%;
   height: 85%;
@@ -69,19 +68,18 @@
   justify-content: center;
   align-items: flex-end;
   overflow: hidden;
-
 }
-.profile .container .data{
+.profile .container .data {
   padding: 40px;
   text-align: center;
   width: 100%;
   transition: 0.5s;
   transform: translateY(150px);
 }
-.profile:hover .container .data{
+.profile:hover .container .data {
   transform: translateY(0px);
 }
-.data{
-  color: #fff;
+.data {
+  color: rgb(5, 5, 5);
 }
 </style>
