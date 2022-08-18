@@ -7,7 +7,7 @@
       <router-link to="/checkLeave">Check Leave</router-link>
     </div>
     <div class="nav-controll">
-      <router-link to="/userInfo">Username</router-link>
+      <router-link to="/profile">Username</router-link>
       <router-link to="/signOut">Sign Out</router-link>
     </div>
   </nav>
@@ -18,7 +18,7 @@
       <router-link to="/newRequest">New Request</router-link>
     </div>
     <div class="nav-controll">
-      <router-link to="/userInfo">Username</router-link>
+      <router-link to="/profile">Username</router-link>
       <router-link to="/signOut">Sign Out</router-link>
     </div>
   </nav>

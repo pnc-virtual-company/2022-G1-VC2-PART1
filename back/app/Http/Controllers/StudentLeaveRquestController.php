@@ -33,7 +33,6 @@ class StudentLeaveRquestController extends Controller
         $studentLeaveRequest->end_date = $request->end_date;
         $studentLeaveRequest->duration = $request->duration;
         $studentLeaveRequest->status = "padding";
-        $studentLeaveRequest->request_date = "08/16/2022";
         $studentLeaveRequest->reason = $request->reason;
         $studentLeaveRequest->student_id= $request->student_id;
         $studentLeaveRequest->save();
@@ -71,7 +70,6 @@ class StudentLeaveRquestController extends Controller
         $studentLeaveRequest->leave_type = $request->leave_type;
         $studentLeaveRequest->duration = $request->duration;
         $studentLeaveRequest->status = $request->status;
-        $studentLeaveRequest->request_date = $request->request_date;
         $studentLeaveRequest->student_id= $request->student_id;
         $studentLeaveRequest->save();
         return response()->json(['message:'=>'update studentLeaveRequest successfully']);
@@ -85,7 +83,6 @@ class StudentLeaveRquestController extends Controller
      */
     public function destroy($id)
     {
-        //
         return StudentLeaveRquest::destroy($id);
     }
 }

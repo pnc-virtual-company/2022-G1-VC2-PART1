@@ -20,7 +20,6 @@ return new class extends Migration
             $table->date('end_date');
             $table->string('duration');
             $table->string('status');
-            $table->date('request_date');
             $table->string('reason');
             $table->foreignId('student_id')->constrained()->onDelete('CASCADE');
             $table->timestamps();

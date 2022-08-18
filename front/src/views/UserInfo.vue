@@ -2,7 +2,7 @@
   <div class="userInfo">
     <div class="profile">
       <div class="imgBx">
-        <img src="../assets/lolo.jpg" />
+        <img src="@/assets/lolo.jpg" />
       </div>
       <div class="container">
         <div class="data">
