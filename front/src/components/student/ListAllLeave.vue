@@ -23,7 +23,6 @@
       </div>
       <button @click="studentEachStatus" class="btn-search">Search</button>
    </div>
- </section>
   <div class="container">
     <table>
       <thead>
@@ -52,6 +51,7 @@
       </tbody>
     </table>
   </div>
+ </section>
 
 </template>
 
