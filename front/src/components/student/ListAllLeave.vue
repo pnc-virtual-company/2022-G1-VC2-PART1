@@ -19,6 +19,7 @@
           <option value="check health">Check Health</option>
           <option value="sick">Sick</option>
           <option value="ceremony event">Ceremony Event</option>
+          <option value="brother/sister married">brother/sister married</option>
         </select>
       </div>
       <button @click="studentEachStatus" class="btn-search">Search</button>
