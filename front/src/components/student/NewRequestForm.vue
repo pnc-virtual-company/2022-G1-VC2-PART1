@@ -99,10 +99,9 @@ export default {
         leave_type: this.leaveType,
         start_date: this.startDate,
         end_date: this.endDate,
-        status:"Padding",
         duration: 6,
         reason: this.cause,
-        student_id: this.student_id,
+        student_id: 1,
       };
       http.post("studentleaveRequest", requestleave).then((res) => {
         console.log(res);
