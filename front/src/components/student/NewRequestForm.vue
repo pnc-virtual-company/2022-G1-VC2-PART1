@@ -99,7 +99,6 @@ export default {
                 student_id:1,
                 duration: 6,
             };
-            console.log(requestleave);
             http.post('studentleaveRequest', requestleave).then(res=> {
                 console.log(res);
                 this.leaveType = '';
