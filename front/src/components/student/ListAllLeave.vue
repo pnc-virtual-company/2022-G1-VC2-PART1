@@ -1,29 +1,30 @@
 <template>
- <section>
-   <div class="cotainer_filter">
+  <section>
+    <div class="cotainer_filter">
       <div class="status_type">
-         <span>Status Type: </span>
-         <select class="select_controll" v-model="status_type">
+        <span>Status Type: </span>
+        <select class="select_controll" v-model="status_type">
           <option value="show all" selected>Show all</option>
-           <option value="approved">Approved</option>
-           <option value="canceled">Canceled</option>
-           <option value="padding">Padding</option>
-           <option value="rejected">Rejected</option>
-         </select>
+          <option value="approved">Approved</option>
+          <option value="canceled">Canceled</option>
+          <option value="padding">Padding</option>
+          <option value="rejected">Rejected</option>
+        </select>
       </div>
       <div class="leave_type">
         <span>Leave Type: </span>
-         <select class="select_controll" v-model="leave_type">
-           <option value="show all" selected>Show all</option>
-           <option value="family event">Family Event</option>
-           <option value="check health">Check Health</option>
-           <option value="sick">Sick</option>
-           <option value="ceremony event">Ceremony Event</option>
-         </select>
+        <select class="select_controll" v-model="leave_type">
+          <option value="show all" selected>Show all</option>
+          <option value="family event">Family Event</option>
+          <option value="check health">Check Health</option>
+          <option value="sick">Sick</option>
+          <option value="ceremony event">Ceremony Event</option>
+          <option value="brother/sister married">brother/sister married</option>
+        </select>
       </div>
       <button @click="studentEachStatus" class="btn-search">Search</button>
    </div>
- </section>
+
   <div class="container">
     <table>
       <thead>
@@ -50,38 +51,44 @@
       </tbody>
     </table>
   </div>
+ </section>
 </template>
 
 <script>
 export default {
-  inject:["student_leaves"],
-  data(){
+  data() {
     return {
-      students:[],
-      status_type:"show all",
-      leave_type:"show all",
-    }
+      student_leaves: [],
+      students: [],
+      status_type: "show all",
+      leave_type: "show all",
+    };
   },
+
 
   methods:{
-    studentEachStatus(){
-      this.students= this.student_leaves
-      if(this.status_type!==""){
-        this.students = this.student_leaves.filter(students => students.status.toLowerCase()== this.status_type);
-      }
-      if(this.leave_type!==""){        
-        this.students = this.student_leaves.filter(students => students.leave_type.toLowerCase()== this.leave_type);
-      }if(this.status_type=="show all" || this.leave_type=="show all"){
-        this.students = this.student_leaves
-      }
-      this.status_type = ""
-      this.leave_type = ""
-    }
-  },
+    studentEachStatus() {
+      this.students = this.student_leaves;
+      if (this.status_type != "show all") {
+        const lists = this.student_leaves.filter(
+          (students) => students.status.toLowerCase() == this.status_type
+        );
+        if (this.leave_type != "show all") {
+          this.students = lists.filter(
+            (students) => students.leave_type.toLowerCase() == this.leave_type
+          );
+        }
+      } else if (this.leave_type != "show all") {
+        this.students = this.student_leaves.filter(
+          (students) => students.leave_type.toLowerCase() == this.leave_type
+        );
 
-   mounted() {
-    this.studentEachStatus()
-   }
+      }
+    },
+  },
+  mounted() {
+    this.getData();
+  },
 };
 </script>
 <style scoped>
@@ -89,24 +96,27 @@ export default {
   width: 85%;
   margin: auto;
 }
-.cotainer_filter{
+.cotainer_filter {
   display: flex;
   justify-content: space-between;
   width: 40%;
-  margin:1rem auto;
+  margin: 1rem auto;
 }
-.status_type, .leave_type{
+.status_type,
+.leave_type {
   padding: 10px 0;
 }
-.select_controll{
+.select_controll {
   width: 100%;
   border: none;
   border-radius: 5px;
-  box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
+  box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px,
+    rgba(6, 24, 44, 0.65) 0px 4px 6px -1px,
+    rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
   padding: 10px;
   outline: none;
 }
-.btn-search{
+.btn-search {
   display: flex;
   align-items: center;
   height: 1.8rem;
@@ -117,7 +127,7 @@ export default {
   border: none;
 
   background-color: #144e5a;
-  color:white
+  color: white;
 }
 
 table {

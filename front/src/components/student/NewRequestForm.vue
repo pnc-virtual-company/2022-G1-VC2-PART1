@@ -6,9 +6,11 @@
       <p>Leave Type :</p>
       <select class="form-control" v-model="leaveType">
         <option value=""></option>
-        <option value="sick">Sick</option>
         <option value="family event">Family Event</option>
-        <option value="brother/sister married">Brother/Sister Married</option>
+        <option value="check health">Check Health</option>
+        <option value="sick">Sick</option>
+        <option value="ceremony event">Ceremony Event</option>
+        <option value="brother/sister married">brother/sister married</option>
       </select>
     </div>
     <div class="form-group">
@@ -16,14 +18,14 @@
       <div
         class="form-controll"
         style="display: flex; justify-content: space-between"
-       
       >
-        <input required type="date" class="two-input" v-model="startDate"/>
-        <select class="two-input" >
+        <input required type="date" class="two-input" v-model="startDate" />
+        <select class="two-input" v-model="startTime">
           <option value="Morning">Morning</option>
           <option value="Afternoon">Afternoon</option>
         </select>
       </div>
+      <p class="invalid">{{ invalidStartDate }}</p>
     </div>
     <div class="form-group">
       <p>End Date :</p>
@@ -31,12 +33,13 @@
         class="form-controll"
         style="display: flex; justify-content: space-between"
       >
-        <input required type="date" class="two-input" v-model="endDate"/>
-        <select class="two-input" >
+        <input required type="date" class="two-input" v-model="endDate" />
+        <select class="two-input" v-model="endTime">
           <option value="Morning">Morning</option>
           <option value="Afternoon">Afternoon</option>
         </select>
       </div>
+      <p class="invalid">{{ invalidEndDate }}</p>
     </div>
     <div class="form-group">
       <p>
@@ -58,16 +61,20 @@
         >
           Cancel
         </button>
-        <button class="two-input submit" type="submit" @click.prevent="addRequestLeave($e)">Submit</button>
-
+        <button
+          class="two-input submit"
+          type="submit"
+          @click.prevent="addRequestLeave($e)"
+        >
+          Submit
+        </button>
       </div>
     </div>
   </form>
 </template>
 
 <script>
-
-import http from '../../axios-http'
+import http from "../../axios-http";
 import moment from "moment";
 export default {
   emits: ["addRequestLeave"],
@@ -77,11 +84,13 @@ export default {
       leaveType: "",
       startDate: "",
       endDate: "",
-      stime:"",
-      etime:"",
+      startTime: "",
+      endTime: "",
       cause: "",
+      student_id: "",
     };
   },
+
   methods: {
     canceleRequest() {
       this.leaveType = "";
@@ -92,35 +101,63 @@ export default {
 
     addRequestLeave() {
       let requestleave = {
-          leave_type:this.leaveType, 
-          start_date:this.startDate, 
-          end_date:this.endDate,
-          reason:this.cause,
-          student_id:1,
-          duration: 6,
+        leave_type: this.leaveType,
+        start_date: this.startDate,
+        end_date: this.endDate,
+        duration: 6,
+        reason: this.cause,
+        student_id: 1,
       };
-      console.log(requestleave);
-      http.post('studentleaveRequest', requestleave).then(res=> {
-          console.log(res);
-          this.leaveType = '';
-          this.startDate = '';
-          this.endDate = '';
-          this.cause = '';
-      })
-    }
+      http.post("studentleaveRequest", requestleave).then((res) => {
+        console.log(res);
+        this.leaveType = "";
+        this.startDate = "";
+        this.endDate = "";
+        this.cause = "";
+      });
+    },
   },
+
   computed: {
+    invalidStartDate() {
+      var current_date = new Date().toJSON().slice(0, 10).replace(/-/g, "-");
+      if (this.startDate != "" && this.startDate < current_date) {
+        return "*Invalid Start date !";
+      }
+      return "";
+    },
+    invalidEndDate() {
+      if (
+        this.startDate != "" &&
+        this.endDate != "" &&
+        this.startDate > this.endDate
+      ) {
+        return "*Invalid End date !";
+      }
+      return "";
+    },
     duration() {
-      let start = moment(this.startDate);
-      let end = moment(this.endDate);
-      let result = " ";
-      if (!isNaN(end.diff(start, "days"))) {
-        result += end.diff(start, "days");
+      // var formatted_date = new Date().toJSON().slice(0, 10).replace(/-/g, "-");
+      // console.log(formatted_date);
+      // console.log(this.startDate);
+      let result = 0;
+
+      if (this.invalidEndDate == "" && this.invalidStartDate == "") {
+        let start = moment(this.startDate);
+        let end = moment(this.endDate);
+        if (!isNaN(end.diff(start, "days"))) {
+          if (this.startDate == this.endDate) {
+            if (this.startTime == this.endTime) {
+              result = 0.5;
+            }
+          } else {
+            result = end.diff(start, "days");
+          }
+        }
       }
       return result;
     },
   },
-
 };
 </script>
 
@@ -184,5 +221,9 @@ button {
   color: #000;
   width: 30%;
   margin-right: 10px;
+}
+.invalid {
+  color: red;
+  margin-top: 5px;
 }
 </style>

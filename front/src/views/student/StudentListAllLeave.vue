@@ -10,15 +10,7 @@ export default {
   components: {
     "list-all-leave": AllLeave,
   },
-  data(){
-    return {
-      student_leaves:[],
-    }
-  },
 
-
-
-  
 };
 </script>
 
