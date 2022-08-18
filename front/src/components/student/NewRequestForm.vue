@@ -91,23 +91,23 @@ export default {
     },
 
     addRequestLeave() {
-            let requestleave = {
-                leave_type:this.leaveType, 
-                start_date:this.startDate, 
-                end_date:this.endDate,
-                reason:this.cause,
-                student_id:1,
-                duration: 6,
-            };
-            console.log(requestleave);
-            http.post('studentleaveRequest', requestleave).then(res=> {
-                console.log(res);
-                this.leaveType = '';
-                this.startDate = '';
-                this.endDate = '';
-                this.cause = '';
-            })
-        }
+      let requestleave = {
+          leave_type:this.leaveType, 
+          start_date:this.startDate, 
+          end_date:this.endDate,
+          reason:this.cause,
+          student_id:1,
+          duration: 6,
+      };
+      console.log(requestleave);
+      http.post('studentleaveRequest', requestleave).then(res=> {
+          console.log(res);
+          this.leaveType = '';
+          this.startDate = '';
+          this.endDate = '';
+          this.cause = '';
+      })
+    }
   },
   computed: {
     duration() {
