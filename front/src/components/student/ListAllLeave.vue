@@ -64,8 +64,6 @@ export default {
       leave_type: "show all",
     };
   },
-
-
   methods:{
     studentEachStatus() {
       this.students = this.student_leaves;

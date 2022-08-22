@@ -24,8 +24,6 @@ export default({
     update(newpassword){
       http.put("student/2", newpassword)
       .then(result =>(console.log("Student Updated", result.data)));
-      console.log("Local stoe: ", newpassword);
-     
     }
   },
    
