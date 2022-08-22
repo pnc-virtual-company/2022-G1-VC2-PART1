@@ -12,7 +12,6 @@
         </div>
         <div class="totalStudentsAbsent">
           <div class="absent">
-
             <span><strong>Absent</strong></span>
           </div>
             <div class="numberOfStudentsAbsent">2</div>
@@ -23,7 +22,7 @@
       <div class="card-list" v-for="student of listOfStudents" :key="student">
         <div class="user">
           <div class="img">
-            <img src="../../assets/lolo.jpg" alt="" />
+            <img src="../../assets/lolo.jpg" alt=""/>
           </div>
           <div class="info">
             <span><strong>{{student.username}}</strong></span>

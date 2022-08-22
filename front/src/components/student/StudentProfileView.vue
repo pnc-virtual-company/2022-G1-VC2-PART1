@@ -102,7 +102,6 @@ export default {
         newStudent.batch = this.profile.batch;
         newStudent.class = this.profile.class;
         newStudent.image = this.profile.image;
-      
         this.$emit("updatePassword", newStudent);
         this.clickEdit = false;
       } else {
