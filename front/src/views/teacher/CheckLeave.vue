@@ -1,43 +1,46 @@
 <template>
-<form>
-  <h1>Student Leave</h1>
-  <div class="checkLeave">
-    <div class="student_infor">
-      <img src="../../assets/one.jpg" alt="" />
-      <h2 class="name_stu">Samoul Vann</h2>
+  <form>
+    <h1>Student Leave</h1>
+    <div
+      class="checkLeave"
+      v-for="student of listOfStudentsLeave"
+      :key="student"
+    >
+      <div class="student_infor">
+        <img src="../../assets/koko.jpg" alt="" />
+        <h2 class="name_stu">Samoul Kh</h2>
+      </div>
+      <div class="reson_data">
+        <div class="status">{{ student.status }}</div>
+        <div class="dete">{{ student.request_date }}</div>
+      </div>
     </div>
-    <div class="reson_data">
-      <div class="status">Padding</div>
-      <div class="dete">11/22/2022</div>
-    </div>
-  </div>
-
-  <div class="checkLeave">
-    <div class="student_infor">
-      <img src="../../assets/koko.jpg" alt="" />
-      <h2 class="name_stu">VanSao</h2>
-    </div>
-    <div class="reson_data">
-      <div class="status">Padding</div>
-      <div class="dete">11/22/2022</div>
-    </div>
-  </div>
-
-  <div class="checkLeave">
-    <div class="student_infor">
-      <img src="../../assets/koko.jpg" alt="" />
-      <h2 class="name_stu">VanSao</h2>
-    </div>
-    <div class="reson_data">
-      <div class="status">Padding</div>
-      <div class="dete">11/22/2022</div>
-    </div>
-  </div>
-</form>
+  </form>
 </template>
 
 <script>
-export default {};
+
+import http from "../../axios-http";
+export default {
+  data() {
+    return {
+      listOfStudentsLeave: [],
+    };
+  },
+
+  methods: {
+    getlistOfStudentsLeave() {
+      http.get("studentleaveRequest").then((res) => {
+        (this.listOfStudentsLeave = res.data),
+          console.log(this.listOfStudentsLeave);
+      });
+    },
+  },
+
+  mounted() {
+    this.getlistOfStudentsLeave();
+  },
+};
 </script>
 
 <style scoped>
@@ -45,6 +48,7 @@ export default {};
   display: flex;
   justify-content: space-between;
   margin: auto;
+  cursor: pointer;
   background: #e1e7ea;
   width: 70%;
   height: 110px;
@@ -91,10 +95,11 @@ h1 {
   padding: 10px;
   color: rgb(38, 140, 190);
 }
-form{
- 
+form {
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.25);
   width: 60%;
   margin: auto;
 }
+
+
 </style>
