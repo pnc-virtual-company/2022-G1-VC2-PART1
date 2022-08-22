@@ -47,11 +47,12 @@ class StudentController extends Controller
             ],
             'gender' => ['required',
             'string',
-            'max:1',             ],
+            'max:4',             ],
             'class' => 'required',
             'batch' => 'required|min:4',
             
         ]);
+        $request->file('image')->store('public/pictures');
         $student = new Student();
         $student->username=$request->username;
         $student->email=$request->email;
@@ -59,7 +60,7 @@ class StudentController extends Controller
         $student->gender=$request->gender;
         $student->class=$request->class;
         $student->batch=$request->batch;
-        $student->image =$request->image;
+        $student->image =$request->file("image")->hashName();
         $student->save();
         return response()->json(['message:'=>'create student successfully']);
     }
@@ -85,20 +86,19 @@ class StudentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        
         $request->validate([
             'username' => [
                 'required',
                 'string',
-                'max:40',             
+                'max:50',             
                 'regex:/[a-z]/',      
                 'regex:/[A-Z]/',      
         ],
-            'email' => 'required|unique:users',
             'password' => [
                 'required',
                 'string',
-                'min:10',             // must be at least 10 characters in length
+                'min:8',             // must be at least 10 characters in length
                 'regex:/[a-z]/',      // must contain at least one lowercase letter
                 'regex:/[A-Z]/',      // must contain at least one uppercase letter
                 'regex:/[0-9]/',      // must contain at least one digit
@@ -106,11 +106,11 @@ class StudentController extends Controller
             ],
             'gender' => ['required',
             'string',
-            'max:1',             ],
+            'max:4',             ],
             'class' => 'required',
             'batch' => ['required',
             'string',
-            'max:4',
+            'min:4',
         ], 
             
         ]);
@@ -121,8 +121,10 @@ class StudentController extends Controller
         $student->gender=$request->gender;
         $student->class=$request->class;
         $student->batch=$request->batch;
-      $student->image=$request->image;
+        //$student->image =$request->file("image")->hashName();
         $student->save();
+        // $request->file('image')->store('public/pictures');
+
         return response()->json(['message:'=>'update student successfully']);
     }
 
