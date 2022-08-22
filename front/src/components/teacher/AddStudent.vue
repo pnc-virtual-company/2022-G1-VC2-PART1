@@ -66,8 +66,7 @@
         
     </div>
     <div id="choose-img">
-      <img src="" alt="">
-      <input type="file" ref="file" id="up" @change = "onFileSelect" >
+      <input type="file" id="up" @change = "uploadImage" >
     </div>
     <button class="form-group btn" type="submit">ADD</button>
   </form>
@@ -88,38 +87,35 @@ export default {
     }
   },
   methods:{
-    onFileSelect(event){
-      this.image = event.target.value;
+    uploadImage(e){
+      this.image = e.target.files[0]
     },
     addStudent(){
-      let listStudents = {
-          username:this.firstname + this.lastname, 
-          email:this.email,
-          password:this.password,
-          gender:this.gender,
-          class:this.classroom,
-          batch:this.generation,
-         image:this.image
-      };
-      http.post('student', listStudents).then(res => {
-          console.log(res);
-          this.firstname = '';
-          this.lastname = '';
-          this.email = '';
-          this.password = '';
-          this.gender='';
-          this.classroom = '';
-          this.generation = '';
-      });
-
-      
-      this.$emit('add-Student', false);
+       const config = {
+            headers: { 'content-type': 'multipart/form-data' }
+        }
+        let username = this.firstname + " " + this.lastname
+        let student = new FormData()
+        student.append("username", username)
+        student.append("email", this.email)
+        student.append("password", this.password)
+        student.append("gender", this.gender)
+        student.append("class", this.classroom)
+        student.append("batch", this.generation)
+        student.append("image", this.image)
+        http.post('student', student, config).then(res => {
+            this.firstname = '';
+            this.lastname = '';
+            this.email = '';
+            this.password = '';
+            this.gender='';
+            this.classroom = '';
+            this.generation = '';
+            console.log(res);
+        });
+        this.$emit('add-Student', false);
+      },
     },
-    
-    },
-
-
-  
   }
 
 </script>

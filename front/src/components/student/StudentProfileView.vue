@@ -3,8 +3,9 @@
   <div v-if="clickEdit" class="mainDiv">
     <div class="cardStyle">
       <form @submit.prevent="validatePassword" id="signupForm">
-        <img src="" id="signupLogo" />
-
+        <div class="card_profile">
+        <img :src="'http://127.0.0.1:8000/storage/pictures/'+profile.image" alt="" class="img-profile" />
+      </div>
         <h2 class="formTitle">Update your password</h2>
 
         <div class="inputDiv">
@@ -16,6 +17,7 @@
             required
             autocomplete="on"
           />
+         
         </div>
 
         <div class="inputDiv">
@@ -44,11 +46,10 @@
       </form>
     </div>
   </div>
-
   <div v-if="!clickEdit" class="contianer">
     <div class="card">
       <div class="card_profile">
-        <img src="@/assets/lolo.jpg" alt="" class="img-profile" />
+        <img :src="'http://127.0.0.1:8000/storage/pictures/'+profile.image" alt="" class="img-profile" />
       </div>
       <div class="card_body">
         <div class="student-name">{{ profile.username }}</div>
@@ -71,7 +72,7 @@
           </li>
         </ul>
       </div>
-      <button @click="clickEdit = true" class="btn-edit">Edit</button>
+      <button @click="clickEdit = true" class="btn-edit">Change Password</button>
     </div>
   </div>
 </template>
@@ -141,6 +142,7 @@ ul li {
   display: flex;
   align-items: center;
   justify-content: center;
+
 }
 .img-profile {
   margin: auto;

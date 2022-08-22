@@ -46,14 +46,13 @@
             <th>{{ student.duration }}</th>
             <th>{{ student.leave_type }}</th>
             <th :class="student.status.toLowerCase()">{{ student.status }}</th>
-            <th>{{ student.current_date }}</th>
+            <th>{{ student.created_at }}</th>
           </tr>
         </tbody>
       </table>
     </div>
   </section>
 </template>
-
 <script>
 import http from "../../axios-http";
 export default {
