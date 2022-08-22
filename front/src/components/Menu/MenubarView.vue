@@ -1,14 +1,23 @@
 <template>
   <section>
     <nav v-if="isAdmin">
-      <div class="nav-controll">
+      <div class="nav-controll nav-left">
+        <div class="pnc_logo">
+          <img src="../../assets/pnc_logo.png" alt="" />
+        </div>
         <router-link to="/welcome" class="welcome">SLMS</router-link>
-        <router-link to="/studentsList">Student List</router-link>
-        <router-link to="/checkLeave">Check Leave</router-link>
       </div>
-      <div class="nav-controll">
-        <router-link to="/profile">Username</router-link>
-        <router-link to="/signOut">Sign Out</router-link>
+      <div class="nav-controll nav-center">
+        <router-link to="/studentsList">STUDENTS</router-link>
+        <router-link to="/checkLeave">CHECK LEAVES</router-link>
+      </div>
+      <div class="nav-controll nav-right">
+        <img src="../../assets/lolo.jpg" alt="" class="profile-image" />
+        <router-link to="/profile">VANSAO HANG</router-link>
+
+        <router-link to="/signOut" class="signOut">
+          <i class="fa fa-sign-out fa-2x"></i>
+        </router-link>
       </div>
     </nav>
     <nav v-if="isStudent">
@@ -42,7 +51,7 @@ export default {
   data() {
     return {
       isAdmin: false,
-      isStudent: true,
+      isStudent: false,
       isLogIn: true,
     };
   },
@@ -115,6 +124,8 @@ li {
 .nav-left img {
   margin-top: 5px;
   margin-left: 30px;
+  width: 3rem;
+  height: 3rem;
 }
 .profile-image {
   width: 35px;
