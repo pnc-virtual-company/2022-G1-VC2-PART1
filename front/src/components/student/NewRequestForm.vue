@@ -5,7 +5,7 @@
     <div class="form-group">
       <p>Leave Type :</p>
       <select class="form-control" v-model="leaveType">
-        <option value=""></option>
+        <option value="" selected disabled>Choose your leave type</option>
         <option value="family event">Family Event</option>
         <option value="check health">Check Health</option>
         <option value="sick">Sick</option>
@@ -106,7 +106,7 @@ export default {
         end_date: this.endDate,
         duration: 6,
         reason: this.cause,
-        student_id: 1,
+        student_id: 22,
       };
       http.post("studentleaveRequest", requestleave).then((res) => {
         console.log(res);

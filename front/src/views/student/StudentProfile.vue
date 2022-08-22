@@ -18,15 +18,15 @@ export default({
    
   methods:{
     getStudentProfile(){
-      http.get("student/2").then(result => {this.profile=result.data[0]})
+      http.get("student/22").then(result => {this.profile=result.data[0]})
     },
 
-    // update(newpassword){
-    //   http.put("student/2", newpassword)
-    //   .then(result =>(console.log("Student Updated", result.data)));
-    //   console.log("Local stoe: ", newpassword);
+    update(newpassword){
+      http.put("student/2", newpassword)
+      .then(result =>(console.log("Student Updated", result.data)));
+      console.log("Local stoe: ", newpassword);
      
-    // }
+    }
   },
    
   mounted(){
