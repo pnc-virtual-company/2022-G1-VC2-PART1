@@ -86,6 +86,7 @@ class StudentController extends Controller
      */
     public function update(Request $request, $id)
     {
+<<<<<<< HEAD
         
         $request->validate([
             'username' => [
@@ -112,8 +113,37 @@ class StudentController extends Controller
             'string',
             'min:4',
         ], 
+=======
+        //
+        // $request->validate([
+        //     'username' => [
+        //         'required',
+        //         'string',
+        //         'max:40',             
+        //         'regex:/[a-z]/',      
+        //         'regex:/[A-Z]/',      
+        // ],
+        //     'email' => 'required|unique:users',
+        //     'password' => [
+        //         'required',
+        //         'string',
+        //         'min:8',             // must be at least 10 characters in length
+        //         'regex:/[a-z]/',      // must contain at least one lowercase letter
+        //         'regex:/[A-Z]/',      // must contain at least one uppercase letter
+        //         'regex:/[0-9]/',      // must contain at least one digit
+        //         'regex:/[@$!%*#?&]/', // must contain a special character
+        //     ],
+        //     'gender' => ['required',
+        //     'string',
+        //     'max:1',             ],
+        //     'class' => 'required',
+        //     'batch' => ['required',
+        //     'string',
+        //     'max:4',
+        // ], 
+>>>>>>> 4f31b118dfda87808bc830e8b200974176c6b011
             
-        ]);
+        // ]);
         $student = Student::findOrFail($id);
         $student->username=$request->username;
         $student->email=$request->email;

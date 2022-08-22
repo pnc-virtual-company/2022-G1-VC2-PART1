@@ -53,7 +53,6 @@
     </div>
   </section>
 </template>
-
 <script>
 import http from "../../axios-http";
 export default {
