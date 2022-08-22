@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="btnadd">
-        <button class="btn-add">Add+</button>
+        <button class="btn-add" @click="addStudent()">Add+</button>
     </div>
     <div class="actionStudents">
         <div class="totalStudents">
@@ -37,16 +37,15 @@
      
     </div>
   </div>
-  <list-students></list-students>
+ 
 </template>
 
 <script>
 import http from "../../axios-http"
-import ListStudents from "./AddStudent.vue"
+
 export default {
-  components: {
-    "list-students":ListStudents,
-  },
+  emits:['addStudents'],
+  
     data(){
     return{
       listOfStudents:[]
@@ -59,7 +58,13 @@ export default {
       .then((res)=>{
         this.listOfStudents=res.data, console.log(this.listOfStudents)
         })
+    },
+
+    addStudent(){
+      this.$emit('addStudent', true)
+      console.log("Click");
     }
+
 
   },
 
