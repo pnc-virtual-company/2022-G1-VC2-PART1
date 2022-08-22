@@ -5,7 +5,7 @@
     <div class="form-group">
       <p>Leave Type :</p>
       <select class="form-control" v-model="leaveType">
-        <option value=""></option>
+        <option value="" selected disabled>Choose your leave type</option>
         <option value="family event">Family Event</option>
         <option value="check health">Check Health</option>
         <option value="sick">Sick</option>

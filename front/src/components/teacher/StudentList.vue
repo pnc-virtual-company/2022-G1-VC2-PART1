@@ -74,8 +74,9 @@ export default {
 };
 </script>
 
-<style>
-.btnadd{
+<style  scoped>
+
+.btnadd {
     width: 50%;
     display:flex;
     justify-content:flex-end;

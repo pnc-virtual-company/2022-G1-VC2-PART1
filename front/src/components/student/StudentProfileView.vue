@@ -46,7 +46,6 @@
       </form>
     </div>
   </div>
-
   <div v-if="!clickEdit" class="contianer">
     <div class="card">
       <div class="card_profile">
@@ -73,7 +72,7 @@
           </li>
         </ul>
       </div>
-      <button @click="clickEdit = true" class="btn-edit">Edit</button>
+      <button @click="clickEdit = true" class="btn-edit">Change Password</button>
     </div>
   </div>
 </template>

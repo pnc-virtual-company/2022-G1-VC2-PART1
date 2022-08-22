@@ -23,38 +23,38 @@
         </select>
       </div>
       <button @click="studentEachStatus" class="btn-search">Search</button>
-   </div>
+    </div>
 
-  <div class="container">
-    <table>
-      <thead>
-        <tr>
-          <th>Start Date </th>
-          <th>End Date</th>
-          <th>Reason</th>
-          <th>Duration</th>
-          <th>Leave Type</th>
-          <th>Status</th>
-          <th>Request Date</th>
-        </tr>
-      </thead>
-      <tbody>
-       <tr v-for:="student in students">
-          <th>{{student.start_date}}</th>
-          <th>{{student.end_date}}</th>
-          <th>{{student.reason}}</th>
-          <th>{{student.duration}}</th>
-          <th>{{student.leave_type}}</th>
-          <th :class="student.status.toLowerCase()">{{student.status}}</th>
-          <th>{{student.current_date}}</th>
-        </tr>
-      </tbody>
-    </table>
-  </div>
- </section>
+    <div class="container">
+      <table>
+        <thead>
+          <tr>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Reason</th>
+            <th>Duration</th>
+            <th>Leave Type</th>
+            <th>Status</th>
+            <th>Request Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for:="student in students">
+            <th>{{ student.start_date }}</th>
+            <th>{{ student.end_date }}</th>
+            <th>{{ student.reason }}</th>
+            <th>{{ student.duration }}</th>
+            <th>{{ student.leave_type }}</th>
+            <th :class="student.status.toLowerCase()">{{ student.status }}</th>
+            <th>{{ student.current_date }}</th>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
 </template>
-
 <script>
+import http from "../../axios-http";
 export default {
   data() {
     return {
@@ -64,7 +64,14 @@ export default {
       leave_type: "show all",
     };
   },
-  methods:{
+
+  methods: {
+    getData() {
+      http.get("studentleaveRequest").then((result) => {
+        this.student_leaves = result.data;
+        this.students = this.student_leaves;
+      });
+    },
     studentEachStatus() {
       this.students = this.student_leaves;
       if (this.status_type != "show all") {
@@ -80,7 +87,20 @@ export default {
         this.students = this.student_leaves.filter(
           (students) => students.leave_type.toLowerCase() == this.leave_type
         );
-
+      }
+      if (this.leave_type != "show all") {
+        const lists = this.student_leaves.filter(
+          (students) => students.leave_type.toLowerCase() == this.leave_type
+        );
+        if (this.status_type != "show all") {
+          this.students = lists.filter(
+            (students) => students.status.toLowerCase() == this.status_type
+          );
+        }
+      } else if (this.status_type != "show all") {
+        this.students = this.student_leaves.filter(
+          (students) => students.status.toLowerCase() == this.status_type
+        );
       }
     },
   },
