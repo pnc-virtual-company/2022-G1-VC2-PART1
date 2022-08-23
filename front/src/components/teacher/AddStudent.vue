@@ -1,6 +1,6 @@
 <template>
   <form @submit.prevent="addStudent">
-    <div class="username">
+    <div class="username group">
         <div class="inputname">
             <label for="">First Name:</label>
             <input
@@ -18,7 +18,7 @@
             />
         </div>
     </div>
-    <div class="email">
+    <div class="email group">
         <label for="">Email:</label>
         <input
         class="form-group"
@@ -26,16 +26,21 @@
         v-model="email"
         />
     </div>
-    <div class="password">
+    <div class="password_group group">
         <label for="">Password:</label>
-        <input
-        class="form-group"
-        type="text"
-        v-model="password"
-        />
+        <div class="password_controller">
+            <input
+              class="form-group password"
+              :type="isPasswordShown? 'text': 'password'"
+              v-model="password"
+              name="password"
+              required
+              autocomplete="on"
+            />
+            <i @click="showHidePassword" :class="isPasswordShown? 'fa fa-eye':'fa fa-eye-slash'" style="font-size:20px"></i>
+          </div>
     </div>
-
-    <div class="gender">
+    <div class="gender group">
       <label for="">Gender:</label>
         <input
         class="form-group"
@@ -43,9 +48,7 @@
         v-model="gender"
         />
     </div>
-
-
-    <div class="username">
+    <div class="username group">
         <div class="inputname">
             <label for="">Class:</label>
             <input
@@ -53,7 +56,6 @@
               type="text"
               v-model="classroom"
             />
-           
         </div>
         <div class="inputname">
              <label for="" class="lastName">Generation:</label>
@@ -65,7 +67,7 @@
         </div>
         
     </div>
-    <div id="choose-img">
+    <div id="choose-img group">
       <input type="file" id="up" @change = "uploadImage" >
     </div>
     <button class="form-group btn" type="submit">ADD</button>
@@ -76,6 +78,7 @@ import http from "../../axios-http"
 export default {
   data(){
     return{
+      isPasswordShown:false,
       firstname:"",
       lastname:"",
       email:"",
@@ -115,13 +118,12 @@ export default {
         });
         this.$emit('add-Student', false);
       },
+      showHidePassword(){this.isPasswordShown= !this.isPasswordShown}
     },
   }
-
 </script>
-
 <style scoped>
-    form {
+  form {
   width: 40%;
   padding: 20px;
   margin: auto;
@@ -130,15 +132,16 @@ export default {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
   background: #144e5a;
 }
+.group{
+  margin: 10px 0;
+}
 .form-group {
   width: 100%;
   padding: 10px;
-  margin-bottom: 16px;
   border: solid 1px rgb(124, 117, 117);
   border-radius: 5px;
   box-sizing: border-box;
   outline: none;
-  margin-top: 5px;
 }
 .btn {
   background: orange;
@@ -168,11 +171,29 @@ export default {
 }
 
 .lastname, .generation{
-    margin-left: 5px;
+    margin-left: 4px;
 }
 
 label{
   font-weight: bold;
   color:white;
+}
+
+.password_controller{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 10px;
+  border-radius: 4px;
+  border: solid 1px #ccc;
+  background-color: white;
+}
+.password{
+  border: none;
+  padding: 10px;
+  outline: none;
+}
+.fa{
+  cursor: pointer;
 }
 </style>
