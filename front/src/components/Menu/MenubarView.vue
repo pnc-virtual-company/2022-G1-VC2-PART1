@@ -41,8 +41,8 @@
       </div>
     </nav>
     <router-view />
-    <button @click="adminlogIn()" v-if="isLogIn" class="btn">Teacher</button>
-    <button @click="studentLogIn()" v-if="isLogIn" class="btn">Student</button>
+    <button @click="adminlogIn()" v-if="isLogIn" class="btn btn-primary">Teacher</button>
+    <button @click="studentLogIn()" v-if="isLogIn" class="btn btn-primary">Student</button>
   </section>
 </template>
 
