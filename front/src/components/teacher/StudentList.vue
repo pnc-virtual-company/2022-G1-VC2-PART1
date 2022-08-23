@@ -3,24 +3,6 @@
     <!-- ++++++++++++++++++++++++++++ Form Update +++++++++++++++++ +++++++++++++++++-->
     <div v-if="isUpdated" class="contianer_update">
       <form @submit.prevent="toUpdate">
-        <div class="username">
-          <div class="inputname">
-            <label for="">First Name:</label>
-            <input class="firstname" type="text" v-model="firstname" />
-          </div>
-          <div class="inputname">
-            <label for="" class="lastName">Last Name:</label>
-            <input class="lastname" type="text" v-model="lastname" />
-          </div>
-        </div>
-        <div class="email">
-          <label for="">Email:</label>
-          <input class="form-group" type="text" v-model="email" />
-        </div>
-        <div class="password">
-          <label for="">Password:</label>
-          <input class="form-group" type="text" v-model="password" />
-        </div>
         <div class="username group">
           <div class="inputname">
             <label for="">First Name:</label>
@@ -159,8 +141,6 @@ import http from "../../axios-http";
 import swal from "sweetalert";
 
 export default {
-  emits: ["add-student", "updateStudent"],
-
   data() {
     return {
       listOfStudents: [],
@@ -193,7 +173,7 @@ export default {
     removeStudent(index, id) {
       swal({
         title: "Are you sure to delete?",
-        text: "Once deleted, This student will be remove from the list of students",
+        text: "This student will be remove from the list of students",
         icon: "warning",
         buttons: true,
         dangerMode: true,
