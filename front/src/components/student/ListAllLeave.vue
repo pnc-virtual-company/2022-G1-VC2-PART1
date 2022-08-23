@@ -2,17 +2,16 @@
   <section>
     <div class="cotainer_filter">
       <div class="status_type">
-        <span>Status Type: </span>
+        <span>Filter by Status: </span>
         <select class="select_controll" v-model="status_type">
           <option value="show all" selected>Show all</option>
           <option value="approved">Approved</option>
-          <option value="canceled">Canceled</option>
           <option value="padding">Padding</option>
           <option value="rejected">Rejected</option>
         </select>
       </div>
       <div class="leave_type">
-        <span>Leave Type: </span>
+        <span>Filter by Type: </span>
         <select class="select_controll" v-model="leave_type">
           <option value="show all" selected>Show all</option>
           <option value="family event">Family Event</option>
@@ -117,13 +116,15 @@ export default {
 .cotainer_filter {
   display: flex;
   justify-content: space-between;
-  width: 40%;
-  margin: 1rem auto;
+  width: 85%;
+  margin: 2rem auto;
 }
 .status_type,
 .leave_type {
-  padding: 10px 0;
+  padding: 10px 0px;
+  width: 44%;
 }
+
 .select_controll {
   width: 100%;
   border: none;
@@ -133,41 +134,51 @@ export default {
     rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
   padding: 10px;
   outline: none;
+  margin-top: 20px;
 }
 .btn-search {
   display: flex;
   align-items: center;
   height: 1.8rem;
   margin-left: 4px;
-  margin-top: 2rem;
-  padding: 15px 20px;
+  margin-top: 3rem;
+  padding: 20px 30px;
   border-radius: 5px;
   border: none;
-
-  background-color: #144e5a;
+  background-color: #FF9620;
   color: white;
+}
+span{
+  padding: 10px;
+  font-size: large;
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 2vh;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  font-size: 13px;
 }
+
 tr,
 th,
 td {
-  border: 2px solid gray;
   padding: 10px;
+  font-weight: 100;
+  font-size: 15px;
 }
 
 thead tr th {
-  border: 2px solid gray;
-  background-color: #144e5a;
+  background-color: #23BBEA;
   color: #fff;
+  padding: 15px;
+  font-size: 15px;
+  font-weight: 600;
 }
-/* tbody tr:hover{
-    background-color: skyblue;
-} */
+tbody tr:hover{
+    background-color:rgba(100, 100, 111, 0.2);
+}
 .padding {
   color: #ffba07;
 }
@@ -176,8 +187,5 @@ thead tr th {
 }
 .rejected {
   color: #fe0000;
-}
-.canceled {
-  color: #1e43c7;
 }
 </style>

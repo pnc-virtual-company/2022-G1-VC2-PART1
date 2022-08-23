@@ -1,4 +1,5 @@
 <template>
+  <section>
   <div v-if="isUpdated" class="contianer_update">
     <form @submit.prevent="toUpdate">
       <div class="username">
@@ -102,6 +103,8 @@
       </div>
     </div>
   </div>
+  </section>
+
 </template>
 
 <script>

@@ -49,8 +49,7 @@ class StudentController extends Controller
             'string',
             'max:4',             ],
             'class' => 'required',
-            'batch' => 'required|min:4',
-            
+            'batch' => 'required|min:4'            
         ]);
         $request->file('image')->store('public/pictures');
         $student = new Student();
@@ -86,7 +85,7 @@ class StudentController extends Controller
      */
     public function update(Request $request, $id)
     {
-<<<<<<< HEAD
+
         
         $request->validate([
             'username' => [
@@ -113,7 +112,7 @@ class StudentController extends Controller
             'string',
             'min:4',
         ], 
-=======
+
         //
         // $request->validate([
         //     'username' => [
@@ -141,9 +140,8 @@ class StudentController extends Controller
         //     'string',
         //     'max:4',
         // ], 
->>>>>>> 4f31b118dfda87808bc830e8b200974176c6b011
             
-        // ]);
+        ]);
         $student = Student::findOrFail($id);
         $student->username=$request->username;
         $student->email=$request->email;
