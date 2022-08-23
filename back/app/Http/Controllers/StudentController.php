@@ -30,13 +30,6 @@ class StudentController extends Controller
     {
         
         $request->validate([
-            'username' => [
-                'required',
-                'string',
-                'max:50',             
-                'regex:/[a-z]/',      
-                'regex:/[A-Z]/',      
-        ],
             'email' => 'required|unique:users',
             'password' => [
                 'required',
@@ -88,11 +81,6 @@ class StudentController extends Controller
      */
     public function update(Request $request, $id)
     {
-<<<<<<< HEAD
-
-
-=======
->>>>>>> 9a65a0f41bdc28e5aa0bc334b1c85bf0d30a6aa4
         $request->validate([
             'username' => [
                 'required',
@@ -117,7 +105,6 @@ class StudentController extends Controller
             'batch' => ['required',
             'string',
             'min:4',
-<<<<<<< HEAD
         ], 
 
         //
@@ -147,13 +134,8 @@ class StudentController extends Controller
         //     'string',
         //     'max:4',
         // ], 
+            // ], 
             
-       
-             
-=======
-            ], 
-
->>>>>>> 9a65a0f41bdc28e5aa0bc334b1c85bf0d30a6aa4
         ]);
         $student = Student::findOrFail($id);
         $student->firstname=$request->firstname;

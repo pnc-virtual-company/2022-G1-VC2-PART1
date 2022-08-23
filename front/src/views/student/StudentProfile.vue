@@ -14,15 +14,10 @@ export default({
       profile:{},
     }
   },
- 
-   
   methods:{
     getStudentProfile(){
-<<<<<<< HEAD
       http.get("student/2").then(result => {this.profile=result.data[0]})
-=======
       http.get("student/3").then(result => {this.profile = result.data[0]})
->>>>>>> 9a65a0f41bdc28e5aa0bc334b1c85bf0d30a6aa4
     },
     update(newpassword){
       http.put("student/2", newpassword)

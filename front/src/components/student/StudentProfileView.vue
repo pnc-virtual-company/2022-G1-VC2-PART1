@@ -31,8 +31,7 @@
               v-model="confirmPassword"
               name="password"
               required
-              autocomplete="on"
-            />
+              autocomplete="on"/>
             <i @click="showHidePasswordConfirm" :class="isPasswordConfirmed? 'fa fa-eye':'fa fa-eye-slash'" style="font-size:20px"></i>
           </div>
         </div>
