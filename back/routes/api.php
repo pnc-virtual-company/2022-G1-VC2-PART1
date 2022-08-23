@@ -4,7 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\StudentLeaveRquestController;
-
+use Laravel\Sanctum\Sanctum;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -31,3 +31,13 @@ Route::get('/studentleaveRequest', [StudentLeaveRquestController::class, 'index'
 Route::get('/studentleaveRequest/{id}', [StudentLeaveRquestController::class, 'show']);
 Route::put('/studentleaveRequest/{id}', [StudentLeaveRquestController::class, 'update']);
 Route::delete('/studentleaveRequest/{id}', [StudentLeaveRquestController::class, 'destroy']);
+
+Route::post("accouter", [StudentController::class, "createAccount"]);
+
+Route::post("login", [StudentController::class, "userLogin"]);
+
+// // private routes
+Route::group(['middleware'=>['auth:sanctum']],function(){
+    Route::post("logout", [StudentController::class, "logout"]);
+    
+});
