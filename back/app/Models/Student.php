@@ -10,7 +10,8 @@ class Student extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
     protected $fillable = [
-        'username',
+        'firstname',
+        'lastname',
         'email',
         'password',
         'gender',

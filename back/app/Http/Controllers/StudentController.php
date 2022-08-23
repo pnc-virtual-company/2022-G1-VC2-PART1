@@ -55,7 +55,8 @@ class StudentController extends Controller
         ]);
         $request->file('image')->store('public/pictures');
         $student = new Student();
-        $student->username=$request->username;
+        $student->firstname=$request->firstname;
+        $student->lastname=$request->lastname;
         $student->email=$request->email;
         $student->password=bcrypt($request->password);
         $student->gender=$request->gender;
@@ -115,7 +116,8 @@ class StudentController extends Controller
 
         ]);
         $student = Student::findOrFail($id);
-        $student->username=$request->username;
+        $student->firstname=$request->firstname;
+        $student->lastname=$request->lastname;
         $student->email=$request->email;
         $student->password=bcrypt($request->password);
         $student->gender=$request->gender;
@@ -138,11 +140,11 @@ class StudentController extends Controller
         //
         return Student::destroy($id);
     }
-
     public function createAccount(Request $request){
         $request->file('image')->store('public/pictures');
         $student = new Student();
-        $student->username=$request->username;
+        $student->firstname=$request->firstname;
+        $student->lastname=$request->lastname;
         $student->email=$request->email;
         $student->email_verified_at = $request->email_verified_at;
         $student->password=bcrypt($request->password);
@@ -171,8 +173,6 @@ class StudentController extends Controller
         ];
         return response()->json([$response]);
     }
-
-
     public function logout(Request $request){
         auth()->user()->tokens()->delete();
         return response()->json(["ms"=>"logged out"]);
