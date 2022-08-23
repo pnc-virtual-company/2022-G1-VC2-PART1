@@ -156,6 +156,7 @@
 
 <script>
 import http from "../../axios-http";
+import swal from "sweetalert";
 
 export default {
   emits: ["add-student", "updateStudent"],
@@ -190,10 +191,20 @@ export default {
       this.studentFromAPI();
     },
     removeStudent(index, id) {
-      http.delete("student/" + id).then((res) => {
-        console.log(res);
+      swal({
+        title: "Are you sure to delete?",
+        text: "Once deleted, This student will be remove from the list of students",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      }).then((willDelete) => {
+        if (willDelete) {
+          http.delete("student/" + id).then((res) => {
+            console.log(res);
+          });
+          this.listOfStudents.splice(index, 1);
+        }
       });
-      this.listOfStudents.splice(index, 1);
     },
     UpdateStudent(student) {
       this.isUpdated = true;
@@ -300,9 +311,6 @@ form {
   outline: none;
 }
 
-
-
-
 .firstname,
 .lastname,
 .classroom,
@@ -327,7 +335,6 @@ form {
   display: block;
 }
 
-
 .lastname,
 .generation {
   margin-left: 4px;
@@ -337,8 +344,6 @@ label {
   font-weight: bold;
   color: white;
 }
-
-
 
 .password {
   border: none;
