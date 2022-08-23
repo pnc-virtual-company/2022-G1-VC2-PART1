@@ -40,7 +40,6 @@
             class="submitButton pure-button pure-button-primary"
           >
             <span>Continue</span>
-            <!-- <span id="loader"></span> -->
           </button>
         </div>
       </form>

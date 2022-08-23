@@ -35,15 +35,6 @@ export default {
       this.dialog = show;
     },
     updateStudent(student){
-      
-      // let updateData=new FormData()
-      // updateData.append("username", student.infor.username)
-      // updateData.append("email", student.infor.email)
-      // updateData.append("password", student.infor.password)
-      // updateData.append("gender", student.infor.gender)
-      // updateData.append("class", student.infor.class)
-      // updateData.append("batch", student.infor.batch)
-      // updateData.append("image", student.infor.image)
       console.log("StudentID", student.update_id, "Infor: ", student.infor);
       http.put("student/"+student.update_id, student.infor).then(response =>{console.log(response)})
     } 
