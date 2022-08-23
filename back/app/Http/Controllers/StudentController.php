@@ -26,7 +26,7 @@ class StudentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
         $request->validate([
             'username' => [
                 'required',
@@ -87,6 +87,7 @@ class StudentController extends Controller
     public function update(Request $request, $id)
     {
         
+
         $request->validate([
             'username' => [
                 'required',
@@ -94,7 +95,7 @@ class StudentController extends Controller
                 'max:50',             
                 'regex:/[a-z]/',      
                 'regex:/[A-Z]/',      
-        ],
+            ],
             'password' => [
                 'required',
                 'string',
@@ -113,6 +114,7 @@ class StudentController extends Controller
             'min:4',
         ], 
        
+             
         ]);
         $student = Student::findOrFail($id);
         $student->username=$request->username;
@@ -124,7 +126,6 @@ class StudentController extends Controller
         //$student->image =$request->file("image")->hashName();
         $student->save();
         // $request->file('image')->store('public/pictures');
-
         return response()->json(['message:'=>'update student successfully']);
     }
 
