@@ -156,6 +156,35 @@
     </div>
     
   <!-- </div> -->
+
+    <div class="actionStudents">
+        <div class="totalStudents">
+          <div class="total">Total:</div>
+          <div class="numberOfStudents">{{listOfStudents.length}}</div>
+        </div>
+        <div class="totalStudentsAbsent">
+          <div class="total">Absent</div>
+            <div class="numberOfStudentsAbsent">2</div>
+        </div>
+    </div>
+    <div class="card">
+        <h2>List all students in PNC</h2>
+      <div class="card-list" v-for:="(student, index) of listOfStudents">
+        <div class="user">
+          <div class="img">
+            <img :src="'http://127.0.0.1:8000/storage/pictures/'+student.image" alt="" />
+          </div>
+          <div class="info">
+            <span><strong>{{student.username}}</strong></span>
+          </div>
+        </div>
+        <div class="icon">
+          <button @click="UpdateStudent(student)" class="btnedit"><img src="../../assets/edit.png" alt="" /></button>
+          <button @click="removeStudent(index, student.id)" class="btnDelete"><img src="../../assets/delete.png" alt=""/></button>
+        </div>
+      </div>
+    </div>
+  <!-- </div> -->
   </section>
 </template>
 
