@@ -26,7 +26,7 @@ class StudentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
         $request->validate([
             'username' => [
                 'required',
@@ -86,6 +86,8 @@ class StudentController extends Controller
      */
     public function update(Request $request, $id)
     {
+        
+
         $request->validate([
             'username' => [
                 'required',
@@ -110,7 +112,9 @@ class StudentController extends Controller
             'batch' => ['required',
             'string',
             'min:4',
-            ],   
+        ], 
+       
+             
         ]);
         $student = Student::findOrFail($id);
         $student->username=$request->username;
