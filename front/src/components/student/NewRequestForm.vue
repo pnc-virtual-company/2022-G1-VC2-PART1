@@ -105,8 +105,9 @@ export default {
         start_date: this.startDate,
         end_date: this.endDate,
         duration: 6,
+        request_date:'08/24/2022',
         reason: this.cause,
-        student_id: 22,
+        student_id:1,
       };
       http.post("studentleaveRequest", requestleave).then((res) => {
         console.log(res);
