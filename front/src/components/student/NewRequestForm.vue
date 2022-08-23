@@ -18,7 +18,7 @@
         class="form-controll"
         style="display: flex; justify-content: space-between;"
       >
-        <input required type="date" class="two-input" v-model="startDate" />
+        <input required type="date" class="two-input" v-model="startDate" :min="getCurrentDate" />
         <select class="two-input" v-model="startTime">
           <option value="Morning">Morning</option>
           <option value="Afternoon">Afternoon</option>
@@ -32,7 +32,7 @@
         class="form-controll"
         style="display: flex; justify-content: space-between"
       >
-        <input required type="date" class="two-input" v-model="endDate" />
+        <input required type="date" class="two-input" v-model="endDate" :min="getCurrentDate" />
         <select class="two-input" v-model="endTime">
           <option value="Morning">Morning</option>
           <option value="Afternoon">Afternoon</option>
@@ -64,6 +64,7 @@
           class="two-input submit"
           type="submit"
           @click.prevent="addRequestLeave($e)"
+          :disabled="startDate > endDate"
         >
           Submit
         </button>
@@ -75,6 +76,7 @@
 <script>
 import http from "../../axios-http";
 import moment from "moment";
+import swal from "sweetalert";
 export default {
   emits: ["addRequestLeave"],
 
@@ -96,6 +98,8 @@ export default {
       this.startDate = "";
       this.endDate = "";
       this.cause = "";
+      this.startTime ="";
+      this.endTime = ""
     },
 
     addRequestLeave() {
@@ -105,19 +109,39 @@ export default {
         end_date: this.endDate,
         duration: this.duration,
         reason: this.cause,
-        student_id: 1,
+        student_id: 2,
       };
       http.post("studentleaveRequest", requestleave).then((res) => {
+        swal({
+            title: "Good job!",
+            text: "You have create request successfully !",
+            icon: "success",
+          });
         console.log(res);
         this.leaveType = "";
         this.startDate = "";
         this.endDate = "";
         this.cause = "";
+        this.startTime = "";
+        this.endTime = ""
       });
     },
   },
 
   computed: {
+    getCurrentDate() {
+      var date = new Date();
+      var tday = date.getDate();
+      var month = date.getMonth() + 1;
+      var year = date.getUTCFullYear();
+      if (tday < 10) {
+        tday = "0" + tday
+      }
+      if (month < 10) {
+        month = "0" + month
+      }
+      return year + "-" + month + "-" + tday
+    },
     invalidStartDate() {
       var current_date = new Date().toJSON().slice(0, 10).replace(/-/g, "-");
       if (this.startDate != "" && this.startDate < current_date) {
@@ -135,45 +159,18 @@ export default {
       }
       return "";
     },
+    // disabple_button (){
+    //   if(this.startDate > this.endDate){
+    //     // return "";
+    //   }
+    //   return "";
+    // },
+
+    /**
+     * Duration is use for calulate duration that student ask permission
+     * @paramater dateTime is use for calulate end and start date
+     */
     duration() {
-      // var formatted_date = new Date().toJSON().slice(0, 10).replace(/-/g, "-");
-      // console.log(formatted_date);
-      // console.log(this.startDate);
-    //   let result = 0;
-
-    //   if (this.invalidEndDate == "" && this.invalidStartDate == "") {
-    //     let start = moment(this.startDate);
-    //     let end = moment(this.endDate);
-    //     if (!isNaN(end.diff(start, "days"))) {
-    //       if (this.startDate == this.endDate) {
-    //         if (this.startTime == this.endTime) {
-    //           result = 0.5;
-    //         }
-    //       } else {
-    //         result = end.diff(start, "days");
-    //       }
-    //     }
-    //   }
-    //   return result;
-
-
-
-    // let notEmpty = (this.startDate !="" && this.endDate !="" && this.startTime !="" && this.endTime !="");
-    // let start = moment(this.startDate);
-    // let end = moment(this.endDate);
-    // let calulation = 0;
-    // if(end.diff(start,"days") >0 || end.diff(start,"days")==0){
-    //   if(notEmpty && (start == end) && (this.startTime == this.endTime) ){
-    //     calulation +=0.5
-    //   }
-    //   if(notEmpty && (start == end) && (this.startTime !== this.endTime)){
-    //     calulation +=1
-    //   }
-    // }
-    // return calulation;
-
-
-
     let notEmpty = this.startDate !="" && this.endDate !="" ;
         let isStart = this.startDate == this.endDate && this.startDate !="" && this.endDate !="" ;
         let halfDay =(this.startTime ==this.endTime);

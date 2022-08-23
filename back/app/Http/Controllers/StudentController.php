@@ -85,11 +85,7 @@ class StudentController extends Controller
      */
     public function update(Request $request, $id)
     {
-<<<<<<< HEAD
 
-=======
->>>>>>> 851b46f2323e98fbe2ad72a3bca8ed7f0b452222
-        
 
         $request->validate([
             'username' => [
@@ -116,7 +112,6 @@ class StudentController extends Controller
             'string',
             'min:4',
         ], 
-<<<<<<< HEAD
 
         //
         // $request->validate([
@@ -146,10 +141,8 @@ class StudentController extends Controller
         //     'max:4',
         // ], 
             
-=======
        
              
->>>>>>> 851b46f2323e98fbe2ad72a3bca8ed7f0b452222
         ]);
         $student = Student::findOrFail($id);
         $student->username=$request->username;

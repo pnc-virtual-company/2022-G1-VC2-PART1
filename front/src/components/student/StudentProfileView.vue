@@ -1,5 +1,6 @@
 
 <template>
+<section>
   <div v-if="clickEdit" class="mainDiv">
     <div class="cardStyle">
       <form @submit.prevent="validatePassword" id="signupForm">
@@ -76,6 +77,7 @@
       <button @click="clickEdit = true" class="btn-edit">Change Password</button>
     </div>
   </div>
+  </section>
 </template>
 <script>
 export default {
