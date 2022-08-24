@@ -73,7 +73,7 @@ nav {
   display: flex;
   justify-content: space-between;
   background: rgb(233, 233, 233);
-  box-shadow: 2px 4px 6px 1px #aaa;
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
   position: sticky;
   top: 0;
 }

@@ -1,29 +1,10 @@
 <template>
   <section>
 
- 
+
     <!-- ++++++++++++++++++++++++++++ Form Update +++++++++++++++++ +++++++++++++++++-->
     <div v-if="isUpdated" class="contianer_update">
       <form @submit.prevent="toUpdate">
-        <div class="username">
-
-          <div class="inputname">
-            <label for="">First Name:</label>
-            <input class="firstname" type="text" v-model="firstname" />
-          </div>
-          <div class="inputname">
-            <label for="" class="lastName">Last Name:</label>
-            <input class="lastname" type="text" v-model="lastname" />
-          </div>
-        </div>
-        <div class="email">
-          <label for="">Email:</label>
-          <input class="form-group" type="text" v-model="email" />
-        </div>
-        <div class="password">
-          <label for="">Password:</label>
-          <input class="form-group" type="text" v-model="password" />
-        </div>
         <div class="username group">
           <div class="inputname">
             <label for="">First Name:</label>
@@ -116,7 +97,6 @@
         <thead>
           <tr>
             <th>USER</th>
-            <!-- <th>EMAIL</th> -->
             <th class="padding-right">GENDER</th>
             <th>ACTION</th>
           </tr>
@@ -134,12 +114,11 @@
                   />
                 </div>
                 <div class="info">
-                  <strong>{{ student.username }}</strong>
+                  <strong>{{ student.firstname +" " + student.lastname }}</strong>
                   <p>{{ student.class }} {{ student.batch }}</p>
                 </div>
               </div>
             </td>
-            <!-- <td>{{ student.email }}</td> -->
             <td class="padding-right">{{ student.gender }}</td>
             <td class="tb-btn">
               <div class="icon">
@@ -162,8 +141,6 @@ import http from "../../axios-http";
 import swal from "sweetalert";
 
 export default {
-  emits: ["add-student", "updateStudent"],
-
   data() {
     return {
       listOfStudents: [],
@@ -196,7 +173,7 @@ export default {
     removeStudent(index, id) {
       swal({
         title: "Are you sure to delete?",
-        text: "Once deleted, This student will be remove from the list of students",
+        text: "This student will be remove from the list of students",
         icon: "warning",
         buttons: true,
         dangerMode: true,
@@ -224,7 +201,6 @@ export default {
       console.log("This file image", e.target.files[0]);
       this.image = e.target.files[0];
     },
-
     toUpdate() {
       let newInfor = {
         username: this.firstname + " " + this.lastname,
@@ -438,9 +414,7 @@ tbody tr {
 }
 thead tr th {
   border: none;
-}
-
-tbody tr:hover {
+}tbody tr:hover {
   background: rgb(220, 220, 220);
 }
 tr td:first-child {

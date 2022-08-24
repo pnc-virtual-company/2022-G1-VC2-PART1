@@ -18,10 +18,14 @@ return new class extends Migration
             $table->string('lastname');
             $table->string('email')->unique();
             $table->string('password');
-            $table->string('gender');
+            $table->string('phone')->unique();
             $table->string('class');
             $table->string('batch');
+<<<<<<< HEAD
             $table->string('role');
+=======
+            $table->string('gender');
+>>>>>>> 4652ff2b352ff66f4bae96b0c7bc10047d991895
             $table->string('image');
             $table->rememberToken();
             $table->timestamp('email_verified_at')->nullable();
