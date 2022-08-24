@@ -5,25 +5,48 @@
       class="checkLeave"
       v-for="student of listOfStudentsLeave"
       :key="student"
+      @click="seen = !seen"
     >
       <div class="student_infor">
         <img src="../../assets/koko.jpg" alt="" />
         <h2 class="name_stu">Samoul Kh</h2>
       </div>
-      <div class="reson_data">
+      <div class="reson_data" @click="show(student)">
         <div class="status">{{ student.status }}</div>
         <div class="dete">{{ student.request_date }}</div>
+      </div>
+    </div>
+    <div v-if="seen" id="hide">
+      <div class="userInfo">
+        <div class="profile">
+          <div class="imgBx">
+            <img src="@/assets/lolo.jpg" />
+          </div>
+          <div class="container">
+            <div
+              class="data">
+              <h3>Leave type: {{studentDetail.leave_type}}</h3>
+              <h3>Start_date: {{studentDetail.start_date}}</h3>
+              <h3>End_date: {{studentDetail.end_date}}</h3>
+              <h3>Duration: {{studentDetail.duration}}</h3>
+              <h3>Status: {{studentDetail.status}}</h3>
+              <h3>Request_date: {{studentDetail.request_date}}</h3>
+              <h3>Reason: {{studentDetail.reason}}</h3>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </form>
 </template>
 
 <script>
-
 import http from "../../axios-http";
 export default {
   data() {
     return {
+      seen: false,
+      studentDetail:{},
       listOfStudentsLeave: [],
     };
   },
@@ -35,6 +58,10 @@ export default {
           console.log(this.listOfStudentsLeave);
       });
     },
+    show(student){
+      this.studentDetail=student;
+      console.log(student)
+    }
   },
 
   mounted() {
@@ -102,4 +129,46 @@ form {
 }
 
 
+.userInfo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+.profile {
+  position: relative;
+  width: 350px;
+  height: 160px;
+  background: #e1e7ea;
+  border-radius: 20px;
+  box-shadow: 0 35px 80px rgba(0, 0, 0, 0.15);
+}
+
+.imgBx {
+  position: absolute;
+  left: 50%;
+  top: -50px;
+  width: 150px;
+  height: 150px;
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.35);
+}
+
+.imgBx img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.profile .container .data {
+  padding: 40px;
+  width: 100%;
+}
+
+.data {
+  color: rgb(5, 5, 5);
+}
 </style>

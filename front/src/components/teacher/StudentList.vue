@@ -1,6 +1,14 @@
 <template>
   <section>
 
+<<<<<<< HEAD
+
+  <!-- <div v-if="isUpdated" class="contianer_update"> -->
+    <!-- <form @submit.prevent="toUpdate">
+      <div class="username"> -->
+
+=======
+>>>>>>> d3aa3eaac8e5480ca084fc16c4a78bd55c1ef2af
     <!-- ++++++++++++++++++++++++++++ Form Update +++++++++++++++++ +++++++++++++++++-->
     <div v-if="isUpdated" class="contianer_update">
       <form @submit.prevent="toUpdate">
@@ -200,7 +208,6 @@ export default {
       console.log("This file image", e.target.files[0]);
       this.image = e.target.files[0];
     },
-
     toUpdate() {
       let newInfor = {
         username: this.firstname + " " + this.lastname,
@@ -414,9 +421,7 @@ tbody tr {
 }
 thead tr th {
   border: none;
-}
-
-tbody tr:hover {
+}tbody tr:hover {
   background: rgb(220, 220, 220);
 }
 tr td:first-child {

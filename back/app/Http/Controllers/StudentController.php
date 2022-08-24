@@ -73,6 +73,7 @@ class StudentController extends Controller
      */
     public function update(Request $request, $id)
     {
+
         $request->validate([
             'username' => [
                 'required',
@@ -128,6 +129,7 @@ class StudentController extends Controller
         // ], 
             // ], 
             
+
         ]);
         $student = Student::findOrFail($id);
         $student->firstname=$request->firstname;
