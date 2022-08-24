@@ -1,9 +1,6 @@
 <template>
   <div class="studentsList">
-    <student-list 
-    @addStudent="addStudent" 
-    @updateStudent="updateStudent" 
-    v-if="!dialog"></student-list>
+    <student-list @addStudent="addStudent" @updateStudent="updateStudent" v-if="!dialog"></student-list>
     <add-student @add-student = "showListStudents" v-if="dialog && infor==null"></add-student>
   </div>
 </template>

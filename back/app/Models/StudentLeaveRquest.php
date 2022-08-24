@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use DateTimeInterface;
 
 class StudentLeaveRquest extends Model
 {
@@ -22,14 +23,18 @@ class StudentLeaveRquest extends Model
         'updated_at',
     ];
 
-protected $dates = ['start_date', 'end_date', 'request_date'];
+// protected $dates = ['start_date', 'end_date', 'request_date','create_at'];
 
 protected $casts = [
-    'start_date'     => 'date:m/d/y',
-    'end_date'     => 'date:m/d/y',
-    'request_date'     => 'date:m/d/y',
+    'start_date'     => 'date:M d, Y',
+    'end_date'     => 'date:M d, Y',
+    'request_date'     => 'date:M d, Y',
 ];
     public function student(){
         return $this->belongsTo(Student::class);
+    }
+    protected function serializeDate(DateTimeInterface $date)
+    {
+        return $date->format('M d, Y H:i: A');
     }
 }
