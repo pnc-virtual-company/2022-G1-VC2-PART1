@@ -1,5 +1,6 @@
 <template>
   <section>
+
     <!-- ++++++++++++++++++++++++++++ Form Update +++++++++++++++++ +++++++++++++++++-->
     <div v-if="isUpdated" class="contianer_update">
       <form @submit.prevent="toUpdate">
@@ -95,7 +96,6 @@
         <thead>
           <tr>
             <th>USER</th>
-            <!-- <th>EMAIL</th> -->
             <th class="padding-right">GENDER</th>
             <th>ACTION</th>
           </tr>
@@ -113,12 +113,11 @@
                   />
                 </div>
                 <div class="info">
-                  <strong>{{ student.username }}</strong>
+                  <strong>{{ student.firstname +" " + student.lastname }}</strong>
                   <p>{{ student.class }} {{ student.batch }}</p>
                 </div>
               </div>
             </td>
-            <!-- <td>{{ student.email }}</td> -->
             <td class="padding-right">{{ student.gender }}</td>
             <td class="tb-btn">
               <div class="icon">

@@ -7,6 +7,7 @@
     ></student-list>
     <add-student
       @add-student="showListStudents"
+      @cancele-add="canceleAddStudent"
       v-if="dialog && infor == null"
     ></add-student>
   </div>
@@ -24,12 +25,10 @@ export default {
 
   data() {
     return {
-      dialog: true,
+      dialog: false,
       infor: null,
     };
   },
-  
-
 
   methods: {
     addStudent(student) {
@@ -39,6 +38,9 @@ export default {
 
     showListStudents(show) {
       this.dialog = show;
+    },
+    canceleAddStudent(hide) {
+      this.dialog = hide;
     },
     updateStudent(student) {
       // let updateData=new FormData()

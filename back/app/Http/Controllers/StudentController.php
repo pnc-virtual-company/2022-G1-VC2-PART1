@@ -1,9 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Models\Student;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
+use Laravel\Sanctum\PersonalAccessToken;
 
 class StudentController extends Controller
 {
@@ -28,36 +30,21 @@ class StudentController extends Controller
     {
         
         $request->validate([
-            'username' => [
-                'required',
-                'string',
-                'max:50',             
-                'regex:/[a-z]/',      
-                'regex:/[A-Z]/',      
-        ],
             'email' => 'required|unique:users',
-            'password' => [
-                'required',
-                'string',
-                'min:8',             // must be at least 10 characters in length
-                'regex:/[a-z]/',      // must contain at least one lowercase letter
-                'regex:/[A-Z]/',      // must contain at least one uppercase letter
-                'regex:/[0-9]/',      // must contain at least one digit
-                'regex:/[@$!%*#?&]/', // must contain a special character
-            ],
             'gender' => ['required',
             'string',
             'max:4',             ],
             'class' => 'required',
-            'batch' => 'required|min:4',
-            
+            'batch' => 'required|min:4'            
         ]);
         $request->file('image')->store('public/pictures');
         $student = new Student();
-        $student->username=$request->username;
+        $student->firstname=$request->firstname;
+        $student->lastname=$request->lastname;
         $student->email=$request->email;
-        $student->password=$request->password;
+        $student->password=bcrypt("12345678");
         $student->gender=$request->gender;
+        $student->phone=$request->phone;
         $student->class=$request->class;
         $student->batch=$request->batch;
         $student->image =$request->file("image")->hashName();
@@ -86,8 +73,6 @@ class StudentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
-
         $request->validate([
             'username' => [
                 'required',
@@ -113,13 +98,42 @@ class StudentController extends Controller
             'string',
             'min:4',
         ], 
-       
-             
+
+        //
+        // $request->validate([
+        //     'username' => [
+        //         'required',
+        //         'string',
+        //         'max:40',             
+        //         'regex:/[a-z]/',      
+        //         'regex:/[A-Z]/',      
+        // ],
+        //     'email' => 'required|unique:users',
+        //     'password' => [
+        //         'required',
+        //         'string',
+        //         'min:8',             // must be at least 10 characters in length
+        //         'regex:/[a-z]/',      // must contain at least one lowercase letter
+        //         'regex:/[A-Z]/',      // must contain at least one uppercase letter
+        //         'regex:/[0-9]/',      // must contain at least one digit
+        //         'regex:/[@$!%*#?&]/', // must contain a special character
+        //     ],
+        //     'gender' => ['required',
+        //     'string',
+        //     'max:1',             ],
+        //     'class' => 'required',
+        //     'batch' => ['required',
+        //     'string',
+        //     'max:4',
+        // ], 
+            // ], 
+            
         ]);
         $student = Student::findOrFail($id);
-        $student->username=$request->username;
+        $student->firstname=$request->firstname;
+        $student->lastname=$request->lastname;
         $student->email=$request->email;
-        $student->password=$request->password;
+        $student->password=bcrypt($request->password);
         $student->gender=$request->gender;
         $student->class=$request->class;
         $student->batch=$request->batch;
@@ -139,5 +153,42 @@ class StudentController extends Controller
     {
         //
         return Student::destroy($id);
+    }
+    public function createAccount(Request $request){
+        $request->file('image')->store('public/pictures');
+        $student = new Student();
+        $student->firstname=$request->firstname;
+        $student->lastname=$request->lastname;
+        $student->email=$request->email;
+        $student->email_verified_at = $request->email_verified_at;
+        $student->password=bcrypt($request->password);
+        $student->gender=$request->gender;
+        $student->class=$request->class;
+        $student->batch=$request->batch;
+        $student->image =$request->file("image")->hashName();
+        $student->save();
+        $token = $student->createToken("mytoken")->plainTextToken;
+        $response=[
+            'user'=>$student,
+            "token"=>$token
+        ];
+        return response()->json([$response]);
+    }
+
+    public function userLogin(Request $request){
+        $student = Student::where('email', $request->email)->first();
+        if (!$student || !Hash::check($request->password, $student->password)) {
+           return response()->json(["ms"=>"Invalid password"], 401);
+        }
+        $token = $student->createToken("mytoken")->plainTextToken;
+        $response=[
+            'user'=>$student,
+            "token"=>$token
+        ];
+        return response()->json([$response]);
+    }
+    public function logout(Request $request){
+        auth()->user()->tokens()->delete();
+        return response()->json(["ms"=>"logged out"]);
     }
 }
