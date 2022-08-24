@@ -88,7 +88,7 @@ export default {
       startTime: "",
       endTime: "",
       cause: "",
-      student_id: "",
+      student_id: 1,
     };
   },
 
@@ -124,6 +124,10 @@ export default {
         this.cause = "";
         this.startTime = "";
         this.endTime = ""
+      }).catch(error => {
+        if (error.response) {
+          console.log(error.response);
+        }
       });
     },
   },
