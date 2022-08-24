@@ -16,11 +16,10 @@ export default({
   },
   methods:{
     getStudentProfile(){
-      http.get("student/2").then(result => {this.profile=result.data[0]})
-      http.get("student/3").then(result => {this.profile = result.data[0]})
+      http.get("student/1").then(result => {this.profile=result.data[0]})
     },
     update(newpassword){
-      http.put("student/2", newpassword)
+      http.put("student/1", newpassword)
       .then(result =>(console.log("Student Updated", result.data)));
     }
   },

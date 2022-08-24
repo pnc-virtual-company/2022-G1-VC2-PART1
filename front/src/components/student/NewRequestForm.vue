@@ -109,7 +109,7 @@ export default {
         end_date: this.endDate,
         duration: this.duration,
         reason: this.cause,
-        student_id: 2,
+        student_id: 1,
       };
       http.post("studentleaveRequest", requestleave).then((res) => {
         swal({

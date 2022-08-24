@@ -56,16 +56,20 @@
         <div class="student-name">{{ profile.username }}</div>
         <ul>
           <li>
+            <span class="bold-text">Gender : </span>
+            <span>{{ profile.gender }}</span>
+          </li>
+          <li>
             <span class="bold-text">Class : </span>
             <span>{{ profile.class }}</span>
           </li>
           <li>
-            <span class="bold-text">Batch : </span>
+            <span class="bold-text">Generation : </span>
             <span>{{ profile.batch }}</span>
           </li>
-          <li>
-            <span class="bold-text">Gender : </span>
-            <span>{{ profile.gender }}</span>
+           <li>
+            <span class="bold-text">Phone : </span>
+            <span>0973432123</span>
           </li>
           <li>
             <span class="bold-text">Email : </span>
