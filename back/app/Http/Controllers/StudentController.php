@@ -31,15 +31,6 @@ class StudentController extends Controller
         
         $request->validate([
             'email' => 'required|unique:users',
-            'password' => [
-                'required',
-                'string',
-                'min:8',             // must be at least 10 characters in length
-                'regex:/[a-z]/',      // must contain at least one lowercase letter
-                'regex:/[A-Z]/',      // must contain at least one uppercase letter
-                'regex:/[0-9]/',      // must contain at least one digit
-                'regex:/[@$!%*#?&]/', // must contain a special character
-            ],
             'gender' => ['required',
             'string',
             'max:4',             ],
@@ -51,8 +42,9 @@ class StudentController extends Controller
         $student->firstname=$request->firstname;
         $student->lastname=$request->lastname;
         $student->email=$request->email;
-        $student->password=bcrypt($request->password);
+        $student->password=bcrypt("12345678");
         $student->gender=$request->gender;
+        $student->phone=$request->phone;
         $student->class=$request->class;
         $student->batch=$request->batch;
         $student->image =$request->file("image")->hashName();

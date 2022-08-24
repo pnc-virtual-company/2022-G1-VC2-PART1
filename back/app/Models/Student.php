@@ -14,14 +14,14 @@ class Student extends Authenticatable
         'lastname',
         'email',
         'password',
-        'gender',
+        'phone',
         'class',
         'batch',
+        'gender',
         'image',
     ];
 
     protected $hidden = [
-        // 'created_at',
         'updated_at',
         'remember_token',
         'email_verified_at'
