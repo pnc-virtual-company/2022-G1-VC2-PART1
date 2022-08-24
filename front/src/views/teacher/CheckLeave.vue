@@ -142,54 +142,32 @@ form {
   background: #e1e7ea;
   border-radius: 20px;
   box-shadow: 0 35px 80px rgba(0, 0, 0, 0.15);
-  transition: 0.5s;
 }
-.profile:hover {
-  height: 430px;
-}
+
 .imgBx {
   position: absolute;
   left: 50%;
   top: -50px;
-  transform: translateX(-50%);
   width: 150px;
   height: 150px;
   background: #fff;
   border-radius: 20px;
   box-shadow: 0 15px 50px rgba(0, 0, 0, 0.35);
-  overflow: hidden;
-  transition: 0.5s;
 }
-.profile:hover .imgBx {
-  width: 230px;
-  height: 230px;
-}
+
 .imgBx img {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
 }
-.profile .container {
-  position: absolute;
-  width: 100%;
-  height: 85%;
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  overflow: hidden;
-}
+
 .profile .container .data {
   padding: 40px;
   width: 100%;
-  transition: 0.5s;
-  transform: translateY(150px);
 }
-.profile:hover .container .data {
-  transform: translateY(0px);
-}
+
 .data {
   color: rgb(5, 5, 5);
 }

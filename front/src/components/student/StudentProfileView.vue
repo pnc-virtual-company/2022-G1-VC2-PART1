@@ -1,5 +1,6 @@
 
 <template>
+<section>
   <div v-if="clickEdit" class="mainDiv">
     <div class="cardStyle">
       <form @submit.prevent="validatePassword" id="signupForm">
@@ -30,8 +31,7 @@
               v-model="confirmPassword"
               name="password"
               required
-              autocomplete="on"
-            />
+              autocomplete="on"/>
             <i @click="showHidePasswordConfirm" :class="isPasswordConfirmed? 'fa fa-eye':'fa fa-eye-slash'" style="font-size:20px"></i>
           </div>
         </div>
@@ -76,6 +76,7 @@
       <button @click="clickEdit = true" class="btn-edit">Change Password</button>
     </div>
   </div>
+  </section>
 </template>
 <script>
 export default {

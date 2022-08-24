@@ -92,20 +92,24 @@ export default {
   methods:{
     uploadImage(e){
       this.image = e.target.files[0]
+      console.log(this.image);
     },
     addStudent(){
        const config = {
             headers: { 'content-type': 'multipart/form-data' }
         }
-        let username = this.firstname + " " + this.lastname
+        // let username = this.firstname + " " + this.lastname
         let student = new FormData()
-        student.append("username", username)
+        // student.append("username", username)
+        student.append('firstname',this.firstname)
+        student.append('lastname',this.lastname)
         student.append("email", this.email)
         student.append("password", this.password)
         student.append("gender", this.gender)
         student.append("class", this.classroom)
         student.append("batch", this.generation)
         student.append("image", this.image)
+        console.log("Student : ", student);
         http.post('student', student, config).then(res => {
             this.firstname = '';
             this.lastname = '';

@@ -1,5 +1,11 @@
 <template>
   <section>
+
+
+  <!-- <div v-if="isUpdated" class="contianer_update"> -->
+    <!-- <form @submit.prevent="toUpdate">
+      <div class="username"> -->
+
     <!-- ++++++++++++++++++++++++++++ Form Update +++++++++++++++++ +++++++++++++++++-->
     <div v-if="isUpdated" class="contianer_update">
       <form @submit.prevent="toUpdate">
