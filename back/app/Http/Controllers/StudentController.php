@@ -1,9 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Models\Student;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
+use Laravel\Sanctum\PersonalAccessToken;
 
 class StudentController extends Controller
 {
@@ -26,7 +28,7 @@ class StudentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
         $request->validate([
             'username' => [
                 'required',
@@ -49,14 +51,13 @@ class StudentController extends Controller
             'string',
             'max:4',             ],
             'class' => 'required',
-            'batch' => 'required|min:4',
-            
+            'batch' => 'required|min:4'            
         ]);
         $request->file('image')->store('public/pictures');
         $student = new Student();
         $student->username=$request->username;
         $student->email=$request->email;
-        $student->password=$request->password;
+        $student->password=bcrypt($request->password);
         $student->gender=$request->gender;
         $student->class=$request->class;
         $student->batch=$request->batch;
@@ -86,7 +87,6 @@ class StudentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
         $request->validate([
             'username' => [
                 'required',
@@ -94,7 +94,7 @@ class StudentController extends Controller
                 'max:50',             
                 'regex:/[a-z]/',      
                 'regex:/[A-Z]/',      
-        ],
+            ],
             'password' => [
                 'required',
                 'string',
@@ -111,20 +111,19 @@ class StudentController extends Controller
             'batch' => ['required',
             'string',
             'min:4',
-        ], 
+            ], 
         ]); 
 
         $student = Student::findOrFail($id);
         $student->username=$request->username;
         $student->email=$request->email;
-        $student->password=$request->password;
+        $student->password=bcrypt($request->password);
         $student->gender=$request->gender;
         $student->class=$request->class;
         $student->batch=$request->batch;
         //$student->image =$request->file("image")->hashName();
         $student->save();
         // $request->file('image')->store('public/pictures');
-
         return response()->json(['message:'=>'update student successfully']);
     }
 
@@ -138,5 +137,44 @@ class StudentController extends Controller
     {
         //
         return Student::destroy($id);
+    }
+
+    public function createAccount(Request $request){
+        $request->file('image')->store('public/pictures');
+        $student = new Student();
+        $student->username=$request->username;
+        $student->email=$request->email;
+        $student->email_verified_at = $request->email_verified_at;
+        $student->password=bcrypt($request->password);
+        $student->gender=$request->gender;
+        $student->class=$request->class;
+        $student->batch=$request->batch;
+        $student->image =$request->file("image")->hashName();
+        $student->save();
+        $token = $student->createToken("mytoken")->plainTextToken;
+        $response=[
+            'user'=>$student,
+            "token"=>$token
+        ];
+        return response()->json([$response]);
+    }
+
+    public function userLogin(Request $request){
+        $student = Student::where('email', $request->email)->first();
+        if (!$student || !Hash::check($request->password, $student->password)) {
+           return response()->json(["ms"=>"Invalid password"], 401);
+        }
+        $token = $student->createToken("mytoken")->plainTextToken;
+        $response=[
+            'user'=>$student,
+            "token"=>$token
+        ];
+        return response()->json($response);
+    }
+
+
+    public function logout(Request $request){
+        auth()->user()->tokens()->delete();
+        return response()->json(["ms"=>"logged out"]);
     }
 }

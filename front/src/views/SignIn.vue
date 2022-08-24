@@ -1,8 +1,8 @@
 <template>
-  <div class="container">
+  <div v-if="user == null" class="container">
     <div class="overlay-container">
       <div class="overlay">
-        <img src="../../assets/Login.png" alt="" />
+        <img src="../assets/Login.png" alt="" />
       </div>
     </div>
     <div class="form-contianer">
@@ -10,14 +10,14 @@
           <h1>Login</h1>
           <h3>Email:</h3>
           <div class="form-group">
-            <input type="text" placeholder="email" v-model="form.email" />
+            <input type="text" placeholder="email" v-model="email" />
           </div>
           <h3>Password:</h3>
           <div class="form-group">
             <input
               :type="isPasswordShow ? 'text' : 'password'"
               placeholder="Password"
-              v-model="form.password"
+              v-model="password"
             />
             <i
               @click="showHidePassword"
@@ -26,20 +26,21 @@
             ></i>
           </div>
           <br />
-          <button  value="Login" class="login-button" @click="handleSubmit">Login</button>
+          <button  value="Login" class="login-button" @click="Submit">Login</button>
           <br />
         </div>
       </div>
   </div>
 </template>
 <script>
-import http from "../../axios-http"
+import http from "../axios-http"
 export default {
   data() {
     return {
       isPasswordShow: false,
       email:"",
       password:"",
+      user:null
       
     };
   },
@@ -49,10 +50,14 @@ export default {
       this.isPasswordShow = !this.isPasswordShow;
     },
 
-    handleSubmit(){
-        http.post('login', {email:this.email, password:this.password})
-      
-    }
+    Submit(event){
+            event.preventDefault()
+            http.post("login", {email:this.email, password:this.password}).then(response =>{this.user=response.data, console.log(response.data);})
+            this.email=""
+            this.password=""
+           this.$router.push('/')
+            this.$store.commit('login', this.user)
+        }
   },
 };
 </script>

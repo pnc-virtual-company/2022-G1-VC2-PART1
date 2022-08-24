@@ -10,29 +10,31 @@
 
         <div class="inputDiv">
           <label class="inputLabel" for="password">New Password</label>
-          <input
-            type="password"
-            v-model="password"
-            name="password"
-            required
-            autocomplete="on"
-          />
-         
+          <div class="password_controller">
+            <input
+              :type="isPasswordShown? 'text': 'password'"
+              v-model="password"
+              name="password"
+              required
+              autocomplete="on"
+            />
+            <i @click="showHidePassword" :class="isPasswordShown? 'fa fa-eye':'fa fa-eye-slash'" style="font-size:20px"></i>
+          </div>
         </div>
 
         <div class="inputDiv">
-          <label class="inputLabel" for="confirmPassword"
-            >Confirm Password</label
-          >
-          <input
-            type="password"
-            v-model="confirmPassword"
-            name="confirmPassword"
-            required
-            autocomplete="on"
-          />
+          <label class="inputLabel" for="password">Confirm Password</label>
+          <div class="password_controller">
+            <input
+              :type="isPasswordConfirmed? 'text': 'password'"
+              v-model="confirmPassword"
+              name="password"
+              required
+              autocomplete="on"
+            />
+            <i @click="showHidePasswordConfirm" :class="isPasswordConfirmed? 'fa fa-eye':'fa fa-eye-slash'" style="font-size:20px"></i>
+          </div>
         </div>
-
         <div class="buttonWrapper">
           <button
             type="submit"
@@ -84,7 +86,10 @@ export default {
       confirmPassword: "",
       password: "",
       clickEdit: false,
+      isPasswordShown: false,
+      isPasswordConfirmed: false,
     };
+
   },
   methods: {
     validatePassword() {
@@ -101,13 +106,14 @@ export default {
         newStudent.batch = this.profile.batch;
         newStudent.class = this.profile.class;
         newStudent.image = this.profile.image;
-      
         this.$emit("updatePassword", newStudent);
         this.clickEdit = false;
       } else {
         this.clickEdit = true;
       }
     },
+    showHidePassword() {this.isPasswordShown = !this.isPasswordShown},
+    showHidePasswordConfirm() {this.isPasswordConfirmed = !this.isPasswordConfirmed},
   },
 };
 </script>
@@ -211,11 +217,11 @@ ul li {
 }
 input {
   height: 40px;
+  width: 100%;
   font-size: 16px;
-  border-radius: 4px;
   border: none;
-  border: solid 1px #ccc;
   padding: 0 11px;
+  outline: none;
 }
 input:disabled {
   cursor: not-allowed;
@@ -245,17 +251,16 @@ button[disabled] {
   color: #666666;
 }
 
-#loader {
-  position: absolute;
-  z-index: 1;
-  margin: -2px 0 0 10px;
-  border: 4px solid #f3f3f3;
-  border-radius: 50%;
-  border-top: 4px solid #666666;
-  width: 14px;
-  height: 14px;
-  -webkit-animation: spin 2s linear infinite;
-  animation: spin 2s linear infinite;
+.password_controller{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px;
+  border-radius: 4px;
+  border: solid 1px #ccc;
+}
+.fa{
+  cursor: pointer;
 }
 
 @keyframes spin {

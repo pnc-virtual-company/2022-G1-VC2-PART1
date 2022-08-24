@@ -5,7 +5,7 @@
         <div class="pnc_logo">
           <img src="../../assets/pnc_logo.png" alt="" />
         </div>
-        <router-link to="/welcome" class="welcome">SLMS</router-link>
+        <router-link to="/welcome" class="welcome">PNC SLMS</router-link>
       </div>
       <div class="nav-controll nav-center">
         <router-link to="/studentsList">STUDENTS</router-link>
@@ -41,8 +41,8 @@
       </div>
     </nav>
     <router-view />
-    <button @click="adminlogIn()" v-if="isLogIn" class="btn">Teacher</button>
-    <button @click="studentLogIn()" v-if="isLogIn" class="btn">Student</button>
+    <button @click="adminlogIn()" v-if="isLogIn" class="btn btn-primary">Teacher</button>
+    <button @click="studentLogIn()" v-if="isLogIn" class="btn btn-primary">Student</button>
   </section>
 </template>
 
@@ -72,7 +72,10 @@ export default {
 nav {
   display: flex;
   justify-content: space-between;
-  background: #144e5a;
+  background: rgb(233, 233, 233);
+  box-shadow: 2px 4px 6px 1px #aaa;
+  position: sticky;
+  top: 0;
 }
 .nav-left {
   width: 25%;
@@ -97,8 +100,8 @@ nav {
   display: flex;
 }
 nav a {
-  color: #fff;
-  font-size: larger;
+  color: #000;
+  font-size: 18px;
   text-decoration: none;
   margin: 0 15px;
   margin-top: 5px;
@@ -106,13 +109,12 @@ nav a {
 }
 .welcome {
   font-weight: bold;
-  font-size: x-large;
 }
 nav a:hover {
-  color: orange;
+  color: #2ea3f2;
 }
 nav a.router-link-exact-active {
-  border-bottom: 2px solid orange;
+  border-bottom: 2px solid #2ea3f2;
 }
 li {
   list-style: none;
@@ -137,7 +139,7 @@ li {
   padding: 7px 0;
 }
 i {
-  color: orange;
+  color: #2ea3f2;
   margin-left: 10px;
 }
 </style>

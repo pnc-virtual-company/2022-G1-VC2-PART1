@@ -21,6 +21,8 @@ return new class extends Migration
             $table->string('class');
             $table->string('batch');
             $table->string('image');
+            $table->rememberToken();
+            $table->timestamp('email_verified_at')->nullable();
             $table->timestamps();
         });
     }

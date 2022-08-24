@@ -4,7 +4,7 @@
     @addStudent="addStudent" 
     @updateStudent="updateStudent" 
     v-if="!dialog"></student-list>
-    <add-student @addStudent = "showListStudents" v-if="dialog && infor==null"></add-student>
+    <add-student @add-student = "showListStudents" v-if="dialog && infor==null"></add-student>
   </div>
 </template>
 

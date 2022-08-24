@@ -1,15 +1,27 @@
 <template>
   <menu-bar></menu-bar>
+  <sign-in></sign-in>
 </template>
 
 <script>
 import MenubarView from "@/components/Menu/MenubarView.vue";
-
+import SignIn from "./views/SignIn.vue"
 export default {
   components: { 
     "menu-bar": MenubarView,
+    "sign-in" : SignIn,
    
   },
+
+  methods:{
+    logout(){
+      this.$store.commit('logout')
+    }
+
+  },
+  mounted(){
+    this.$store.commit('initialiseStore')
+  }
   
 };
 </script>
