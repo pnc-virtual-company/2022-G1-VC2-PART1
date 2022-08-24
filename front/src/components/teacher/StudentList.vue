@@ -1,14 +1,6 @@
 <template>
   <section>
 
-<<<<<<< HEAD
-
-  <!-- <div v-if="isUpdated" class="contianer_update"> -->
-    <!-- <form @submit.prevent="toUpdate">
-      <div class="username"> -->
-
-=======
->>>>>>> d3aa3eaac8e5480ca084fc16c4a78bd55c1ef2af
     <!-- ++++++++++++++++++++++++++++ Form Update +++++++++++++++++ +++++++++++++++++-->
     <div v-if="isUpdated" class="contianer_update">
       <form @submit.prevent="toUpdate">
