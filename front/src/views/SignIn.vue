@@ -1,8 +1,8 @@
 <template>
-  <div v-if="user == null" class="container">
+  <div class="container">
     <div class="overlay-container">
       <div class="overlay">
-        <img src="../assets/Login.png" alt="" />
+        <img src="../assets/Login.png" alt=""/>
       </div>
     </div>
     <div class="form-contianer">
@@ -26,22 +26,21 @@
             ></i>
           </div>
           <br />
-          <button  value="Login" class="login-button" @click="Submit">Login</button>
+          <button  value="Login" class="login-button" @click="handleClick">Login</button>
           <br />
         </div>
       </div>
   </div>
 </template>
 <script>
-import http from "../axios-http"
+import axios from "../axios-http"
 export default {
+  emits:["sigin"],
   data() {
     return {
       isPasswordShow: false,
       email:"",
       password:"",
-      user:null
-      
     };
   },
 
@@ -50,18 +49,18 @@ export default {
       this.isPasswordShow = !this.isPasswordShow;
     },
 
-    Submit(event){
-            event.preventDefault()
-            http.post("login", {email:this.email, password:this.password}).then(response =>{this.user=response.data, console.log(response.data);})
-            this.email=""
-            this.password=""
-           this.$router.push('/')
-            this.$store.commit('login', this.user)
-        }
+    handleClick(event){
+      event.preventDefault()
+      axios.post("login", {email:this.email, password:this.password})
+      .then(response =>{
+        localStorage.setItem("accessToken", JSON.stringify(response.data.token))
+    
+      })
+    },
   },
+  
 };
 </script>
-
 <style scoped>
 .container {
   display: flex;

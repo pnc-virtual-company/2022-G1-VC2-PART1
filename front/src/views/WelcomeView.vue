@@ -1,15 +1,5 @@
 <template>
     <div class="welcome">
-        <h1>welcome to PNC SLMS !</h1>
+        Wellcome
     </div>
 </template>
-
-<script>
-export default {
-
-}
-</script>
-
-<style>
-
-</style>

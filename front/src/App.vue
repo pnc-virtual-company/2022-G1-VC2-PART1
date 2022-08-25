@@ -1,6 +1,9 @@
 <template>
-  <menu-bar></menu-bar>
-  <sign-in></sign-in>
+  <section>
+    <menu-bar></menu-bar>
+    <sign-in
+    ></sign-in>
+  </section>
 </template>
 
 <script>
@@ -10,19 +13,20 @@ export default {
   components: { 
     "menu-bar": MenubarView,
     "sign-in" : SignIn,
-   
+  },
+
+  data(){
+    return {
+      role:null,
+    }
   },
 
   methods:{
-    logout(){
-      this.$store.commit('logout')
+    sigined(userRole){
+      this.role = userRole;
+      console.log("User role is ", this.role);
     }
-
-  },
-  mounted(){
-    this.$store.commit('initialiseStore')
   }
-  
 };
 </script>
 

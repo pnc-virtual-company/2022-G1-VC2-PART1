@@ -1,6 +1,6 @@
 <template>
   <section>
-    <nav v-if="isAdmin">
+    <nav>
       <div class="nav-controll nav-left">
         <div class="pnc_logo">
           <img src="../../assets/pnc_logo.png" alt="" />
@@ -20,7 +20,7 @@
         </router-link>
       </div>
     </nav>
-    <nav v-if="isStudent">
+    <nav>
       <div class="nav-controll nav-left">
         <div class="pnc_logo">
           <img src="../../assets/pnc_logo.png" alt="" />
@@ -40,31 +40,31 @@
         </router-link>
       </div>
     </nav>
-    <router-view />
-    <button @click="adminlogIn()" v-if="isLogIn" class="btn btn-primary">Teacher</button>
-    <button @click="studentLogIn()" v-if="isLogIn" class="btn btn-primary">Student</button>
   </section>
+  <router-view />
 </template>
 
 <script>
+import axios from "@/axios-http"
 export default {
-  data() {
-    return {
-      isAdmin: false,
-      isStudent: false,
-      isLogIn: true,
-    };
+  props:{role:String},
+  data(){
+    return{
+      users:null,
+    }
   },
-  methods: {
-    adminlogIn() {
-      this.isAdmin = true;
-      this.isLogIn = false;
-    },
-    studentLogIn() {
-      this.isStudent = true;
-      this.isLogIn = false;
-    },
+  methods:{
+    get(){
+      let token=JSON.parse(localStorage.getItem('accessToken'));
+      axios.get("userLogin", {config:{headers:{Authorization: "Bearer" + token}}}).then(response => {
+        console.log(response.data);
+        this.users=response.data
+        })
+    }
   },
+  mounted(){
+    this.get()
+  }
 };
 </script>
 
@@ -73,7 +73,7 @@ nav {
   display: flex;
   justify-content: space-between;
   background: rgb(233, 233, 233);
-  box-shadow: 2px 4px 6px 1px #aaa;
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
   position: sticky;
   top: 0;
 }

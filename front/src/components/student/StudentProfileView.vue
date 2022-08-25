@@ -1,5 +1,6 @@
 
 <template>
+<section>
   <div v-if="clickEdit" class="mainDiv">
     <div class="cardStyle">
       <form @submit.prevent="validatePassword" id="signupForm">
@@ -7,7 +8,6 @@
         <img :src="'http://127.0.0.1:8000/storage/pictures/'+profile.image" alt="" class="img-profile" />
       </div>
         <h2 class="formTitle">Update your password</h2>
-
         <div class="inputDiv">
           <label class="inputLabel" for="password">New Password</label>
           <div class="password_controller">
@@ -30,8 +30,7 @@
               v-model="confirmPassword"
               name="password"
               required
-              autocomplete="on"
-            />
+              autocomplete="on"/>
             <i @click="showHidePasswordConfirm" :class="isPasswordConfirmed? 'fa fa-eye':'fa fa-eye-slash'" style="font-size:20px"></i>
           </div>
         </div>
@@ -76,6 +75,7 @@
       <button @click="clickEdit = true" class="btn-edit">Change Password</button>
     </div>
   </div>
+  </section>
 </template>
 <script>
 export default {
@@ -261,6 +261,7 @@ button[disabled] {
 }
 .fa{
   cursor: pointer;
+  color: rgb(241, 9, 9);
 }
 
 @keyframes spin {

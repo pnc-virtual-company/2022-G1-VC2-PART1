@@ -29,38 +29,18 @@ class StudentController extends Controller
     public function store(Request $request)
     {
         
-        $request->validate([
-            'username' => [
-                'required',
-                'string',
-                'max:50',             
-                'regex:/[a-z]/',      
-                'regex:/[A-Z]/',      
-        ],
-            'email' => 'required|unique:users',
-            'password' => [
-                'required',
-                'string',
-                'min:8',             // must be at least 10 characters in length
-                'regex:/[a-z]/',      // must contain at least one lowercase letter
-                'regex:/[A-Z]/',      // must contain at least one uppercase letter
-                'regex:/[0-9]/',      // must contain at least one digit
-                'regex:/[@$!%*#?&]/', // must contain a special character
-            ],
-            'gender' => ['required',
-            'string',
-            'max:4',             ],
-            'class' => 'required',
-            'batch' => 'required|min:4'            
-        ]);
+
         $request->file('image')->store('public/pictures');
         $student = new Student();
-        $student->username=$request->username;
+        $student->firstname=$request->firstname;
+        $student->lastname=$request->lastname;
         $student->email=$request->email;
-        $student->password=bcrypt($request->password);
+        $student->password=bcrypt("12345678");
         $student->gender=$request->gender;
+        $student->phone=$request->phone;
         $student->class=$request->class;
         $student->batch=$request->batch;
+        $student->role="student";
         $student->image =$request->file("image")->hashName();
         $student->save();
         return response()->json(['message:'=>'create student successfully']);
@@ -87,6 +67,7 @@ class StudentController extends Controller
      */
     public function update(Request $request, $id)
     {
+
         $request->validate([
             'username' => [
                 'required',
@@ -111,16 +92,20 @@ class StudentController extends Controller
             'batch' => ['required',
             'string',
             'min:4',
+
             ], 
         ]); 
 
         $student = Student::findOrFail($id);
-        $student->username=$request->username;
+        $student->firstname=$request->firstname;
+        $student->lastname=$request->lastname;
         $student->email=$request->email;
         $student->password=bcrypt($request->password);
         $student->gender=$request->gender;
+        $student->phone=$request->phone;
         $student->class=$request->class;
         $student->batch=$request->batch;
+        $student->role="student";
         //$student->image =$request->file("image")->hashName();
         $student->save();
         // $request->file('image')->store('public/pictures');
@@ -138,17 +123,19 @@ class StudentController extends Controller
         //
         return Student::destroy($id);
     }
-
     public function createAccount(Request $request){
         $request->file('image')->store('public/pictures');
         $student = new Student();
-        $student->username=$request->username;
+        $student->firstname=$request->firstname;
+        $student->lastname=$request->lastname;
         $student->email=$request->email;
+        $student->phone=$request->phone;
         $student->email_verified_at = $request->email_verified_at;
         $student->password=bcrypt($request->password);
         $student->gender=$request->gender;
         $student->class=$request->class;
         $student->batch=$request->batch;
+        $student->role="student";
         $student->image =$request->file("image")->hashName();
         $student->save();
         $token = $student->createToken("mytoken")->plainTextToken;
@@ -170,6 +157,10 @@ class StudentController extends Controller
             "token"=>$token
         ];
         return response()->json($response);
+    }
+
+    public function user(){
+        return Auth::user();
     }
 
 

@@ -32,12 +32,12 @@ Route::get('/studentleaveRequest/{id}', [StudentLeaveRquestController::class, 's
 Route::put('/studentleaveRequest/{id}', [StudentLeaveRquestController::class, 'update']);
 Route::delete('/studentleaveRequest/{id}', [StudentLeaveRquestController::class, 'destroy']);
 
-Route::post("accouter", [StudentController::class, "createAccount"]);
+Route::post("addstudent", [StudentController::class, "createAccount"]);
 
 Route::post("login", [StudentController::class, "userLogin"]);
 
 // // private routes
 Route::group(['middleware'=>['auth:sanctum']],function(){
     Route::post("logout", [StudentController::class, "logout"]);
-    
+    Route::get("userLogin", [StudentController::class, "user"]);
 });

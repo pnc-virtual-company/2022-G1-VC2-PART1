@@ -14,10 +14,9 @@ export default({
       profile:{},
     }
   },
- 
-   
   methods:{
     getStudentProfile(){
+      http.get("student/2").then(result => {this.profile=result.data[0]})
       http.get("student/3").then(result => {this.profile = result.data[0]})
     },
     update(newpassword){
