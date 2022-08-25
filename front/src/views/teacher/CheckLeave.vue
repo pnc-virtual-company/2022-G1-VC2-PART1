@@ -130,7 +130,7 @@ form {
   margin: auto;
 }
 
-<<<<<<< HEAD
+/* <<<<<<< HEAD
 .userInfo {
   display: flex;
   justify-content: center;
@@ -145,9 +145,8 @@ form {
   border-radius: 20px;
   box-shadow: 0 35px 80px rgba(0, 0, 0, 0.15);
 }
-=======
+======= */
 
->>>>>>> 623e931557efd555b74049cf805a51b70a169594
 
 .imgBx img{
   position: absolute;

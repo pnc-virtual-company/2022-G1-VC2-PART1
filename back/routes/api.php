@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\StudentLeaveRquestController;
 use Laravel\Sanctum\Sanctum;
 /*
@@ -42,3 +43,14 @@ Route::group(['middleware'=>['auth:sanctum']],function(){
     Route::get("user", [StudentController::class, "user"]);
     
 });
+
+
+/*
+================= Teacher =====================
+ */
+
+Route::post('/teachers', [TeacherController::class, 'store']);
+Route::get('/teachers', [TeacherController::class, 'index']);
+Route::get('/teachers/{id}', [TeacherController::class, 'show']);
+Route::put('/teachers/{id}', [TeacherController::class, 'update']);
+Route::delete('/teachers/{id}', [TeacherController::class, 'destroy']);
