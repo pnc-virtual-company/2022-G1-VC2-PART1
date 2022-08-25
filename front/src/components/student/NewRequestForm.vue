@@ -88,7 +88,7 @@ export default {
       startTime: "",
       endTime: "",
       cause: "",
-      student_id: "",
+      student_id: 1,
     };
   },
 
@@ -110,7 +110,7 @@ export default {
         duration: this.duration,
         reason: this.cause,
 
-        student_id: 1,
+        student_id: 9,
 
 
       };
@@ -127,6 +127,10 @@ export default {
         this.cause = "";
         this.startTime = ""; 
         this.endTime = ""
+      }).catch(error => {
+        if (error.response) {
+          console.log(error.response);
+        }
       });
     },
   },

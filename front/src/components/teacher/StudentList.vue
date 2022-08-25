@@ -1,6 +1,11 @@
 <template>
   <section>
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> e4d1b9419a3e1bdc8a17c1b6945c1e2de71a4bef
     <!-- ++++++++++++++++++++++++++++ Form Update +++++++++++++++++ +++++++++++++++++-->
     <div v-if="isUpdated" class="contianer_update">
       <form @submit.prevent="toUpdate">
@@ -70,7 +75,7 @@
       </form>
     </div>
     <!--  action on student like search by name, filter by batch, and add new students  -->
-    <div class="action">
+    <div class="action" v-if="!isDetail">
       <div style="display: flex">
         <h2 class="students">Students</h2>
         <div class="search">
@@ -91,7 +96,7 @@
     </div>
     <!-- ++++++++++++++++++++ List students ++++++++++++++++ -->
 
-    <div class="tb-container">
+    <div class="tb-container" v-if="!isDetail">
       <table class="table">
         <thead>
           <tr>
@@ -113,7 +118,9 @@
                   />
                 </div>
                 <div class="info">
-                  <strong>{{ student.firstname +" " + student.lastname }}</strong>
+                  <strong>{{
+                    student.firstname + " " + student.lastname
+                  }}</strong>
                   <p>{{ student.class }} {{ student.batch }}</p>
                 </div>
               </div>
@@ -121,7 +128,8 @@
             <td class="padding-right">{{ student.gender }}</td>
             <td class="tb-btn">
               <div class="icon">
-                <i class="fa fa-edit fa-2x" @click="UpdateStudent(student)"></i>
+                <img src="../../assets/view-details.png" alt="" @click="viewStudentDetail(student.id)"/>
+                <!-- <i class="fa fa-edit fa-2x" @click="UpdateStudent(student)"></i> -->
                 <i
                   class="fa fa-trash fa-2x"
                   @click="removeStudent(index, student.id)"
@@ -132,17 +140,26 @@
         </tbody>
       </table>
     </div>
+    <student-detail
+      v-if="isDetail"
+      :student="student"
+      :studentLeaves="studentLeaves"
+
+      @hide-detail="isDetail = !isDetail"
+    ></student-detail>
   </section>
 </template>
 
 <script>
 import http from "../../axios-http";
 import swal from "sweetalert";
-
+import StudentDetail from "./StudentDetail.vue";
 export default {
+  components: { "student-detail": StudentDetail },
   data() {
     return {
       listOfStudents: [],
+
       firstname: "",
       lastname: "",
       email: "",
@@ -155,6 +172,11 @@ export default {
       isUpdated: false,
       search: "",
       batch: "",
+
+      // +++++++++++ student detail data ++++++++++++++++++++
+      isDetail: false,
+      student: [],
+      studentLeaves: [],
     };
   },
 
@@ -216,8 +238,14 @@ export default {
       });
       this.isUpdated = false;
     },
-    showHidePassword() {
-      this.isPasswordShown = !this.isPasswordShown;
+    viewStudentDetail(student_id) {
+      this.isDetail = !this.isDetail;
+      http.get("student/" + student_id).then((res) => {
+        this.student = res.data[0];
+      });
+      http.get("/student/leaveRequest/9").then((result) => {
+        this.studentLeaves = result.data;
+      });
     },
   },
   computed: {
@@ -231,9 +259,8 @@ export default {
           );
         }
         return student_list.filter((student) => {
-          return student.username
-            .toLowerCase()
-            .includes(this.search.toLowerCase());
+          let username = student.firstname + student.lastname;
+          return username.toLowerCase().includes(this.search.toLowerCase());
         });
       }
       if (this.batch != "" && this.batch != "all") {
@@ -367,7 +394,11 @@ img {
 .icon {
   display: flex;
 }
-
+.icon img {
+  margin: 0;padding: 0;
+  width: 2rem;
+  height: 2rem;
+}
 .password_controller {
   display: flex;
   justify-content: space-between;
@@ -413,7 +444,8 @@ tbody tr {
 }
 thead tr th {
   border: none;
-}tbody tr:hover {
+}
+tbody tr:hover {
   background: rgb(220, 220, 220);
 }
 tr td:first-child {
