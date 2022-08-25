@@ -11,6 +11,7 @@
       @cancele-add="canceleAddStudent"
       v-if="dialog && infor == null"
     ></add-student>
+
   </div>
 </template>
 

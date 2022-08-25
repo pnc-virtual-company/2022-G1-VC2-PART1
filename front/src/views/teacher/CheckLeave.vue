@@ -130,6 +130,7 @@ form {
   margin: auto;
 }
 
+<<<<<<< HEAD
 .userInfo {
   display: flex;
   justify-content: center;
@@ -144,11 +145,12 @@ form {
   border-radius: 20px;
   box-shadow: 0 35px 80px rgba(0, 0, 0, 0.15);
 }
+=======
 
-.imgBx {
+>>>>>>> 623e931557efd555b74049cf805a51b70a169594
+
+.imgBx img{
   position: absolute;
-  left: 50%;
-  top: -50px;
   width: 150px;
   height: 150px;
   background: #fff;
@@ -156,20 +158,8 @@ form {
   box-shadow: 0 15px 50px rgba(0, 0, 0, 0.35);
 }
 
-.imgBx img {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
 
-.profile .container .data {
-  padding: 40px;
-  width: 100%;
-}
 
-.data {
-  color: rgb(5, 5, 5);
-}
+
+
 </style>

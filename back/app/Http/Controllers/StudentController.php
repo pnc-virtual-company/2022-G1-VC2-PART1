@@ -47,6 +47,7 @@ class StudentController extends Controller
         $student->phone=$request->phone;
         $student->class=$request->class;
         $student->batch=$request->batch;
+        $student->role="student";
         $student->image =$request->file("image")->hashName();
         $student->save();
         return response()->json(['message:'=>'create student successfully']);
@@ -138,6 +139,7 @@ class StudentController extends Controller
         $student->gender=$request->gender;
         $student->class=$request->class;
         $student->batch=$request->batch;
+        $student->role="student";
         //$student->image =$request->file("image")->hashName();
         $student->save();
         // $request->file('image')->store('public/pictures');
@@ -166,6 +168,7 @@ class StudentController extends Controller
         $student->gender=$request->gender;
         $student->class=$request->class;
         $student->batch=$request->batch;
+        $student->role="student";
         $student->image =$request->file("image")->hashName();
         $student->save();
         $token = $student->createToken("mytoken")->plainTextToken;
@@ -188,6 +191,12 @@ class StudentController extends Controller
         ];
         return response()->json([$response]);
     }
+
+    public function user(){
+        return Auth::user();
+    }
+
+
     public function logout(Request $request){
         auth()->user()->tokens()->delete();
         return response()->json(["ms"=>"logged out"]);

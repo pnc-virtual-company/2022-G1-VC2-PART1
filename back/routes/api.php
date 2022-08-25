@@ -39,5 +39,6 @@ Route::post("login", [StudentController::class, "userLogin"]);
 // // private routes
 Route::group(['middleware'=>['auth:sanctum']],function(){
     Route::post("logout", [StudentController::class, "logout"]);
+    Route::get("user", [StudentController::class, "user"]);
     
 });
