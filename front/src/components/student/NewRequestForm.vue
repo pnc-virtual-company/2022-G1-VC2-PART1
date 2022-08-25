@@ -88,7 +88,7 @@ export default {
       startTime: "",
       endTime: "",
       cause: "",
-      student_id: "",
+      student_id: 1,
     };
   },
 
@@ -110,7 +110,13 @@ export default {
         duration: this.duration,
         reason: this.cause,
 
+<<<<<<< HEAD
         student_id: 2,
+=======
+        student_id: 9,
+
+
+>>>>>>> 01973c4cc049b3a0cc31788545bc90d48ec410bb
       };
       http.post("studentleaveRequest", requestleave).then((res) => {
         swal({
@@ -125,6 +131,10 @@ export default {
         this.cause = "";
         this.startTime = ""; 
         this.endTime = ""
+      }).catch(error => {
+        if (error.response) {
+          console.log(error.response);
+        }
       });
     },
   },

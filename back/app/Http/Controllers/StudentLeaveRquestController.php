@@ -47,7 +47,7 @@ class StudentLeaveRquestController extends Controller
     public function show($id)
     {
         //
-        return StudentLeaveRquest::where('id', $id)->get();
+        return StudentLeaveRquest::where('student_id', $id)->get();
         
     }
 
