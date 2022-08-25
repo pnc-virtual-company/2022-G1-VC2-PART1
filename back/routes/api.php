@@ -28,7 +28,7 @@ Route::delete('/student/{id}', [StudentController::class, 'destroy']);
 
 Route::post('/studentleaveRequest', [StudentLeaveRquestController::class, 'store']);
 Route::get('/studentleaveRequest', [StudentLeaveRquestController::class, 'index']);
-Route::get('/studentleaveRequest/{id}', [StudentLeaveRquestController::class, 'show']);
+Route::get('student/leaveRequest/{id}', [StudentLeaveRquestController::class, 'show']);
 Route::put('/studentleaveRequest/{id}', [StudentLeaveRquestController::class, 'update']);
 Route::delete('/studentleaveRequest/{id}', [StudentLeaveRquestController::class, 'destroy']);
 

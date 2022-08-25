@@ -1,19 +1,22 @@
 <template>
   <form>
     <h1>Student Leave</h1>
-    <div
-      class="checkLeave"
-      v-for="student of listOfStudentsLeave"
-      :key="student"
-      @click="seen = !seen"
-    >
-      <div class="student_infor">
-        <img src="../../assets/koko.jpg" alt="" />
-        <h2 class="name_stu">Samoul Kh</h2>
-      </div>
-      <div class="reson_data" @click="show(student)">
-        <div class="status">{{ student.status }}</div>
-        <div class="dete">{{ student.request_date }}</div>
+    <div v-if="!seen">
+      <div
+        class="checkLeave"
+        v-for="(student, index) of listOfStudentsLeave"
+        :key="student"
+        @click="seen = !seen"
+      >
+        <p style="display: none">{{ index }}</p>
+        <div class="student_infor">
+          <img src="../../assets/koko.jpg" alt="" />
+          <h2 class="name_stu">Samoul Kh</h2>
+        </div>
+        <div class="reson_data" @click="show(student)">
+          <div class="status">{{ student.status }}</div>
+          <div class="dete">{{ student.request_date }}</div>
+        </div>
       </div>
     </div>
     <div v-if="seen" id="hide">
@@ -23,15 +26,14 @@
             <img src="@/assets/lolo.jpg" />
           </div>
           <div class="container">
-            <div
-              class="data">
-              <h3>Leave type: {{studentDetail.leave_type}}</h3>
-              <h3>Start_date: {{studentDetail.start_date}}</h3>
-              <h3>End_date: {{studentDetail.end_date}}</h3>
-              <h3>Duration: {{studentDetail.duration}}</h3>
-              <h3>Status: {{studentDetail.status}}</h3>
-              <h3>Request_date: {{studentDetail.request_date}}</h3>
-              <h3>Reason: {{studentDetail.reason}}</h3>
+            <div class="data">
+              <h3>Leave type: {{ studentDetail.leave_type }}</h3>
+              <h3>Start_date: {{ studentDetail.start_date }}</h3>
+              <h3>End_date: {{ studentDetail.end_date }}</h3>
+              <h3>Duration: {{ studentDetail.duration }}</h3>
+              <h3>Status: {{ studentDetail.status }}</h3>
+              <h3>Request_date: {{ studentDetail.request_date }}</h3>
+              <h3>Reason: {{ studentDetail.reason }}</h3>
             </div>
           </div>
         </div>
@@ -46,7 +48,7 @@ export default {
   data() {
     return {
       seen: false,
-      studentDetail:{},
+      studentDetail: {},
       listOfStudentsLeave: [],
     };
   },
@@ -58,10 +60,10 @@ export default {
           console.log(this.listOfStudentsLeave);
       });
     },
-    show(student){
-      this.studentDetail=student;
-      console.log(student)
-    }
+    show(student) {
+      this.studentDetail = student;
+      console.log(student);
+    },
   },
 
   mounted() {
@@ -127,7 +129,6 @@ form {
   width: 60%;
   margin: auto;
 }
-
 
 .userInfo {
   display: flex;
