@@ -8,7 +8,6 @@ import MenubarView from "@/components/Menu/MenubarView.vue";
 export default {
   components: { 
     "menu-bar": MenubarView,
-   
   },
   
 };

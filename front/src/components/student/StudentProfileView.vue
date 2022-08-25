@@ -8,7 +8,6 @@
         <img :src="'http://127.0.0.1:8000/storage/pictures/'+profile.image" alt="" class="img-profile" />
       </div>
         <h2 class="formTitle">Update your password</h2>
-
         <div class="inputDiv">
           <label class="inputLabel" for="password">New Password</label>
           <div class="password_controller">
@@ -266,6 +265,7 @@ button[disabled] {
 }
 .fa{
   cursor: pointer;
+  color: rgb(241, 9, 9);
 }
 
 @keyframes spin {

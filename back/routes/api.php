@@ -29,7 +29,7 @@ Route::delete('/student/{id}', [StudentController::class, 'destroy']);
 Route::post('/studentleaveRequest', [StudentLeaveRquestController::class, 'store']);
 Route::get('/studentleaveRequest', [StudentLeaveRquestController::class, 'index']);
 Route::get('/studentleaveRequest/{id}', [StudentLeaveRquestController::class, 'show']);
-Route::put('/studentleaveRequest/{id}', [StudentLeaveRquestController::class, 'update']);
+Route::put('/updateLeaveRequest/{id}', [StudentLeaveRquestController::class, 'update']);
 Route::delete('/studentleaveRequest/{id}', [StudentLeaveRquestController::class, 'destroy']);
 
 Route::post("accouter", [StudentController::class, "createAccount"]);
@@ -39,5 +39,6 @@ Route::post("login", [StudentController::class, "userLogin"]);
 // // private routes
 Route::group(['middleware'=>['auth:sanctum']],function(){
     Route::post("logout", [StudentController::class, "logout"]);
+    Route::get("user", [StudentController::class, "user"]);
     
 });

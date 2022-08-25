@@ -109,7 +109,7 @@ export default {
         end_date: this.endDate,
         duration: this.duration,
         reason: this.cause,
-        student_id: 1,
+        student_id: 3
       };
       http.post("studentleaveRequest", requestleave).then((res) => {
         swal({
@@ -122,7 +122,7 @@ export default {
         this.startDate = "";
         this.endDate = "";
         this.cause = "";
-        this.startTime = "";
+        this.startTime = ""; 
         this.endTime = ""
       });
     },
@@ -159,12 +159,6 @@ export default {
       }
       return "";
     },
-    // disabple_button (){
-    //   if(this.startDate > this.endDate){
-    //     // return "";
-    //   }
-    //   return "";
-    // },
 
     /**
      * Duration is use for calulate duration that student ask permission
@@ -225,10 +219,6 @@ h2 {
   font-size: 15px;
   width: 100%;
   border-radius: 5px;
-  /* border: none; */
-  /* border-bottom: 2px solid #23BBEA;
-  border-left:2px solid #23BBEA ;
-  border-right:2px solid #23BBEA ; */
   border: 1.5px solid rgb(177, 176, 176);
   outline: none;
 

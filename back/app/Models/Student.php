@@ -14,14 +14,14 @@ class Student extends Authenticatable
         'lastname',
         'email',
         'password',
-        'gender',
+        'phone',
         'class',
         'batch',
+        'gender',
         'image',
     ];
 
     protected $hidden = [
-        // 'created_at',
         'updated_at',
         'remember_token',
         'email_verified_at'
@@ -30,7 +30,7 @@ class Student extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function studentKeaveRequest(){
+    public function studentleavequest(){
         return $this->hasMany(StudentLeaveRquest::class, 'studentleaveRequest_id');
     }
 }
