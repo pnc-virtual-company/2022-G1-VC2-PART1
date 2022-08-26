@@ -21,9 +21,7 @@
       </div>
     </nav>
     <!-- <nav>
-=======
     <nav v-if="role == 'student'">
->>>>>>> ab07d89c8d8bf87b8f382a0a5bc9806dce4f23e3
       <div class="nav-controll nav-left">
         <div class="pnc_logo">
           <img src="../../assets/pnc_logo.png" alt="" />
@@ -44,7 +42,6 @@
           <i class="fa fa-sign-out fa-2x"></i>
         </router-link>
       </div>
-<<<<<<< HEAD
     </nav> -->
     <!-- </nav> -->
     <router-view />
