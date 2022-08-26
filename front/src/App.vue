@@ -1,11 +1,10 @@
 <template>
   <section>
-    <menu-bar></menu-bar>
-    <sign-in
+    <menu-bar v-if="role!=null"></menu-bar>
+    <sign-in v-if="role==null"
     ></sign-in>
   </section>
 </template>
-
 <script>
 import MenubarView from "@/components/Menu/MenubarView.vue";
 import SignIn from "./views/SignIn.vue"
@@ -16,17 +15,18 @@ export default {
   },
 
   data(){
-    return {
-      role:null,
-    }
+    
   },
-
-  methods:{
-    sigined(userRole){
-      this.role = userRole;
-      console.log("User role is ", this.role);
+  computed:{
+    role(){
+      if(localStorage.getItem("user_role")){
+        return localStorage.getItem("user_role")
+      }else{
+        return null
+      }
     }
   }
+
 };
 </script>
 

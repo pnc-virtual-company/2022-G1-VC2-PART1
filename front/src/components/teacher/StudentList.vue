@@ -135,9 +135,7 @@
         </tbody>
       </table>
     </div>
-<<<<<<< HEAD
 
-=======
     <student-detail
       v-if="isDetail"
       :student="student"
@@ -145,7 +143,6 @@
 
       @hide-detail="isDetail = !isDetail"
     ></student-detail>
->>>>>>> 01973c4cc049b3a0cc31788545bc90d48ec410bb
   </section>
 </template>
 

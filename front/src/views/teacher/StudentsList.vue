@@ -1,9 +1,6 @@
 <template>
   <div class="studentsList">
-<<<<<<< HEAD
-=======
 
->>>>>>> 01973c4cc049b3a0cc31788545bc90d48ec410bb
     <student-list
       @addStudent="addStudent"
       @updateStudent="updateStudent"
