@@ -105,6 +105,32 @@
           Change Password
         </button>
       </div>
+      <div class="card_body">
+        <div class="student-name">{{ profile.username }}</div>
+        <ul>
+          <li>
+            <span class="bold-text">Gender : </span>
+            <span>{{ profile.gender }}</span>
+          </li>
+          <li>
+            <span class="bold-text">Class : </span>
+            <span>{{ profile.class }}</span>
+          </li>
+          <li>
+            <span class="bold-text">Generation : </span>
+            <span>{{ profile.batch }}</span>
+          </li>
+           <li>
+            <span class="bold-text">Phone : </span>
+            <span>0973432123</span>
+          </li>
+          <li>
+            <span class="bold-text">Email : </span>
+            <span>{{ profile.email }}</span>
+          </li>
+        </ul>
+      </div>
+      <button @click="clickEdit = true" class="btn-edit">Change Password</button>
     </div>
 
     <!-- update profile -->

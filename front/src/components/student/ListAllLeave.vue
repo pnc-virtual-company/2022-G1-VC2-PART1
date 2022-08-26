@@ -38,7 +38,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for:="student in students">
+          <tr v-for:="student in students.reverse()">
             <th>{{ student.start_date }}</th>
             <th>{{ student.end_date }}</th>
             <th>{{ student.reason }}</th>
