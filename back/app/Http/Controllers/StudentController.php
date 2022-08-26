@@ -61,7 +61,6 @@ class StudentController extends Controller
      */
     public function show($id)
     {
-        //
         return Student::where('id', $id)->get();
     }
 
@@ -76,13 +75,7 @@ class StudentController extends Controller
     {
 
         $request->validate([
-            'username' => [
-                'required',
-                'string',
-                'max:50',             
-                'regex:/[a-z]/',      
-                'regex:/[A-Z]/',      
-            ],
+            
             'password' => [
                 'required',
                 'string',
@@ -100,36 +93,6 @@ class StudentController extends Controller
             'string',
             'min:4',
         ], 
-
-        //
-        // $request->validate([
-        //     'username' => [
-        //         'required',
-        //         'string',
-        //         'max:40',             
-        //         'regex:/[a-z]/',      
-        //         'regex:/[A-Z]/',      
-        // ],
-        //     'email' => 'required|unique:users',
-        //     'password' => [
-        //         'required',
-        //         'string',
-        //         'min:8',             // must be at least 10 characters in length
-        //         'regex:/[a-z]/',      // must contain at least one lowercase letter
-        //         'regex:/[A-Z]/',      // must contain at least one uppercase letter
-        //         'regex:/[0-9]/',      // must contain at least one digit
-        //         'regex:/[@$!%*#?&]/', // must contain a special character
-        //     ],
-        //     'gender' => ['required',
-        //     'string',
-        //     'max:1',             ],
-        //     'class' => 'required',
-        //     'batch' => ['required',
-        //     'string',
-        //     'max:4',
-        // ], 
-            // ], 
-            
 
         ]);
         $student = Student::findOrFail($id);

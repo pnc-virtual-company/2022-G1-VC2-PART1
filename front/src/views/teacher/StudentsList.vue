@@ -1,7 +1,6 @@
 <template>
   <div class="studentsList">
 
-    
     <student-list
       @addStudent="addStudent"
       @updateStudent="updateStudent"
@@ -12,6 +11,7 @@
       @cancele-add="canceleAddStudent"
       v-if="dialog && infor == null"
     ></add-student>
+
   </div>
 </template>
 
@@ -45,6 +45,7 @@ export default {
       this.dialog = hide;
     },
     updateStudent(student) {
+      console.log(student);
       http
         .put("student/" + student.update_id, student.infor)
         .then((response) => {

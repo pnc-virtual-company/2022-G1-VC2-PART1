@@ -1,75 +1,111 @@
 <template>
   <section>
+
     <!-- ++++++++++++++++++++++++++++ Form Update +++++++++++++++++ +++++++++++++++++-->
     <div v-if="isUpdated" class="contianer_update">
       <form @submit.prevent="toUpdate">
-        <div class="username group">
-          <div class="inputname">
-            <label for="">First Name:</label>
-            <input class="firstname" type="text" v-model="firstname" />
-          </div>
-          <div class="inputname">
-            <label for="" class="lastName">Last Name:</label>
-            <input class="lastname" type="text" v-model="lastname" />
-          </div>
+    <label for="image" style="color: black">
+      <div class="user-profile">
+        <img :src="'http://127.0.0.1:8000/storage/pictures/' + image" />
+      </div>
+      <input
+        type="file"
+        style="display: none"
+        id="image"
+        @change="uploadImage"
+      />
+    </label>
+    <div class="two-input">
+      <div class="form-group">
+        <div>
+          <label for="firstname">First Name</label>
         </div>
-        <div class="email group">
-          <label for="">Email:</label>
-          <input class="form-group" type="text" v-model="email" />
+        <input
+          class="form-control"
+          type="text"
+          id="firstname"
+          v-model="firstname"
+        />
+      </div>
+      <div class="form-group">
+        <div>
+          <label for="lastname">Last Name</label>
         </div>
-        <div class="password_group group">
-          <label for="">Password:</label>
-          <div class="password_controller">
-            <input
-              class="form-group password"
-              :type="isPasswordShown ? 'text' : 'password'"
-              v-model="password"
-              name="password"
-              required
-              autocomplete="on"
-            />
-            <i
-              @click="showHidePassword"
-              :class="isPasswordShown ? 'fa fa-eye' : 'fa fa-eye-slash'"
-              style="font-size: 20px"
-            ></i>
-          </div>
+        <input
+          class="form-control"
+          type="text"
+          id="lastname"
+          v-model="lastname"
+        />
+      </div>
+    </div>
+    <div class="form-group">
+      <div>
+        <label for="email">Email</label>
+      </div>
+      <input class="form-control" type="text" id="email" v-model="email" />
+    </div>
+    <div class="form-group">
+      <div>
+        <label for="phone">Phone</label>
+      </div>
+      <input class="form-control" type="tel" id="phone" v-model="phone" />
+    </div>
+
+    <div class="two-input">
+      <div class="form-group">
+        <div>
+          <label for="class">Classroom</label>
         </div>
-        <div class="gender group">
-          <label for="">Gender:</label>
-          <input class="form-group" type="text" v-model="gender" />
+        <input
+          class="form-control"
+          type="text"
+          id="class"
+          v-model="classroom"
+        />
+      </div>
+      <div class="form-group">
+        <div>
+          <label for="generation">Generation</label>
         </div>
-        <div class="username">
-          <div class="inputname">
-            <label for="">Class:</label>
-            <input class="classroom" type="text" v-model="classroom" />
-          </div>
-          <div class="inputname">
-            <label for="" class="lastName">Generation:</label>
-            <input class="generation" type="text" v-model="generation" />
-          </div>
-        </div>
-        <div id="choose-img">
-          <input type="file" id="up" @change="uploadImage" />
-        </div>
-        <div class="username group">
-          <div class="inputname">
-            <label for="">Class:</label>
-            <input class="classroom" type="text" v-model="classroom" />
-          </div>
-          <div class="inputname">
-            <label for="" class="lastName">Generation:</label>
-            <input class="generation" type="text" v-model="generation" />
-          </div>
-        </div>
-        <div id="choose-img group">
-          <input type="file" id="up" @change="uploadImage" />
-        </div>
-        <button class="form-group btn" type="submit">Update</button>
-      </form>
+        <input
+          class="form-control"
+          type="text"
+          id="generation"
+          v-model="generation"
+        />
+      </div>
+    </div>
+    <div class="form-group radio">
+      <span>Gender : </span>
+      <input
+        class="radio-input"
+        type="radio"
+        id="M"
+        value="M"
+        name="gender"
+        v-model="gender"
+      />
+      <label for="M">Female</label>
+      <input
+        class="radio-input"
+        type="radio"
+        id="F"
+        value="F"
+        name="gender"
+        v-model="gender"
+      />
+      <label for="F">Male</label>
+    </div>
+    <div class="btn-group">
+      <button class="btn btn-submit" type="submit">
+        Update
+      </button>
+    </div>
+  </form>
     </div>
     <!--  action on student like search by name, filter by batch, and add new students  -->
-    <div class="action">
+    <div class="action" v-if="!isDetail">
       <div style="display: flex">
         <h2 class="students">Students</h2>
         <div class="search">
@@ -90,7 +126,7 @@
     </div>
     <!-- ++++++++++++++++++++ List students ++++++++++++++++ -->
 
-    <div class="tb-container">
+    <div class="tb-container" v-if="!isDetail">
       <table class="table">
         <thead>
           <tr>
@@ -112,7 +148,9 @@
                   />
                 </div>
                 <div class="info">
-                  <strong>{{ student.firstname +" " + student.lastname }}</strong>
+                  <strong>{{
+                    student.firstname + " " + student.lastname
+                  }}</strong>
                   <p>{{ student.class }} {{ student.batch }}</p>
                 </div>
               </div>
@@ -120,7 +158,7 @@
             <td class="padding-right">{{ student.gender }}</td>
             <td class="tb-btn">
               <div class="icon">
-                <i class="fa fa-edit fa-2x" @click="UpdateStudent(student)"></i>
+                <img src="../../assets/view-details.png" alt="" @click="viewStudentDetail(student.id)"/>
                 <i
                   class="fa fa-trash fa-2x"
                   @click="removeStudent(index, student.id)"
@@ -131,21 +169,32 @@
         </tbody>
       </table>
     </div>
+    <student-detail
+      v-if="isDetail"
+      :student="student"
+      :studentLeaves="studentLeaves"
+
+      @hide-detail="isDetail = !isDetail"
+      @studentUpdate="UpdateStudent"
+    ></student-detail >
   </section>
 </template>
 
 <script>
 import http from "../../axios-http";
 import swal from "sweetalert";
-
+import StudentDetail from "./StudentDetail.vue";
 export default {
+  components: { "student-detail": StudentDetail },
   data() {
     return {
       listOfStudents: [],
+
       firstname: "",
       lastname: "",
       email: "",
       password: "",
+      phone:"",
       gender: "",
       classroom: "",
       generation: "",
@@ -154,6 +203,11 @@ export default {
       isUpdated: false,
       search: "",
       batch: "",
+
+      // +++++++++++ student detail data ++++++++++++++++++++
+      isDetail: false,
+      student: [],
+      studentLeaves: [],
     };
   },
 
@@ -186,12 +240,15 @@ export default {
     },
     UpdateStudent(student) {
       this.isUpdated = true;
+      this.isDetail=false;
       this.update_id = student.id;
-      this.firstname = student.username;
-      this.lastname = student.username;
+      this.firstname = student.firstname;
+      this.lastname = student.lastname;
       this.email = student.email;
       this.password = student.password;
+      this.phone = student.phone;
       this.gender = student.gender;
+      this.image = student.image;
       this.classroom = student.class;
       this.generation = student.batch;
     },
@@ -201,13 +258,14 @@ export default {
     },
     toUpdate() {
       let newInfor = {
-        username: this.firstname + " " + this.lastname,
+        firstname: this.firstname,
+        lastname: this.lastname,
         email: this.email,
         password: this.password,
         gender: this.gender,
         class: this.classroom,
         batch: this.generation,
-        image: this.image,
+        phone: this.phone,
       };
       this.$emit("updateStudent", {
         update_id: this.update_id,
@@ -215,8 +273,14 @@ export default {
       });
       this.isUpdated = false;
     },
-    showHidePassword() {
-      this.isPasswordShown = !this.isPasswordShown;
+    viewStudentDetail(student_id) {
+      this.isDetail = !this.isDetail;
+      http.get("student/" + student_id).then((res) => {
+        this.student = res.data[0];
+      });
+      http.get("/student/leaveRequest/9").then((result) => {
+        this.studentLeaves = result.data;
+      });
     },
   },
   computed: {
@@ -230,9 +294,8 @@ export default {
           );
         }
         return student_list.filter((student) => {
-          return student.username
-            .toLowerCase()
-            .includes(this.search.toLowerCase());
+          let username = student.firstname + student.lastname;
+          return username.toLowerCase().includes(this.search.toLowerCase());
         });
       }
       if (this.batch != "" && this.batch != "all") {
@@ -264,41 +327,74 @@ export default {
   position: absolute;
   width: 100%;
   padding: 4rem 0;
-  background-color: rgb(184, 182, 182);
+  background-color: rgb(252, 249, 249);
 }
 form {
   width: 40%;
-  padding: 20px;
   margin: auto;
-  margin-top: 20px;
+  padding: 10px;
+  margin-top: 2rem;
   border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
-  background: #144e5a;
+  box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px,
+    rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
 }
-.group {
-  margin: 10px 0;
-}
-
 .form-group {
+  padding: 7px;
   width: 100%;
-  padding: 10px;
-  border: solid 1px rgb(124, 117, 117);
-  border-radius: 5px;
+}
+.form-control {
+  padding: 7px;
+  width: 95%;
   box-sizing: border-box;
+  border-radius: 3px;
   outline: none;
+  border: 1px solid gray;
+  background: rgb(251, 251, 251);
+}
+.two-input {
+  display: flex;
+}
+.btn-group {
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 20px;
+}
+.btn {
+  background: orange;
+  border: none;
+  padding: 10px;
+  width: 25%;
+  border-radius: 3px;
+  margin-top: 1rem;
+  color: #fff;
 }
 
-.firstname,
-.lastname,
-.classroom,
-.generation {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 16px;
-  border: solid 1px rgb(124, 117, 117);
-  border-radius: 5px;
-  box-sizing: border-box;
-  outline: none;
+.fa {
+  cursor: pointer;
+}
+.user-profile {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 1rem 0;
+}
+.user-profile img {
+  width: 10rem;
+  height: 10rem;
+}
+label,
+span {
+  font-weight: 550;
+  color: rgb(60, 59, 59);
+}
+.radio label {
+  margin-right: 1rem;
+  font-weight: lighter;
+  color: black;
+}
+
+.radio-input {
+  margin-right: 5px;
 }
 
 .username {
@@ -366,7 +462,11 @@ img {
 .icon {
   display: flex;
 }
-
+.icon img {
+  margin: 0;padding: 0;
+  width: 2rem;
+  height: 2rem;
+}
 .password_controller {
   display: flex;
   justify-content: space-between;
@@ -412,7 +512,8 @@ tbody tr {
 }
 thead tr th {
   border: none;
-}tbody tr:hover {
+}
+tbody tr:hover {
   background: rgb(220, 220, 220);
 }
 tr td:first-child {
