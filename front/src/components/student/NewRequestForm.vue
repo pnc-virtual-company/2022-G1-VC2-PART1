@@ -74,7 +74,7 @@
 </template>
 
 <script>
-import http from "../../axios-http";
+import axios from "@/components/Auth/auth-http";
 import moment from "moment";
 import swal from "sweetalert";
 export default {
@@ -88,7 +88,7 @@ export default {
       startTime: "",
       endTime: "",
       cause: "",
-      student_id: 1,
+      student_id:null,
     };
   },
 
@@ -102,16 +102,21 @@ export default {
       this.endTime = ""
     },
 
+    currentuser_id(){
+      this.student_id = JSON.parse(localStorage.getItem("user"))["id"]
+    },
+
     addRequestLeave() {
+      this.currentuser_id();
       let requestleave = {
         leave_type: this.leaveType,
         start_date: this.startDate,
         end_date: this.endDate,
         duration: this.duration,
         reason: this.cause,
-        student_id: 3
+        student_id: this.student_id,
       };
-      http.post("studentleaveRequest", requestleave).then((res) => {
+      axios.post("studentleaveRequest", requestleave).then((res) => {
         swal({
             title: "Good job!",
             text: "You have create request successfully !",

@@ -1,11 +1,10 @@
 <template>
-  <profile-view :profile="profile"></profile-view>
+  <profile-view></profile-view>
 </template>
 
 <script>
 import StudentProfile from "@/components/student/StudentProfileView.vue";
-import http from "../../axios-http";
-
+ import http from "../../axios-http";
 export default {
   components: { "profile-view": StudentProfile },
 

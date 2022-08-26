@@ -28,11 +28,7 @@ class StudentController extends Controller
      */
     public function store(Request $request)
     {
-<<<<<<< HEAD
         
-
-=======
-
         $request->validate([
             'email' => 'required|unique:users',
             'gender' => ['required',
@@ -41,7 +37,6 @@ class StudentController extends Controller
             'class' => 'required',
             'batch' => 'required|min:4',
         ]);
->>>>>>> 01973c4cc049b3a0cc31788545bc90d48ec410bb
         $request->file('image')->store('public/pictures');
         $student = new Student();
         $student->firstname = $request->firstname;
@@ -80,38 +75,22 @@ class StudentController extends Controller
     {$request->validate([
         'password' => [
             'string',
-<<<<<<< HEAD
-            'max:4',             ],
-            'class' => 'required',
-            'batch' => ['required',
-            'string',
-            'min:4',
-
-            ], 
+            'min:8',  ],
         ]); 
 
-        $student = Student::findOrFail($id);
-        $student->firstname=$request->firstname;
-        $student->lastname=$request->lastname;
-        $student->email=$request->email;
-        $student->password=bcrypt($request->password);
-        $student->gender=$request->gender;
-        $student->phone=$request->phone;
-        $student->class=$request->class;
-        $student->batch=$request->batch;
-        $student->role="student";
+        // $student = Student::findOrFail($id);
+        // $student->firstname=$request->firstname;
+        // $student->lastname=$request->lastname;
+        // $student->email=$request->email;
+        // $student->password=bcrypt($request->password);
+        // $student->gender=$request->gender;
+        // $student->phone=$request->phone;
+        // $student->class=$request->class;
+        // $student->batch=$request->batch;
+        // $student->role="student";
         //$student->image =$request->file("image")->hashName();
-=======
-            'min:8', // must be at least 8 characters in length
-            'regex:/[a-z]/', // must contain at least one lowercase letter
-            'regex:/[A-Z]/', // must contain at least one uppercase letter
-            'regex:/[0-9]/', // must contain at least one number
-            'regex:/[@$!%*#?&]/', // must contain a special character
-        ],
-    ]);
         $student = Student::findOrFail($id);
         $student->password = bcrypt($request->password);
->>>>>>> 01973c4cc049b3a0cc31788545bc90d48ec410bb
         $student->save();
         return response()->json(['message:' => 'update student successfully']);
     }
@@ -131,16 +110,13 @@ class StudentController extends Controller
     {
         $request->file('image')->store('public/pictures');
         $student = new Student();
-<<<<<<< HEAD
         $student->firstname=$request->firstname;
         $student->lastname=$request->lastname;
         $student->email=$request->email;
         $student->phone=$request->phone;
-=======
         $student->firstname = $request->firstname;
         $student->lastname = $request->lastname;
         $student->email = $request->email;
->>>>>>> 01973c4cc049b3a0cc31788545bc90d48ec410bb
         $student->email_verified_at = $request->email_verified_at;
         $student->password = bcrypt($request->password);
         $student->gender = $request->gender;

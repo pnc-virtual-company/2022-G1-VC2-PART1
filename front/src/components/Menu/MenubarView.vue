@@ -12,8 +12,8 @@
         <router-link to="/checkLeave">CHECK LEAVES</router-link>
       </div>
       <div class="nav-controll nav-right">
-        <img src="../../assets/lolo.jpg" alt="" class="profile-image" />
-        <router-link to="/profile">VANSAO HANG</router-link>
+        <img :src="'http://127.0.0.1:8000/storage/pictures/' + profile" alt="" class="profile-image" />
+        <router-link to="/profile">{{username}}</router-link>
 
         <router-link to="/signOut" class="signOut">
           <i class="fa fa-sign-out fa-2x"></i>
@@ -21,6 +21,9 @@
       </div>
     </nav>
     <!-- <nav>
+=======
+    <nav v-if="role == 'student'">
+>>>>>>> ab07d89c8d8bf87b8f382a0a5bc9806dce4f23e3
       <div class="nav-controll nav-left">
         <div class="pnc_logo">
           <img src="../../assets/pnc_logo.png" alt="" />
@@ -28,43 +31,40 @@
         <router-link to="/welcome" class="welcome">PNC SLMS</router-link>
       </div>
       <div class="nav-controll nav-center">
-        <router-link to="/newRequest">REQUEST LEAVE</router-link>
+        <router-link to="/newRequest"
+          >REQUEST LEAVE</router-link
+        >
         <router-link to="/studentListAllLeave">HISTORY</router-link>
       </div>
       <div class="nav-controll nav-right">
-        <img src="../../assets/lolo.jpg" alt="" class="profile-image" />
-        <router-link to="/profile">VANSAO HANG</router-link>
+        <img :src="'http://127.0.0.1:8000/storage/pictures/' +profile" alt="" class="profile-image" />
+        <router-link to="/profile">{{username}}</router-link>
 
         <router-link to="/signOut" class="signOut">
           <i class="fa fa-sign-out fa-2x"></i>
         </router-link>
       </div>
+<<<<<<< HEAD
     </nav> -->
+    <!-- </nav> -->
+    <router-view />
   </section>
-  <router-view />
 </template>
 
 <script>
-import axios from "@/axios-http"
 export default {
-  props:{role:String},
-  data(){
-    return{
-      users:null,
+  computed: {
+    role() {
+      return localStorage.getItem("user_role");
+    },
+    username(){
+      let user = JSON.parse(localStorage.getItem("user"))
+      return (user.firstname + " " + user.lastname)
+    },
+    profile(){
+      return JSON.parse(localStorage.getItem("user"))["image"]
     }
   },
-  methods:{
-    get(){
-      let token=JSON.parse(localStorage.getItem('accessToken'));
-      axios.get("userLogin", {config:{headers:{Authorization: "Bearer" + token}}}).then(response => {
-        console.log(response.data);
-        this.users=response.data
-        })
-    }
-  },
-  mounted(){
-    this.get()
-  }
 };
 </script>
 
@@ -73,7 +73,8 @@ nav {
   display: flex;
   justify-content: space-between;
   background: rgb(233, 233, 233);
-  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
+    rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
   position: sticky;
   top: 0;
 }

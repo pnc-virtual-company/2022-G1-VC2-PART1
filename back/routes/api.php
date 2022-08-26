@@ -24,25 +24,25 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/student', [StudentController::class, 'store']);
 Route::get('/student', [StudentController::class, 'index']);
 Route::get('/student/{id}', [StudentController::class, 'show']);
-Route::put('/student/password/update/{id}', [StudentController::class, 'updatePassword']);
 Route::delete('/student/{id}', [StudentController::class, 'destroy']);
 
 Route::post('/studentleaveRequest', [StudentLeaveRquestController::class, 'store']);
 Route::get('/studentleaveRequest', [StudentLeaveRquestController::class, 'index']);
 Route::get('/studentleaveRequest/{id}', [StudentLeaveRquestController::class, 'show']);
 Route::put('/updateLeaveRequest/{id}', [StudentLeaveRquestController::class, 'update']);
-Route::get('student/leaveRequest/{id}', [StudentLeaveRquestController::class, 'show']);
+Route::get('student/leaveRequest/{id}', [StudentLeaveRquestController::class, 'getLeaveByStudentId']);
 Route::put('/studentleaveRequest/{id}', [StudentLeaveRquestController::class, 'update']);
 Route::delete('/studentleaveRequest/{id}', [StudentLeaveRquestController::class, 'destroy']);
 
 Route::post("addstudent", [StudentController::class, "createAccount"]);
-
 Route::post("login", [StudentController::class, "userLogin"]);
+Route::apiresource("studentleaveRequest", StudentLeaveRquestController::class);
 
-// // private routes
+//Student private routes
 Route::group(['middleware'=>['auth:sanctum']],function(){
     Route::post("logout", [StudentController::class, "logout"]);
     Route::get("userLogin", [StudentController::class, "user"]);
+    Route::put('/student/password/update/{id}', [StudentController::class, 'updatePassword']);
 });
 
 

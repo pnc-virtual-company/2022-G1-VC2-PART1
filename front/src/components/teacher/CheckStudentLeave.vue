@@ -1,25 +1,28 @@
-
+<!--                                            All Update                             -->
 <template>
   <section >
-    <div class="student-leave">
-      <h1 v-if="!seen">Student Leave</h1>
-      <div v-for="leave of listOfStudentsLeave" :key="leave">
-        <div class="students-card" v-if="!seen">
-          <div class="card" @click="seen = !seen">
-            <div class="student-profile">
+    <div class="student-leave" v-if="!seen">
+        <h1>Student Leave</h1>
+      <div v-for="(leave) of listOfStudentsLeave" :key="leave">
+        <div class="students-card" v-if="!seen" >
+          <div class="card" @click="getAleave(leave.id)">
+            <div class="student-profile" :style="{'border-left':'6px solid #FF9620'}">
               <img  :src="'http://127.0.0.1:8000/storage/pictures/' + leave.student.image" alt=""/>
             </div>
             <div class="student-info">
-              <h3>{{leave.student.lastname}} {{leave.student.firstname}}</h3>
-              <p>{{leave.student.class}}</p>
+              <h4>{{leave.student.lastname}} {{leave.student.firstname}}</h4>
+              <p>{{leave.student.class}} {{leave.student.batch}}</p>
             </div>
-            <h4>{{leave.status}}</h4>
+            <h4 :class="leave.status.toLowerCase()" >{{leave.status}}</h4>
           </div>
         </div>
-        <div class="leave-card" v-if="seen">
+      </div>
+    </div>
+   <div v-if="seen" class="leave">
+     <div class="leave-card"  v-for ="leave of listOfALeave" :key="leave">
           <div class="detail-card">
             <div class="cancelIcon">
-              <img src="@/assets/cancelIcon-removebg-preview.png" alt="" @click="seen = !seen" >
+              <img src="@/assets/cross.png" alt="" @click="seen = !seen" >
             </div>
             <div class="student-infor">
               <div class="student-profile">
@@ -27,43 +30,43 @@
               </div>
               <div class="student-info">
                 <h3>{{leave.student.lastname}} {{leave.student.firstname}}</h3>
-                <p>{{leave.student.class}}</p>
+                <p>{{leave.student.class}} {{leave.student.batch}}</p>
               </div>
             </div>
             <hr>
             <div class="leave-info">
               <div class="leave-date">
                 <div>
-                  <h4>Start date: </h4>
+                  <h5>Start date: </h5>
                   <p>{{leave.start_date}}</p>
                 </div>
                 <div>
-                  <h4>End date: </h4>
+                  <h5>End date: </h5>
                   <p>{{leave.end_date}}</p>
                 </div>
                 <div>
-                  <h4>Duration : </h4>
+                  <h5>Duration : </h5>
                   <p>{{leave.duration}} days</p>
                 </div>
                 <div>
-                  <h4>Request date: </h4>
+                  <h5>Request date: </h5>
                   <p>{{leave.created_at}}</p>
                 </div>
               </div>
               <div class="leave-text">
                 <div>
-                  <h4>Leave Type : </h4>
+                  <h5>Leave Type : </h5>
                   <p>{{leave.leave_type}}</p>
                 </div>
                 <div class="textArea">
-                  <h4>Reason: </h4>
+                  <h5>Reason: </h5>
                   <p>{{leave.reason}}</p>
                 </div>
                 <div>
-                  <h4>Status :</h4>
-                  <p>{{leave.status}}</p>
+                  <h5>Status :</h5>
+                  <p :class="leave.status.toLowerCase()" id="status-detail">{{leave.status}}</p>
                 </div>
-                <div class="status">
+                <div class="status" v-if="leave.status ==='Padding'">
                   <button @click="updateAproved(leave)" class="btn-aproved" type="button">Aproved</button>
                   <button @click="updateReject(leave)"  class="btn-reject" type="button">Reject</button>
                 </div>
@@ -71,11 +74,9 @@
             </div>
           </div>
         </div>
-      </div>
-    </div>
+   </div>
     </section>
 </template>
-
 
 <script>
 
@@ -85,9 +86,7 @@ export default {
     return {
       seen: false,
       listOfStudentsLeave: [],
-      listOfStudents:[],
-      reference:"",
-      status:''
+      listOfALeave:[],
     };
   },
 
@@ -95,24 +94,29 @@ export default {
     getlistOfStudentsLeave() {
       http.get("studentleaveRequest").then((res) => {
           this.listOfStudentsLeave = res.data;
-        console.log(this.listOfStudentsLeave);
+        console.log(this.listOfStudentsLeave.reverse());
+      });
+    },
+    getAleave(id){
+      http.get("studentleaveRequest/"+id).then((res) => {
+          this.listOfALeave = res.data;
+          this.seen = !this.seen;
       });
     },
     updateReject(leave){
       http.put("updateLeaveRequest/"+leave.id,{"status":"Reject"}).then((res)=>{
-        this.getlistOfStudentsLeave();
+        this.getAleave(leave.id);
+        this.getlistOfStudentsLeave()
         console.log(res.data);
       })
-      console.log(leave.status);
     },
     updateAproved(leave){
       http.put("updateLeaveRequest/"+leave.id,{"status":"Aproved"}).then((res)=>{
-      this.getlistOfStudentsLeave();
+        this.getAleave(leave.id);
+      this.getlistOfStudentsLeave()
         console.log(res.data);
       })
-      console.log(leave.status);
     },
-
   },
     mounted() {
     this.getlistOfStudentsLeave();
@@ -127,18 +131,23 @@ section{
   justify-content: center;
 }
 .student-leave{
-  background: rgb(246, 245, 245);
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   width: 60%;
   margin-top: 2rem;
   border-radius: 5px;
+  border: 0.5px solid rgb(195, 195, 195);
+}
+.leave{
+  width: 60%;
 }
 .student-leave h1{
-  text-align: center;
-  margin: 10px;
+  padding: 15px;
+  font-size: 1.5rem;
+  color:white;
+   border-radius: 5px;
+  background: #23BBEA;
 }
   .students-card{
-    background: rgb(222, 222, 222);
+    border: 0.5px solid rgb(195, 195, 195);
     margin: 1rem 2.5rem 1.5rem 2.5rem;
     border-radius: 5px;
     cursor: pointer;
@@ -146,28 +155,46 @@ section{
   .card,.student-infor{
     display: flex;
   }
-  .card .student-info, .student-infor .student-info{
-    margin-top: 35px;
+  .student-infor{
+    background: #23BBEA;
+    border-radius:5px ; 
+    margin-top: -17px;
   }
-  .card h4{
-    margin-left: 25rem;
-    margin-top: 10px;
+.student-info{
+    margin-top: 25px;
   }
+  .student-info p{
+    font-size: 0.9rem;
+  }
+.padding{
+  color: #FF9620;
+}
+.aproved{
+  color: green;
+}
+.reject{
+  color: red;
+}
+.reject,.padding,.aproved{
+  margin-left: 28rem;
+  margin-top: 1rem;
+}
   .student-profile{
-    padding: 1rem;
+    padding: 0.5rem;
   }
   .student-profile img{
     width: 90%;
-    height: 12vh;
+    height: 10vh;
     border-radius: 50%;
     border: 2px solid orange;
   }
   /* Detail information style */
 
   .detail-card{
-    background: chocolate;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     margin: 30px;
     border-radius: 5px;
+    width: 100%;
   }
 .leave-info{
   display: flex;
@@ -181,9 +208,14 @@ section{
 .leave-date div,.leave-text div{
     display: flex;
     padding: 0.5rem;
+    margin: 10px;
 }
 .leave-date p, .leave-text p{
   margin-left: 4px;
+}
+.leave-date h5, .leave-text h5{
+  font-size: 1.1rem;
+  line-height: -10px;
 }
 .textArea{
   line-height: 1.7rem;
@@ -210,5 +242,10 @@ section{
   margin-left: 94%;
   margin-bottom: -30px;
 }
+#status-detail{
+  font-weight:800;
+  margin-top: -3px;
+}
 
 </style>
+<!--                                                    End Updated                                 -->

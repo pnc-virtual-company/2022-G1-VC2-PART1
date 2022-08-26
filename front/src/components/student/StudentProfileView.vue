@@ -6,7 +6,7 @@
         <form id="signupForm">
           <div class="card_profile">
             <img
-              :src="'http://127.0.0.1:8000/storage/pictures/' + profile.image"
+              :src="'http://127.0.0.1:8000/storage/pictures/' + user.image"
               class="img-profile"
             />
           </div>
@@ -53,7 +53,7 @@
               type="submit"
               id="submitButton"
               class="submitButton pure-button pure-button-primary"
-              @click.prevent="validatePassword"
+              @click.prevent="validatePassword(user.id)"
             >
               <span>Change</span>
             </button>
@@ -67,31 +67,31 @@
       <div class="card">
         <div class="card_profile">
           <img
-            :src="'http://127.0.0.1:8000/storage/pictures/' + profile.image"
+            :src="'http://127.0.0.1:8000/storage/pictures/' +user.image"
             alt=""
             class="img-profile"
           />
         </div>
-        <h1 style="text-align: center; margin: 1rem">Vansao Hang</h1>
+        <h1 style="text-align: center; margin: 1rem">{{user.firstname}} {{user.lastname}}</h1>
         <hr />
         <div class="card_body">
-          <div class="student-name">{{ profile.username }}</div>
+          <div class="student-name">{{user.username }}</div>
           <ul>
             <li>
               <span class="bold-text">Class : </span>
-              <span>{{ profile.class }}</span>
+              <span>{{user.class }}</span>
             </li>
             <li>
               <span class="bold-text">Batch : </span>
-              <span>{{ profile.batch }}</span>
+              <span>{{user.batch }}</span>
             </li>
             <li>
               <span class="bold-text">Gender : </span>
-              <span>{{ profile.gender }}</span>
+              <span>{{user.gender }}</span>
             </li>
             <li>
               <span class="bold-text">Email : </span>
-              <span>{{ profile.email }}</span>
+              <span>{{user.email }}</span>
             </li>
           </ul>
         </div>
@@ -129,10 +129,10 @@
   </section>
 </template>
 <script>
-import http from "../../axios-http";
+import axios from "@/components/Auth/auth-http";
 import swal from "sweetalert";
+
 export default {
-  props: ["profile"],
   data() {
     return {
       confirmPassword: "",
@@ -141,15 +141,16 @@ export default {
       isPasswordShown: false,
       isPasswordConfirmed: false,
       invalidPassword: "",
+      currentuser_id:null
     };
   },
   methods: {
-    validatePassword() {
+    validatePassword(id) {
       if (this.password != "") {
         if (this.confirmPassword != "") {
           if (this.confirmPassword == this.password) {
-            http
-              .put("/student/password/update/9", this.password)
+            axios
+              .put("/student/password/update/"+id, this.password)
               .then((res) => {
                 swal("Good job!", "Your password is changed!", "success").then(
                   (isChange) => {
@@ -187,6 +188,13 @@ export default {
       this.isPasswordConfirmed = !this.isPasswordConfirmed;
     },
   },
+
+  computed:{
+    user(){
+      return JSON.parse(localStorage.getItem("user"))
+    },
+    
+  }
 };
 </script>
 
