@@ -143,14 +143,7 @@ export default {
       http
         .post("addstudent", student)
         .then((res) => {
-          return res.data;
-        })
-        .catch((error) => {
-          if (error.response) {
-            console.log(error.response);
-          }
-        });
-      swal({
+           swal({
         title:
           this.firstname +
           " " +
@@ -171,6 +164,14 @@ export default {
           this.$emit("add-Student", false);
         }
       });
+          return res.data;
+        })
+        .catch((error) => {
+          if (error.response) {
+            console.log(error.response);
+          }
+        });
+     
     },
     canceleAdd(){
       console.log('hh')

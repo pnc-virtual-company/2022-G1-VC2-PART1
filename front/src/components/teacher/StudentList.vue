@@ -1,6 +1,5 @@
 <template>
   <section>
-
     <!-- ++++++++++++++++++++++++++++ Form Update +++++++++++++++++ +++++++++++++++++-->
     <div v-if="isUpdated" class="contianer_update">
       <form @submit.prevent="toUpdate">
@@ -135,7 +134,6 @@
         </tbody>
       </table>
     </div>
-
     <student-detail
       v-if="isDetail"
       :student="student"
@@ -239,7 +237,7 @@ export default {
       http.get("student/" + student_id).then((res) => {
         this.student = res.data[0];
       });
-      http.get("/student/leaveRequest/9").then((result) => {
+      http.get("/student/leaveRequest/"+student_id).then((result) => {
         this.studentLeaves = result.data;
       });
     },

@@ -31,7 +31,7 @@ class Student extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function studentleaveRequest(){
+    public function studentleavequest(){
         return $this->hasMany(StudentLeaveRquest::class, 'studentleaveRequest_id');
     }
     public function user(){

@@ -15,7 +15,7 @@ class StudentLeaveRquestController extends Controller
     public function index()
     {
         //
-        return StudentLeaveRquest:: get();
+        return StudentLeaveRquest:: with('student')->get();
     }
 
     /**
@@ -31,7 +31,7 @@ class StudentLeaveRquestController extends Controller
         $studentLeaveRequest->start_date = $request->start_date;
         $studentLeaveRequest->end_date = $request->end_date;
         $studentLeaveRequest->duration = $request->duration;
-        $studentLeaveRequest->status = "padding";
+        $studentLeaveRequest->status = "Padding";
         $studentLeaveRequest->reason = $request->reason;
         $studentLeaveRequest->student_id= $request->student_id;
         $studentLeaveRequest->save();
@@ -47,6 +47,11 @@ class StudentLeaveRquestController extends Controller
     public function show($id)
     {
         //
+        return StudentLeaveRquest::with('student')->where('id', $id)->get();
+    }
+    public function getLeaveByStudentId($id)
+    {
+        //
         return StudentLeaveRquest::where('student_id', $id)->get();
         
     }
@@ -60,16 +65,8 @@ class StudentLeaveRquestController extends Controller
      */
     public function update(Request $request,$id)
     {
-  
-        
         $studentLeaveRequest = StudentLeaveRquest::findOrFail($id);
-        $studentLeaveRequest->start_date = $request->start_date;
-        $studentLeaveRequest->end_date = $request->end_date;
-        $studentLeaveRequest->reason = $request->reason;
-        $studentLeaveRequest->leave_type = $request->leave_type;
-        $studentLeaveRequest->duration = $request->duration;
         $studentLeaveRequest->status = $request->status;
-        $studentLeaveRequest->student_id= $request->student_id;
         $studentLeaveRequest->save();
         return response()->json(['message:'=>'update studentLeaveRequest successfully']);
     }

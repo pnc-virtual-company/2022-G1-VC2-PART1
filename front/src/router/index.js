@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import WelcomeView from ".././views/WelcomeView.vue"
 import StudentsList from '../views/teacher/StudentsList.vue'
-import CheckLeave from '../views/teacher/CheckLeave.vue'
+import CheckLeave from '../views/teacher/CheckStudentLeave.vue'
 import StudentListAllLeave from '../views/student/StudentListAllLeave.vue'
 import NewRequest from '../views/student/NewRequest.vue'
 import StudentProfile from '../views/student/StudentProfile.vue'

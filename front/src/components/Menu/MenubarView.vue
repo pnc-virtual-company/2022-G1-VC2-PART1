@@ -1,6 +1,6 @@
 <template>
   <section>
-    <nav v-if="role == 'admin'">
+    <nav>
       <div class="nav-controll nav-left">
         <div class="pnc_logo">
           <img src="../../assets/pnc_logo.png" alt="" />
@@ -20,6 +20,7 @@
         </router-link>
       </div>
     </nav>
+    <!-- <nav>
     <nav v-if="role == 'student'">
       <div class="nav-controll nav-left">
         <div class="pnc_logo">
@@ -41,7 +42,8 @@
           <i class="fa fa-sign-out fa-2x"></i>
         </router-link>
       </div>
-    </nav>
+    </nav> -->
+    <!-- </nav> -->
     <router-view />
   </section>
 </template>

@@ -1,6 +1,5 @@
 <template>
   <div class="studentsList">
-
     <student-list
       @addStudent="addStudent"
       @updateStudent="updateStudent"
