@@ -21,9 +21,9 @@ return new class extends Migration
             $table->string('phone')->unique();
             $table->string('class');
             $table->string('batch');
-            $table->string('role');
             $table->string('gender');
             $table->string('image');
+            $table->foreignId('user_id')->constrained()->onDelete('CASCADE');
             $table->rememberToken();
             $table->timestamp('email_verified_at')->nullable();
             $table->timestamps();

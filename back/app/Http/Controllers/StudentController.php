@@ -28,12 +28,8 @@ class StudentController extends Controller
      */
     public function store(Request $request)
     {
-        
         $request->validate([
             'email' => 'required|unique:users',
-            'gender' => ['required',
-                'string',
-                'max:4'],
             'class' => 'required',
             'batch' => 'required|min:4',
         ]);
@@ -47,10 +43,10 @@ class StudentController extends Controller
         $student->phone = $request->phone;
         $student->class = $request->class;
         $student->batch = $request->batch;
-        $student->role = "student";
+        $student->user_id = $request->user_id;
         $student->image = $request->file("image")->hashName();
         $student->save();
-        return response()->json(['message:' => 'create student successfully']);
+        return response()->json($student);
     }
 
     /**
@@ -77,22 +73,31 @@ class StudentController extends Controller
             'string',
             'min:8',  ],
         ]); 
-
-        // $student = Student::findOrFail($id);
-        // $student->firstname=$request->firstname;
-        // $student->lastname=$request->lastname;
-        // $student->email=$request->email;
-        // $student->password=bcrypt($request->password);
-        // $student->gender=$request->gender;
-        // $student->phone=$request->phone;
-        // $student->class=$request->class;
-        // $student->batch=$request->batch;
-        // $student->role="student";
-        //$student->image =$request->file("image")->hashName();
         $student = Student::findOrFail($id);
         $student->password = bcrypt($request->password);
         $student->save();
         return response()->json(['message:' => 'update student successfully']);
+    }
+
+    public function updateImage(Request $request, $id){
+        $request->file('image')->store('public/pictures');
+        $student = Student::findOrFail($id);
+        $student->image = $request->file("image")->hashName();
+        $student->save();
+        return response()->json(['message:' => 'update student successfully']);
+    }
+
+    public function update(Request $request, $id){
+        $student = Student::findOrFail($id);
+        $student->firstname = $request->firstname;
+        $student->lastname = $request->lastname;
+        $student->email = $request->email;
+        $student->gender = $request->gender;
+        $student->phone = $request->phone;
+        $student->class = $request->class;
+        $student->batch = $request->batch;
+        $student->save();
+        return response()->json($student);
     }
 
     /**
@@ -106,34 +111,9 @@ class StudentController extends Controller
         //
         return Student::destroy($id);
     }
-    public function createAccount(Request $request)
-    {
-        $request->file('image')->store('public/pictures');
-        $student = new Student();
-        $student->firstname=$request->firstname;
-        $student->lastname=$request->lastname;
-        $student->email=$request->email;
-        $student->phone=$request->phone;
-        $student->firstname = $request->firstname;
-        $student->lastname = $request->lastname;
-        $student->email = $request->email;
-        $student->email_verified_at = $request->email_verified_at;
-        $student->password = bcrypt($request->password);
-        $student->gender = $request->gender;
-        $student->class = $request->class;
-        $student->batch = $request->batch;
-        $student->role = "student";
-        $student->image = $request->file("image")->hashName();
-        $student->save();
-        $token = $student->createToken("mytoken")->plainTextToken;
-        $response = [
-            'user' => $student,
-            "token" => $token,
-        ];
-        return response()->json([$response]);
-    }
+  
 
-    public function userLogin(Request $request)
+    public function sigin(Request $request)
     {
         $student = Student::where('email', $request->email)->first();
         if (!$student || !Hash::check($request->password, $student->password)) {
@@ -146,15 +126,14 @@ class StudentController extends Controller
         ];
         return response()->json($response);
     }
-
-    public function user()
+    public function student()
     {
         return Auth::user();
     }
 
-    public function logout(Request $request)
+    public function sigout(Request $request)
     {
         auth()->user()->tokens()->delete();
-        return response()->json(["ms" => "logged out"]);
+        return response()->json(true);
     }
 }

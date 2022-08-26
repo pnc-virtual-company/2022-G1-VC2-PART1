@@ -19,19 +19,22 @@ class Student extends Authenticatable
         'batch',
         'gender',
         'image',
-        'role'
     ];
 
     protected $hidden = [
         'updated_at',
         'remember_token',
-        'email_verified_at'
+        'email_verified_at',
+        'password',
     ];
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
 
-    public function studentKeaveRequest(){
+    public function studentleaveRequest(){
         return $this->hasMany(StudentLeaveRquest::class, 'studentleaveRequest_id');
+    }
+    public function user(){
+        return $this->hasOne(User::class, 'user_id');
     }
 }

@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->string('phone')->unique();
-            $table->string('role');
+            $table->foreignId('user_id')->constrained()->onDelete('CASCADE');
             $table->string('gender');
             $table->string('image');
             $table->rememberToken();
