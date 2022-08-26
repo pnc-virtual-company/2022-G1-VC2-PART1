@@ -66,7 +66,7 @@ export default {
 
   methods: {
     getData() {
-      http.get("studentleaveRequest").then((result) => {
+      http.get("/student/leaveRequest/9").then((result) => {
         this.student_leaves = result.data;
         this.students = this.student_leaves;
       });

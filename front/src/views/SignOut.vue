@@ -1,12 +1,13 @@
 <template>
-  <div class="signOut">
-    <h1>Sign Out !</h1>
-  </div>
+  <h2>Sign outline</h2>
 </template>
 
 <script>
-export default {};
+export default {
+
+}
 </script>
 
 <style>
+
 </style>

@@ -1,55 +1,103 @@
 
 <template>
-<section>
-  <div v-if="clickEdit" class="mainDiv">
-    <div class="cardStyle">
-      <form @submit.prevent="validatePassword" id="signupForm">
-        <div class="card_profile">
-        <img :src="'http://127.0.0.1:8000/storage/pictures/'+profile.image" alt="" class="img-profile" />
-      </div>
-        <h2 class="formTitle">Update your password</h2>
-        <div class="inputDiv">
-          <label class="inputLabel" for="password">New Password</label>
-          <div class="password_controller">
-            <input
-              :type="isPasswordShown? 'text': 'password'"
-              v-model="password"
-              name="password"
-              required
-              autocomplete="on"
+  <section>
+    <div v-if="clickEdit" class="mainDiv">
+      <div class="cardStyle">
+        <form id="signupForm">
+          <div class="card_profile">
+            <img
+              :src="'http://127.0.0.1:8000/storage/pictures/' + profile.image"
+              class="img-profile"
             />
-            <i @click="showHidePassword" :class="isPasswordShown? 'fa fa-eye':'fa fa-eye-slash'" style="font-size:20px"></i>
           </div>
-        </div>
-
-        <div class="inputDiv">
-          <label class="inputLabel" for="password">Confirm Password</label>
-          <div class="password_controller">
-            <input
-              :type="isPasswordConfirmed? 'text': 'password'"
-              v-model="confirmPassword"
-              name="password"
-              required
-              autocomplete="on"/>
-            <i @click="showHidePasswordConfirm" :class="isPasswordConfirmed? 'fa fa-eye':'fa fa-eye-slash'" style="font-size:20px"></i>
+          <h2 class="formTitle">Change your password</h2>
+          <div class="inputDiv">
+            <label class="inputLabel" for="password">New Password</label>
+            <div class="password_controller">
+              <input
+                :type="isPasswordShown ? 'text' : 'password'"
+                v-model="password"
+                name="password"
+                required
+                autocomplete="on"
+              />
+              <i
+                @click="showHidePassword"
+                :class="isPasswordShown ? 'fa fa-eye' : 'fa fa-eye-slash'"
+                style="font-size: 20px"
+              ></i>
+            </div>
           </div>
-        </div>
-        <div class="buttonWrapper">
-          <button
-            type="submit"
-            id="submitButton"
-            class="submitButton pure-button pure-button-primary"
-          >
-            <span>Continue</span>
-          </button>
-        </div>
-      </form>
+          <div class="inputDiv">
+            <label class="inputLabel" for="password">Confirm Password</label>
+            <div class="password_controller">
+              <input
+                :type="isPasswordConfirmed ? 'text' : 'password'"
+                v-model="confirmPassword"
+                name="password"
+                required
+                autocomplete="on"
+              />
+              <i
+                @click="showHidePasswordConfirm"
+                :class="isPasswordConfirmed ? 'fa fa-eye' : 'fa fa-eye-slash'"
+                style="font-size: 20px"
+              ></i>
+            </div>
+          </div>
+          <small style="margin-left: 5rem; color: orangered">{{
+            invalidPassword
+          }}</small>
+          <div class="buttonWrapper">
+            <button
+              type="submit"
+              id="submitButton"
+              class="submitButton pure-button pure-button-primary"
+              @click.prevent="validatePassword"
+            >
+              <span>Change</span>
+            </button>
+            <p>No, don't want to update</p>
+            <strong id="back" @click="clickEdit = false">Go back</strong>
+          </div>
+        </form>
+      </div>
     </div>
-  </div>
-  <div v-if="!clickEdit" class="contianer">
-    <div class="card">
-      <div class="card_profile">
-        <img :src="'http://127.0.0.1:8000/storage/pictures/'+profile.image" alt="" class="img-profile" />
+    <div v-if="!clickEdit" class="contianer">
+      <div class="card">
+        <div class="card_profile">
+          <img
+            :src="'http://127.0.0.1:8000/storage/pictures/' + profile.image"
+            alt=""
+            class="img-profile"
+          />
+        </div>
+        <h1 style="text-align: center; margin: 1rem">Vansao Hang</h1>
+        <hr />
+        <div class="card_body">
+          <div class="student-name">{{ profile.username }}</div>
+          <ul>
+            <li>
+              <span class="bold-text">Class : </span>
+              <span>{{ profile.class }}</span>
+            </li>
+            <li>
+              <span class="bold-text">Batch : </span>
+              <span>{{ profile.batch }}</span>
+            </li>
+            <li>
+              <span class="bold-text">Gender : </span>
+              <span>{{ profile.gender }}</span>
+            </li>
+            <li>
+              <span class="bold-text">Email : </span>
+              <span>{{ profile.email }}</span>
+            </li>
+          </ul>
+        </div>
+        <button @click="clickEdit = true" class="btn-edit">
+          Change Password
+        </button>
       </div>
       <div class="card_body">
         <div class="student-name">{{ profile.username }}</div>
@@ -78,13 +126,13 @@
       </div>
       <button @click="clickEdit = true" class="btn-edit">Change Password</button>
     </div>
-  </div>
   </section>
 </template>
 <script>
+import http from "../../axios-http";
+import swal from "sweetalert";
 export default {
   props: ["profile"],
-  emits: ["updatePassword"],
   data() {
     return {
       confirmPassword: "",
@@ -92,32 +140,52 @@ export default {
       clickEdit: false,
       isPasswordShown: false,
       isPasswordConfirmed: false,
+      invalidPassword: "",
     };
-
   },
   methods: {
     validatePassword() {
-      if (
-        this.password != "" &&
-        this.confirmPassword != "" &&
-        this.confirmPassword == this.password
-      ) {
-        const newStudent = {}
-        newStudent.username = this.profile.username;
-        newStudent.email = this.profile.email;
-        newStudent.password = this.password;
-        newStudent.gender = this.profile.gender;
-        newStudent.batch = this.profile.batch;
-        newStudent.class = this.profile.class;
-        newStudent.image = this.profile.image;
-        this.$emit("updatePassword", newStudent);
-        this.clickEdit = false;
+      if (this.password != "") {
+        if (this.confirmPassword != "") {
+          if (this.confirmPassword == this.password) {
+            http
+              .put("/student/password/update/9", this.password)
+              .then((res) => {
+                swal("Good job!", "Your password is changed!", "success").then(
+                  (isChange) => {
+                    if (isChange) {
+                      this.clickEdit = false;
+                    }
+                  }
+                );
+                this.password = "";
+                this.confirmPassword = "";
+                this.invalidPassword = "";
+                return res.data;
+              })
+              .catch((error) => {
+                if (error.response) {
+                  console.log(error.response);
+                  this.invalidPassword =
+                    "* Invalid password and confirm password !";
+                }
+              });
+          } else {
+            this.invalidPassword = "* Invalid confirm password !";
+          }
+        } else {
+          this.invalidPassword = "* Please enter your confirm password !";
+        }
       } else {
-        this.clickEdit = true;
+        this.invalidPassword = "* Please enter your new password !";
       }
     },
-    showHidePassword() {this.isPasswordShown = !this.isPasswordShown},
-    showHidePasswordConfirm() {this.isPasswordConfirmed = !this.isPasswordConfirmed},
+    showHidePassword() {
+      this.isPasswordShown = !this.isPasswordShown;
+    },
+    showHidePasswordConfirm() {
+      this.isPasswordConfirmed = !this.isPasswordConfirmed;
+    },
   },
 };
 </script>
@@ -128,17 +196,16 @@ export default {
   margin: 2rem auto;
 }
 .card {
-  background: #144e5a;
-  color: white;
   width: 60%;
   margin: auto;
-  padding: 5rem 2rem;
+  padding: 2rem;
   border-radius: 10px;
   box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
     rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
 }
 .card_body {
   text-align: center;
+  margin-top: 1rem;
 }
 ul li {
   list-style: none;
@@ -151,15 +218,14 @@ ul li {
   display: flex;
   align-items: center;
   justify-content: center;
-
 }
 .img-profile {
   margin: auto;
   box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px,
     rgba(6, 24, 44, 0.65) 0px 4px 6px -1px,
     rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
-  width: 8rem;
-  height: 8rem;
+  width: 6rem;
+  height: 6rem;
   border-radius: 100%;
 }
 .student-name {
@@ -171,12 +237,13 @@ ul li {
   width: 6rem;
 }
 .btn-edit {
+  width: 100%;
   padding: 10px 20px;
-  margin-bottom: -8rem;
   background-color: #065492;
   border-color: #065492;
   color: white;
   border-radius: 5px;
+  margin-top: 1rem;
 }
 .mainDiv {
   display: flex;
@@ -190,7 +257,7 @@ ul li {
   width: 500px;
   border-color: white;
   background: #fff;
-  padding: 36px 0;
+  padding: 1rem 0;
   border-radius: 4px;
   margin: 30px 0;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
@@ -232,7 +299,7 @@ input:disabled {
   border: solid 1px #eee;
 }
 .buttonWrapper {
-  margin-top: 40px;
+  margin-top: 1rem;
 }
 .submitButton {
   width: 70%;
@@ -255,7 +322,7 @@ button[disabled] {
   color: #666666;
 }
 
-.password_controller{
+.password_controller {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -263,9 +330,19 @@ button[disabled] {
   border-radius: 4px;
   border: solid 1px #ccc;
 }
-.fa{
+.fa {
   cursor: pointer;
-  color: rgb(241, 9, 9);
+}
+.buttonWrapper p {
+  text-align: center;
+  margin: 1rem 0 5px 0;
+}
+#back {
+  display: flex;
+  justify-content: center;
+  color: #065492;
+  font-weight: bold;
+  cursor: pointer;
 }
 
 @keyframes spin {

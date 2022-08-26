@@ -140,9 +140,8 @@ export default {
       student.append("batch", this.generation);
       student.append("gender", this.gender);
       student.append("image", this.image);
-      // console.log(this.firstname, this.lastname, this.email, this.password, this.phone, this.classroom, this.generation, this.gender, this.image);
       http
-        .post("student", student)
+        .post("addstudent", student)
         .then((res) => {
            swal({
         title:

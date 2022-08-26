@@ -14,11 +14,7 @@ const routes = [
     name: 'welcome',
     component: WelcomeView
   },
-  {
-    path: '/welcome',
-    name: 'welcome',
-    component: WelcomeView
-  },
+
   {
     path: '/studentsList',
     name: 'studentsList',
@@ -57,4 +53,4 @@ const router = createRouter({
   routes
 })
 
-export default router
+export default router;
