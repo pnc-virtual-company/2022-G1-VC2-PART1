@@ -1,7 +1,10 @@
 <template>
   <section>
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 24b53bc6af7305481c25b80083b10781019328aa
     <!-- ++++++++++++++++++++++++++++ Form Update +++++++++++++++++ +++++++++++++++++-->
     <div v-if="isUpdated" class="contianer_update">
       <form @submit.prevent="toUpdate">
@@ -136,6 +139,7 @@
         </tbody>
       </table>
     </div>
+
     <student-detail
       v-if="isDetail"
       :student="student"

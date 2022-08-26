@@ -41,16 +41,15 @@ export default {
     showListStudents(show) {
       this.dialog = show;
     },
+
+    updateStudent(student){
+      console.log("StudentID", student.update_id, "Infor: ", student.infor);
+      http.put("student/"+student.update_id, student.infor).then(response =>{console.log(response)})
+    },
     canceleAddStudent(hide) {
       this.dialog = hide;
     },
-    updateStudent(student) {
-      http
-        .put("student/" + student.update_id, student.infor)
-        .then((response) => {
-          console.log(response);
-        });
-    },
+
   }
 
 };

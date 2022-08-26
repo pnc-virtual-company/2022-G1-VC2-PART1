@@ -26,7 +26,6 @@ class StudentLeaveRquestController extends Controller
      */
     public function store(Request $request)
     {
-        
         $studentLeaveRequest = new StudentLeaveRquest();
         $studentLeaveRequest->leave_type = $request->leave_type;
         $studentLeaveRequest->start_date = $request->start_date;

@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
   <div class="welcome">
     <div class="card">
       <div class="contaner">
@@ -82,3 +83,9 @@ img {
     justify-content: space-evenly;
 }
 </style>
+=======
+    <div class="welcome">
+        Wellcome
+    </div>
+</template>
+>>>>>>> 24b53bc6af7305481c25b80083b10781019328aa

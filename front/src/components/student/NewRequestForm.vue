@@ -16,9 +16,15 @@
       <p>Start Date :</p>
       <div
         class="form-controll"
-        style="display: flex; justify-content: space-between;"
+        style="display: flex; justify-content: space-between"
       >
-        <input required type="date" class="two-input" v-model="startDate" :min="getCurrentDate" />
+        <input
+          required
+          type="date"
+          class="two-input"
+          v-model="startDate"
+          :min="getCurrentDate"
+        />
         <select class="two-input" v-model="startTime">
           <option value="Morning">Morning</option>
           <option value="Afternoon">Afternoon</option>
@@ -32,7 +38,13 @@
         class="form-controll"
         style="display: flex; justify-content: space-between"
       >
-        <input required type="date" class="two-input" v-model="endDate" :min="getCurrentDate" />
+        <input
+          required
+          type="date"
+          class="two-input"
+          v-model="endDate"
+          :min="getCurrentDate"
+        />
         <select class="two-input" v-model="endTime">
           <option value="Morning">Morning</option>
           <option value="Afternoon">Afternoon</option>
@@ -74,7 +86,7 @@
 </template>
 
 <script>
-import http from "../../axios-http";
+import axios from "@/components/Auth/auth-http";
 import moment from "moment";
 import swal from "sweetalert";
 export default {
@@ -88,7 +100,7 @@ export default {
       startTime: "",
       endTime: "",
       cause: "",
-      student_id: 1,
+      student_id: null,
     };
   },
 
@@ -98,39 +110,52 @@ export default {
       this.startDate = "";
       this.endDate = "";
       this.cause = "";
-      this.startTime ="";
-      this.endTime = ""
+      this.startTime = "";
+      this.endTime = "";
+    },
+
+    currentuser_id() {
+      this.student_id = JSON.parse(localStorage.getItem("user"))["id"];
     },
 
     addRequestLeave() {
+      this.currentuser_id();
       let requestleave = {
         leave_type: this.leaveType,
         start_date: this.startDate,
         end_date: this.endDate,
         duration: this.duration,
         reason: this.cause,
-
-        student_id: 9,
-
-
+        student_id: this.student_id,
       };
-      http.post("studentleaveRequest", requestleave).then((res) => {
-        swal({
-            title: "Good job!",
-            text: "You have create request successfully !",
-            icon: "success",
-          });
-        console.log(res);
+      axios.post("studentleaveRequest", requestleave).then((res) => {
         this.leaveType = "";
         this.startDate = "";
         this.endDate = "";
         this.cause = "";
-        this.startTime = ""; 
-        this.endTime = ""
-      }).catch(error => {
-        if (error.response) {
-          console.log(error.response);
-        }
+        this.startTime = "";
+        this.endTime = "";
+        swal({
+          title: "Okay!",
+          text: "Your leave request has been sent !",
+          icon: "success",
+        }).then((isOkay) => {
+          if (isOkay) {
+            this.$router.push("/studentListAllLeave");
+          }
+        });
+
+        axios
+          .get("sendMail")
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((error) => {
+            if (error.response) {
+              console.log(error.response);
+            }
+          });
+        return res;
       });
     },
   },
@@ -142,12 +167,12 @@ export default {
       var month = date.getMonth() + 1;
       var year = date.getUTCFullYear();
       if (tday < 10) {
-        tday = "0" + tday
+        tday = "0" + tday;
       }
       if (month < 10) {
-        month = "0" + month
+        month = "0" + month;
       }
-      return year + "-" + month + "-" + tday
+      return year + "-" + month + "-" + tday;
     },
     invalidStartDate() {
       var current_date = new Date().toJSON().slice(0, 10).replace(/-/g, "-");
@@ -166,45 +191,45 @@ export default {
       }
       return "";
     },
-    // disabple_button (){
-    //   if(this.startDate > this.endDate){
-    //     // return "";
-    //   }
-    //   return "";
-    // },
 
     /**
      * Duration is use for calulate duration that student ask permission
      * @paramater dateTime is use for calulate end and start date
      */
     duration() {
-    let notEmpty = this.startDate !="" && this.endDate !="" ;
-        let isStart = this.startDate == this.endDate && this.startDate !="" && this.endDate !="" ;
-        let halfDay =(this.startTime ==this.endTime);
-        let halfTime = (this.startTime !="" && this.endTime != "")
+      let notEmpty = this.startDate != "" && this.endDate != "";
+      let isStart =
+        this.startDate == this.endDate &&
+        this.startDate != "" &&
+        this.endDate != "";
+      let halfDay = this.startTime == this.endTime;
+      let halfTime = this.startTime != "" && this.endTime != "";
 
-        let dateforLeave = moment(this.startDate, "YYYY.MM.DD HH:mm").diff(moment(this.endDate, "YYYY.MM.DD HH:mm"));
-        let dateTime = 0;
-        
-        if(dateforLeave <0 || dateforLeave == 0){
-          
-          if ((notEmpty ) && (halfTime)) {
-            dateTime = Math.abs(moment(this.startDate, "YYYY.MM.DD HH:mm").diff(moment(this.endDate, "YYYY.MM.DD HH:mm"),"days"));
-              } 
-              if(isStart && halfDay && halfTime){
-                dateTime += 0.5;
-              }
-              else if(halfDay && notEmpty && halfTime){
-                dateTime +=0.5
-              }
-              else if(!halfDay && halfTime) {
-                dateTime +=1
-              }
+      let dateforLeave = moment(this.startDate, "YYYY.MM.DD HH:mm").diff(
+        moment(this.endDate, "YYYY.MM.DD HH:mm")
+      );
+      let dateTime = 0;
+
+      if (dateforLeave < 0 || dateforLeave == 0) {
+        if (notEmpty && halfTime) {
+          dateTime = Math.abs(
+            moment(this.startDate, "YYYY.MM.DD HH:mm").diff(
+              moment(this.endDate, "YYYY.MM.DD HH:mm"),
+              "days"
+            )
+          );
         }
-       
-        console.log(dateforLeave);
-        return dateTime;
+        if (isStart && halfDay && halfTime) {
+          dateTime += 0.5;
+        } else if (halfDay && notEmpty && halfTime) {
+          dateTime += 0.5;
+        } else if (!halfDay && halfTime) {
+          dateTime += 1;
+        }
+      }
 
+      console.log(dateforLeave);
+      return dateTime;
     },
   },
 };
@@ -220,7 +245,7 @@ form {
 }
 h2 {
   text-align: center;
-  color: #23BBEA;
+  color: #23bbea;
   margin: 1rem;
 }
 .form-group {
@@ -232,28 +257,21 @@ h2 {
   font-size: 15px;
   width: 100%;
   border-radius: 5px;
-  /* border: none; */
-  /* border-bottom: 2px solid #23BBEA;
-  border-left:2px solid #23BBEA ;
-  border-right:2px solid #23BBEA ; */
   border: 1.5px solid rgb(177, 176, 176);
   outline: none;
-
 }
 
-.textarea{
+.textarea {
   outline: none;
   border-radius: 5px;
   resize: none;
   border: 1.5px solid rgb(177, 176, 176);
-
 }
 p {
   font-weight: 400;
   margin-bottom: 10px;
   outline: none;
   /* color: #23BBEA; */
-
 }
 .two-input {
   padding: 7px;
@@ -263,7 +281,7 @@ p {
   border: 1.5px solid rgb(177, 176, 176);
 }
 span {
-  color:#FF9620 ;
+  color: #ff9620;
   font-weight: bold;
 }
 
@@ -277,13 +295,13 @@ button {
   padding: 10px 0;
 }
 .submit {
-  background: #FF9620;
+  background: #ff9620;
   color: #fff;
   width: 30%;
 }
 
 .cancele {
-  background:rgb(218, 218, 218);
+  background: rgb(218, 218, 218);
   color: #000;
   width: 30%;
   margin-right: 10px;

@@ -38,7 +38,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for:="student in students">
+          <tr v-for:="student in students.reverse()">
             <th>{{ student.start_date }}</th>
             <th>{{ student.end_date }}</th>
             <th>{{ student.reason }}</th>
@@ -53,7 +53,7 @@
   </section>
 </template>
 <script>
-import http from "../../axios-http";
+import axios from "@/components/Auth/auth-http";
 export default {
   data() {
     return {
@@ -61,12 +61,17 @@ export default {
       students: [],
       status_type: "show all",
       leave_type: "show all",
+      currentuser_id:null
     };
   },
 
   methods: {
+    studentleaveID(){
+      this.currentuser_id=JSON.parse(localStorage.getItem("user"))["id"]
+    },
     getData() {
-      http.get("/student/leaveRequest/9").then((result) => {
+      this.studentleaveID()
+      axios.get("/studentleaveRequest/", this.currentuser_id).then((result) => {
         this.student_leaves = result.data;
         this.students = this.student_leaves;
       });

@@ -19,6 +19,7 @@ class Student extends Authenticatable
         'batch',
         'gender',
         'image',
+        'role'
     ];
 
     protected $hidden = [
