@@ -1,119 +1,233 @@
-
 <template>
-<section>
-  <div v-if="clickEdit" class="mainDiv">
-    <div class="cardStyle">
-      <form @submit.prevent="validatePassword" id="signupForm">
-        <div class="card_profile">
-        <img :src="'http://127.0.0.1:8000/storage/pictures/'+profile.image" alt="" class="img-profile" />
-      </div>
-        <h2 class="formTitle">Update your password</h2>
-        <div class="inputDiv">
-          <label class="inputLabel" for="password">New Password</label>
-          <div class="password_controller">
-            <input
-              :type="isPasswordShown? 'text': 'password'"
-              v-model="password"
-              name="password"
-              required
-              autocomplete="on"
+  <section>
+    <div v-if="clickEdit" class="mainDiv">
+      <div class="cardStyle">
+        <form id="signupForm">
+          <div class="card_profile">
+            <img
+              :src="'http://127.0.0.1:8000/storage/pictures/' + user.image"
+              class="img-profile"
             />
-            <i @click="showHidePassword" :class="isPasswordShown? 'fa fa-eye':'fa fa-eye-slash'" style="font-size:20px"></i>
           </div>
+          <h2 class="formTitle">Change your password</h2>
+          <div class="inputDiv">
+            <label class="inputLabel" for="password">New Password</label>
+            <div class="password_controller">
+              <input
+                :type="isPasswordShown ? 'text' : 'password'"
+                v-model="password"
+                name="password"
+                required
+                autocomplete="on"
+              />
+              <i
+                @click="showHidePassword"
+                :class="isPasswordShown ? 'fa fa-eye' : 'fa fa-eye-slash'"
+                style="font-size: 20px"
+              ></i>
+            </div>
+          </div>
+          <div class="inputDiv">
+            <label class="inputLabel" for="password">Confirm Password</label>
+            <div class="password_controller">
+              <input
+                :type="isPasswordConfirmed ? 'text' : 'password'"
+                v-model="confirmPassword"
+                name="password"
+                required
+                autocomplete="on"
+              />
+              <i
+                @click="showHidePasswordConfirm"
+                :class="isPasswordConfirmed ? 'fa fa-eye' : 'fa fa-eye-slash'"
+                style="font-size: 20px"
+              ></i>
+            </div>
+          </div>
+          <small style="margin-left: 5rem; color: orangered">{{
+            invalidPassword
+          }}</small>
+          <div class="buttonWrapper">
+            <button
+              type="submit"
+              id="submitButton"
+              class="submitButton pure-button pure-button-primary"
+              @click.prevent="validatePassword(user.id)"
+            >
+              <span>Change</span>
+            </button>
+            <p>No, don't want to update</p>
+            <strong id="back" @click="clickEdit = false">Go back</strong>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div v-if="!clickEdit && !clickChangeprofile" class="contianer">
+      <div class="card">
+        <div class="card_profile">
+          <img
+            :src="'http://127.0.0.1:8000/storage/pictures/' + user.image"
+            alt=""
+            class="img-profile"
+          />
+          <i
+            class="fa fa-camera"
+            style="font-size: 24px"
+            @click="showHideCardPf"
+          ></i>
+        </div>
+        <h1 style="text-align: center; margin: 1rem">
+          {{ user.firstname }} {{ user.lastname }}
+        </h1>
+        <hr />
+        <div class="card_body">
+          <div class="student-name">{{ user.username }}</div>
+          <ul>
+            <li>
+              <span class="bold-text">Class : </span>
+              <span>{{ user.class }}</span>
+            </li>
+            <li>
+              <span class="bold-text">Batch : </span>
+              <span>{{ user.batch }}</span>
+            </li>
+            <li>
+              <span class="bold-text">Gender : </span>
+              <span>{{ user.gender }}</span>
+            </li>
+            <li>
+              <span class="bold-text">Email : </span>
+              <span>{{ user.email }}</span>
+            </li>
+          </ul>
+        </div>
+        <button @click="clickEdit = true" class="btn-edit">
+          Change Password
+        </button>
+      </div>
+    </div>
+
+    <!-- update profile -->
+    <div class="update-pf" v-if="clickChangeprofile">
+      <h2 class="title">Update your profile</h2>
+      <div class="card_pf">
+        <img
+          :src="'http://127.0.0.1:8000/storage/pictures/' + user.image"
+          class="img-pf"
+        />
+      </div>
+      <div class="card-change">
+        <div class="change" @click="showUpload">
+          <i class="fa fa-edit" style="font-size: 36px; color: #3cabce"></i>
+          <p v-if="!isUpload">change</p>
+          <p v-else>upload</p>
         </div>
 
-        <div class="inputDiv">
-          <label class="inputLabel" for="password">Confirm Password</label>
-          <div class="password_controller">
-            <input
-              :type="isPasswordConfirmed? 'text': 'password'"
-              v-model="confirmPassword"
-              name="password"
-              required
-              autocomplete="on"/>
-            <i @click="showHidePasswordConfirm" :class="isPasswordConfirmed? 'fa fa-eye':'fa fa-eye-slash'" style="font-size:20px"></i>
-          </div>
+        <div class="trash">
+          <i class="fa fa-trash" style="font-size: 36px; color: #ff0d0d"></i>
+          <p>remove</p>
         </div>
-        <div class="buttonWrapper">
-          <button
-            type="submit"
-            id="submitButton"
-            class="submitButton pure-button pure-button-primary"
-          >
-            <span>Continue</span>
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
-  <div v-if="!clickEdit" class="contianer">
-    <div class="card">
-      <div class="card_profile">
-        <img :src="'http://127.0.0.1:8000/storage/pictures/'+profile.image" alt="" class="img-profile" />
       </div>
-      <div class="card_body">
-        <div class="student-name">{{ profile.username }}</div>
-        <ul>
-          <li>
-            <span class="bold-text">Class : </span>
-            <span>{{ profile.class }}</span>
-          </li>
-          <li>
-            <span class="bold-text">Batch : </span>
-            <span>{{ profile.batch }}</span>
-          </li>
-          <li>
-            <span class="bold-text">Gender : </span>
-            <span>{{ profile.gender }}</span>
-          </li>
-          <li>
-            <span class="bold-text">Email : </span>
-            <span>{{ profile.email }}</span>
-          </li>
-        </ul>
-      </div>
-      <button @click="clickEdit = true" class="btn-edit">Change Password</button>
     </div>
-  </div>
   </section>
 </template>
 <script>
+import axios from "@/components/Auth/auth-http";
+import swal from "sweetalert";
+
 export default {
-  props: ["profile"],
-  emits: ["updatePassword"],
   data() {
     return {
+      clickChangeprofile: false,
       confirmPassword: "",
       password: "",
       clickEdit: false,
       isPasswordShown: false,
       isPasswordConfirmed: false,
+      invalidPassword: "",
+      currentuser_id: null,
+      isUpload: false,
+      allowImageExtension: ["jpg", "png", "jpeg"],
+      selectedImage: null,
+      image: null,
     };
-
   },
   methods: {
-    validatePassword() {
-      if (
-        this.password != "" &&
-        this.confirmPassword != "" &&
-        this.confirmPassword == this.password
-      ) {
-        const newStudent = {}
-        newStudent.username = this.profile.username;
-        newStudent.email = this.profile.email;
-        newStudent.password = this.password;
-        newStudent.gender = this.profile.gender;
-        newStudent.batch = this.profile.batch;
-        newStudent.class = this.profile.class;
-        newStudent.image = this.profile.image;
-        this.$emit("updatePassword", newStudent);
-        this.clickEdit = false;
+    validatePassword(id) {
+      if (this.password != "") {
+        if (this.confirmPassword != "") {
+          if (this.confirmPassword == this.password) {
+            axios
+              .put("/student/password/update/" + id, this.password)
+              .then((res) => {
+                swal("Good job!", "Your password is changed!", "success").then(
+                  (isChange) => {
+                    if (isChange) {
+                      this.clickEdit = false;
+                    }
+                  }
+                );
+                this.password = "";
+                this.confirmPassword = "";
+                this.invalidPassword = "";
+                return res.data;
+              })
+              .catch((error) => {
+                if (error.response) {
+                  console.log(error.response);
+                  this.invalidPassword =
+                    "* Invalid password and confirm password !";
+                }
+              });
+          } else {
+            this.invalidPassword = "* Invalid confirm password !";
+          }
+        } else {
+          this.invalidPassword = "* Please enter your confirm password !";
+        }
       } else {
-        this.clickEdit = true;
+        this.invalidPassword = "* Please enter your new password !";
       }
     },
-    showHidePassword() {this.isPasswordShown = !this.isPasswordShown},
-    showHidePasswordConfirm() {this.isPasswordConfirmed = !this.isPasswordConfirmed},
+    showHidePassword() {
+      this.isPasswordShown = !this.isPasswordShown;
+    },
+    showHidePasswordConfirm() {
+      this.isPasswordConfirmed = !this.isPasswordConfirmed;
+    },
+
+    showHideCardPf() {
+      this.clickChangeprofile = !this.clickChangeprofile;
+    },
+
+    showUpload() {
+      this.isUpload = !this.isUpload;
+    },
+
+    onSelectFile(event) {
+      let fileExtension = event.target.files[0].name.split(".").pop();
+      if (this.allowImageExtension.includes(fileExtension.toLowerCase())) {
+        this.image = event.target.files[0];
+
+        let reader = new FileReader();
+        reader.readAsDataURL(this.image);
+        reader.onload = (e) => {
+          this.selectedImage = e.target.result;
+        };
+
+        this.isUploaded = true;
+      } else {
+        this.onClosePopup();
+        this.warningAlert();
+      }
+      event.target.value = "";
+    },
+  },
+
+  computed: {
+    user() {
+      return JSON.parse(localStorage.getItem("user"));
+    },
   },
 };
 </script>
@@ -124,17 +238,16 @@ export default {
   margin: 2rem auto;
 }
 .card {
-  background: #144e5a;
-  color: white;
   width: 60%;
   margin: auto;
-  padding: 5rem 2rem;
+  padding: 2rem;
   border-radius: 10px;
   box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
     rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
 }
 .card_body {
   text-align: center;
+  margin-top: 1rem;
 }
 ul li {
   list-style: none;
@@ -147,17 +260,24 @@ ul li {
   display: flex;
   align-items: center;
   justify-content: center;
-
 }
 .img-profile {
   margin: auto;
   box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px,
     rgba(6, 24, 44, 0.65) 0px 4px 6px -1px,
     rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
-  width: 8rem;
-  height: 8rem;
+  width: 6rem;
+  height: 6rem;
   border-radius: 100%;
 }
+
+.fa-camera {
+  position: absolute;
+  margin-top: 4rem;
+  margin-right: 5px;
+  color: #cccccc;
+}
+
 .student-name {
   font-weight: bolder;
 }
@@ -167,12 +287,13 @@ ul li {
   width: 6rem;
 }
 .btn-edit {
+  width: 100%;
   padding: 10px 20px;
-  margin-bottom: -8rem;
   background-color: #065492;
   border-color: #065492;
   color: white;
   border-radius: 5px;
+  margin-top: 1rem;
 }
 .mainDiv {
   display: flex;
@@ -186,7 +307,7 @@ ul li {
   width: 500px;
   border-color: white;
   background: #fff;
-  padding: 36px 0;
+  padding: 1rem 0;
   border-radius: 4px;
   margin: 30px 0;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
@@ -228,7 +349,7 @@ input:disabled {
   border: solid 1px #eee;
 }
 .buttonWrapper {
-  margin-top: 40px;
+  margin-top: 1rem;
 }
 .submitButton {
   width: 70%;
@@ -251,7 +372,7 @@ button[disabled] {
   color: #666666;
 }
 
-.password_controller{
+.password_controller {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -259,9 +380,75 @@ button[disabled] {
   border-radius: 4px;
   border: solid 1px #ccc;
 }
-.fa{
+.fa {
   cursor: pointer;
-  color: rgb(241, 9, 9);
+}
+.buttonWrapper p {
+  text-align: center;
+  margin: 1rem 0 5px 0;
+}
+#back {
+  display: flex;
+  justify-content: center;
+  color: #065492;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.update-pf {
+  width: 40%;
+  border: 1px solid black;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  border: none;
+  margin: auto;
+}
+
+.title {
+  text-align: center;
+  font-size: 30px;
+}
+
+.card-pf {
+  border-radius: 80%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.img-pf {
+  display: flex;
+  margin: 20px auto;
+  box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px,
+    rgba(6, 24, 44, 0.65) 0px 4px 6px -1px,
+    rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
+  width: 20rem;
+  height: 20rem;
+  border-radius: 100%;
+}
+
+.card-change {
+  display: flex;
+  justify-content: space-evenly;
+  padding: 10px;
+}
+
+.card-change p {
+  margin: 0 20px;
+  font-size: 20px;
+}
+
+.change,
+.trash {
+  display: flex;
+  align-items: center;
+  border: none;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  display: flex;
+  padding: 10px 10px;
+  cursor: pointer;
+  border-radius: 5px;
 }
 
 @keyframes spin {

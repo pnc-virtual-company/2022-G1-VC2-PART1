@@ -169,6 +169,7 @@
         </tbody>
       </table>
     </div>
+
     <student-detail
       v-if="isDetail"
       :student="student"

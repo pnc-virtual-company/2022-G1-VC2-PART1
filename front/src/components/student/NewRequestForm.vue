@@ -74,7 +74,7 @@
 </template>
 
 <script>
-import http from "../../axios-http";
+import axios from "@/components/Auth/auth-http";
 import moment from "moment";
 import swal from "sweetalert";
 export default {
@@ -88,7 +88,7 @@ export default {
       startTime: "",
       endTime: "",
       cause: "",
-      student_id: 1,
+      student_id:null,
     };
   },
 
@@ -102,19 +102,22 @@ export default {
       this.endTime = ""
     },
 
+    currentuser_id(){
+      this.student_id = JSON.parse(localStorage.getItem("user"))["id"]
+    },
+
     addRequestLeave() {
+      this.currentuser_id();
       let requestleave = {
         leave_type: this.leaveType,
         start_date: this.startDate,
         end_date: this.endDate,
         duration: this.duration,
         reason: this.cause,
-
-        student_id: 1,
-
-
+        // student_id: 1,
+        student_id: this.student_id,
       };
-      http.post("studentleaveRequest", requestleave).then((res) => {
+      axios.post("studentleaveRequest", requestleave).then((res) => {
         swal({
             title: "Good job!",
             text: "You have create request successfully !",
@@ -166,12 +169,6 @@ export default {
       }
       return "";
     },
-    // disabple_button (){
-    //   if(this.startDate > this.endDate){
-    //     // return "";
-    //   }
-    //   return "";
-    // },
 
     /**
      * Duration is use for calulate duration that student ask permission
@@ -232,10 +229,6 @@ h2 {
   font-size: 15px;
   width: 100%;
   border-radius: 5px;
-  /* border: none; */
-  /* border-bottom: 2px solid #23BBEA;
-  border-left:2px solid #23BBEA ;
-  border-right:2px solid #23BBEA ; */
   border: 1.5px solid rgb(177, 176, 176);
   outline: none;
 

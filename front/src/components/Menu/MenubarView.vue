@@ -1,6 +1,6 @@
 <template>
   <section>
-    <nav v-if="isAdmin">
+    <nav>
       <div class="nav-controll nav-left">
         <div class="pnc_logo">
           <img src="../../assets/pnc_logo.png" alt="" />
@@ -12,15 +12,15 @@
         <router-link to="/checkLeave">CHECK LEAVES</router-link>
       </div>
       <div class="nav-controll nav-right">
-        <img src="../../assets/lolo.jpg" alt="" class="profile-image" />
-        <router-link to="/profile">VANSAO HANG</router-link>
+        <img :src="'http://127.0.0.1:8000/storage/pictures/' + profile" alt="" class="profile-image" />
+        <router-link to="/profile">{{username}}</router-link>
 
         <router-link to="/signOut" class="signOut">
           <i class="fa fa-sign-out fa-2x"></i>
         </router-link>
       </div>
     </nav>
-    <nav v-if="isStudent">
+    <nav v-if="role == 'student'">
       <div class="nav-controll nav-left">
         <div class="pnc_logo">
           <img src="../../assets/pnc_logo.png" alt="" />
@@ -28,12 +28,14 @@
         <router-link to="/welcome" class="welcome">PNC SLMS</router-link>
       </div>
       <div class="nav-controll nav-center">
-        <router-link to="/newRequest">REQUEST LEAVE</router-link>
+        <router-link to="/newRequest"
+          >REQUEST LEAVE</router-link
+        >
         <router-link to="/studentListAllLeave">HISTORY</router-link>
       </div>
       <div class="nav-controll nav-right">
-        <img src="../../assets/lolo.jpg" alt="" class="profile-image" />
-        <router-link to="/profile">VANSAO HANG</router-link>
+        <img :src="'http://127.0.0.1:8000/storage/pictures/' +profile" alt="" class="profile-image" />
+        <router-link to="/profile">{{username}}</router-link>
 
         <router-link to="/signOut" class="signOut">
           <i class="fa fa-sign-out fa-2x"></i>
@@ -41,29 +43,22 @@
       </div>
     </nav>
     <router-view />
-    <button @click="adminlogIn()" v-if="isLogIn" class="btn btn-primary">Teacher</button>
-    <button @click="studentLogIn()" v-if="isLogIn" class="btn btn-primary">Student</button>
   </section>
 </template>
 
 <script>
 export default {
-  data() {
-    return {
-      isAdmin: false,
-      isStudent: false,
-      isLogIn: true,
-    };
-  },
-  methods: {
-    adminlogIn() {
-      this.isAdmin = true;
-      this.isLogIn = false;
+  computed: {
+    role() {
+      return localStorage.getItem("user_role");
     },
-    studentLogIn() {
-      this.isStudent = true;
-      this.isLogIn = false;
+    username(){
+      let user = JSON.parse(localStorage.getItem("user"))
+      return (user.firstname + " " + user.lastname)
     },
+    profile(){
+      return JSON.parse(localStorage.getItem("user"))["image"]
+    }
   },
 };
 </script>
@@ -73,7 +68,8 @@ nav {
   display: flex;
   justify-content: space-between;
   background: rgb(233, 233, 233);
-  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
+    rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
   position: sticky;
   top: 0;
 }
