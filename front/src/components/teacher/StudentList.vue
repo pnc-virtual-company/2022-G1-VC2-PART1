@@ -1,11 +1,7 @@
 <template>
   <section>
 
-<<<<<<< HEAD
-=======
 
-
->>>>>>> e4d1b9419a3e1bdc8a17c1b6945c1e2de71a4bef
     <!-- ++++++++++++++++++++++++++++ Form Update +++++++++++++++++ +++++++++++++++++-->
     <div v-if="isUpdated" class="contianer_update">
       <form @submit.prevent="toUpdate">
