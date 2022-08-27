@@ -80,7 +80,7 @@
 
 <script>
 
- import http from "../../axios-http";
+ import axios from "@/axios-http";
 export default {
   data() {
     return {
@@ -92,26 +92,26 @@ export default {
 
   methods: {
     getlistOfStudentsLeave() {
-      http.get("studentleaveRequest").then((res) => {
+      axios.get("student_leave_request").then((res) => {
           this.listOfStudentsLeave = res.data;
         console.log(this.listOfStudentsLeave.reverse());
       });
     },
     getAleave(id){
-      http.get("studentleaveRequest/"+id).then((res) => {
+      axios.get("student_leave_request/"+id).then((res) => {
           this.listOfALeave = res.data;
           this.seen = !this.seen;
       });
     },
     updateReject(leave){
-      http.put("updateLeaveRequest/"+leave.id,{"status":"Reject"}).then((res)=>{
+      axios.put("student_leave_request/"+leave.id,{"status":"Reject"}).then((res)=>{
         this.getAleave(leave.id);
         this.getlistOfStudentsLeave()
         console.log(res.data);
       })
     },
     updateAproved(leave){
-      http.put("updateLeaveRequest/"+leave.id,{"status":"Aproved"}).then((res)=>{
+      axios.put("student_leave_request/"+leave.id,{"status":"Aproved"}).then((res)=>{
         this.getAleave(leave.id);
       this.getlistOfStudentsLeave()
         console.log(res.data);

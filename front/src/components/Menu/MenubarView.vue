@@ -1,6 +1,9 @@
 <template>
   <section>
-    <nav>
+    <nav v-if="role==null">
+      <router-link to="/"></router-link>
+    </nav>
+    <nav v-if="role == 'admin'">
       <div class="nav-controll nav-left">
         <div class="pnc_logo">
           <img src="../../assets/pnc_logo.png" alt="" />
@@ -14,19 +17,17 @@
       <div class="nav-controll nav-right">
         <img :src="'http://127.0.0.1:8000/storage/pictures/' + profile" alt="" class="profile-image" />
         <router-link to="/profile">{{username}}</router-link>
-
-        <router-link to="/signOut" class="signOut">
-          <i class="fa fa-sign-out fa-2x"></i>
-        </router-link>
+        <div class="signOut">
+          <i class="fa fa-sign-out fa-2x" @click="userSignOut"></i>
+        </div>
       </div>
     </nav>
-    <!-- <nav>
     <nav v-if="role == 'student'">
       <div class="nav-controll nav-left">
         <div class="pnc_logo">
           <img src="../../assets/pnc_logo.png" alt="" />
         </div>
-        <router-link to="/welcome" class="welcome">PNC SLMS</router-link>
+        <router-link to="/" class="welcome">PNC SLMS</router-link>
       </div>
       <div class="nav-controll nav-center">
         <router-link to="/newRequest"
@@ -37,31 +38,45 @@
       <div class="nav-controll nav-right">
         <img :src="'http://127.0.0.1:8000/storage/pictures/' +profile" alt="" class="profile-image" />
         <router-link to="/profile">{{username}}</router-link>
-
-        <router-link to="/signOut" class="signOut">
-          <i class="fa fa-sign-out fa-2x"></i>
-        </router-link>
+        <div class="signOut">
+          <i class="fa fa-sign-out fa-2x" @click="userSignOut"></i>
+        </div>
       </div>
-    </nav> -->
-    <!-- </nav> -->
-    <router-view />
+    </nav>
+    <router-view/>
   </section>
 </template>
 
 <script>
+import axios from "@/axios-http"
 export default {
+  data(){
+    return{
+      role:null,
+    }
+  },
   computed: {
-    role() {
-      return localStorage.getItem("user_role");
-    },
     username(){
       let user = JSON.parse(localStorage.getItem("user"))
       return (user.firstname + " " + user.lastname)
     },
     profile(){
       return JSON.parse(localStorage.getItem("user"))["image"]
+    },
+  },
+
+  methods:{
+    get(){
+      this.role=localStorage.getItem("user_role");
+    },
+    userSignOut(){
+      axios.post("sigout").then(res => {if(res.data){this.$router.push("/"),localStorage.clear()}})
+      setTimeout(() => {window.location.reload()}, 1000)
     }
   },
+  mounted(){
+    this.get()
+  }
 };
 </script>
 
@@ -69,9 +84,8 @@ export default {
 nav {
   display: flex;
   justify-content: space-between;
-  background: rgb(233, 233, 233);
-  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
-    rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+  /* box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
+    rgba(27, 31, 35, 0.15) 0px 0px 0px 1px; */
   position: sticky;
   top: 0;
 }

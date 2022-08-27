@@ -5,12 +5,16 @@ import CheckLeave from '../views/teacher/CheckStudentLeave.vue'
 import StudentListAllLeave from '../views/student/StudentListAllLeave.vue'
 import NewRequest from '../views/student/NewRequest.vue'
 import StudentProfile from '../views/student/StudentProfile.vue'
-import SignOut from '../views/SignOut.vue'
-
+import Signin from "@/views/user/SignIn.vue"
 const routes = [
-
   {
     path: '/',
+    name: 'signin',
+    component: Signin
+  },
+
+  {
+    path: '/welcome',
     name: 'welcome',
     component: WelcomeView
   },
@@ -39,13 +43,7 @@ const routes = [
     path: '/profile',
     name: 'profile',
     component: StudentProfile
-  },
-  {
-    path: '/signOut',
-    name: 'signOut',
-    component: SignOut
-  },
- 
+  }, 
 ]
 
 const router = createRouter({

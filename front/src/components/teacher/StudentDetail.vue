@@ -4,12 +4,11 @@
       <div class="header header-detail">
         <h3>Personal Information</h3>
         <img
-          src="../../assets/cross.png"
+          src="@/assets/cross.png"
           alt=""
           @click="this.$emit('hide-detail')"
         />
       </div>
-
       <div class="personal-info">
         <div class="header header-info">
           <h3>Personal Information</h3>
