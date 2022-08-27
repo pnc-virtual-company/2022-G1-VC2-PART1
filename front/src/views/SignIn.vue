@@ -33,7 +33,7 @@
   </div>
 </template>
 <script>
-import axios from "@/components/Auth/auth-http"
+import axios from "@/axios-http"
 export default {
   emits:["sigin"],
   data() {

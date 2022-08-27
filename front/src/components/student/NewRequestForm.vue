@@ -84,14 +84,12 @@
     </div>
   </form>
 </template>
-
 <script>
-import axios from "@/components/Auth/auth-http";
+import axios from "@/axios-http";
 import moment from "moment";
 import swal from "sweetalert";
 export default {
   emits: ["addRequestLeave"],
-
   data() {
     return {
       leaveType: "",

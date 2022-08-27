@@ -129,7 +129,7 @@
   </section>
 </template>
 <script>
-import axios from "@/components/Auth/auth-http";
+import axios from "@/axios-http";
 import swal from "sweetalert";
 
 export default {
