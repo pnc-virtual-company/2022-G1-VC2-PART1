@@ -172,4 +172,11 @@ class StudentController extends Controller
         auth()->user()->tokens()->delete();
         return response()->json(["ms" => "logged out"]);
     }
+
+    public function updateProfile(Request $request, Student $student)
+    {
+        $student->image = $request->image;
+        $student->save();
+        return response()->json(["ms" => "update successfully"]);
+    }
 }

@@ -105,32 +105,7 @@
           Change Password
         </button>
       </div>
-      <div class="card_body">
-        <div class="student-name">{{ profile.username }}</div>
-        <ul>
-          <li>
-            <span class="bold-text">Gender : </span>
-            <span>{{ profile.gender }}</span>
-          </li>
-          <li>
-            <span class="bold-text">Class : </span>
-            <span>{{ profile.class }}</span>
-          </li>
-          <li>
-            <span class="bold-text">Generation : </span>
-            <span>{{ profile.batch }}</span>
-          </li>
-           <li>
-            <span class="bold-text">Phone : </span>
-            <span>0973432123</span>
-          </li>
-          <li>
-            <span class="bold-text">Email : </span>
-            <span>{{ profile.email }}</span>
-          </li>
-        </ul>
-      </div>
-      <button @click="clickEdit = true" class="btn-edit">Change Password</button>
+      
     </div>
 
     <!-- update profile -->
@@ -143,11 +118,11 @@
         />
       </div>
       <div class="card-change">
-        <div class="change" @click="showUpload">
+        <input @change="saveUpload" id="profile-upload" type="file" hidden>
+        <label for="profile-upload" class="change" @click="showUpload">
           <i class="fa fa-edit" style="font-size: 36px; color: #3cabce"></i>
-          <p v-if="!isUpload">change</p>
-          <p v-else>upload</p>
-        </div>
+          <p>Change</p>
+        </label>
 
         <div class="trash">
           <i class="fa fa-trash" style="font-size: 36px; color: #ff0d0d"></i>
@@ -173,12 +148,24 @@ export default {
       invalidPassword: "",
       currentuser_id: null,
       isUpload: false,
-      allowImageExtension: ["jpg", "png", "jpeg"],
-      selectedImage: null,
       image: null,
     };
   },
   methods: {
+
+    saveUpload(event){
+      console.log(this.user.id);
+        this.image = event.target.files[0];
+        let formData = new FormData();
+        formData.append('profile_image', this.image);
+        formData.append('_method', 'PUT');
+
+        axios.post("/student/reset_profile/" + 16, formData).then(res => {
+          console.log(res);
+        })
+    },
+
+
     validatePassword(id) {
       if (this.password != "") {
         if (this.confirmPassword != "") {
@@ -230,24 +217,7 @@ export default {
       this.isUpload = !this.isUpload;
     },
 
-    onSelectFile(event) {
-      let fileExtension = event.target.files[0].name.split(".").pop();
-      if (this.allowImageExtension.includes(fileExtension.toLowerCase())) {
-        this.image = event.target.files[0];
-
-        let reader = new FileReader();
-        reader.readAsDataURL(this.image);
-        reader.onload = (e) => {
-          this.selectedImage = e.target.result;
-        };
-
-        this.isUploaded = true;
-      } else {
-        this.onClosePopup();
-        this.warningAlert();
-      }
-      event.target.value = "";
-    },
+   
   },
 
   computed: {

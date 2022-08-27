@@ -28,6 +28,7 @@ Route::get('/student/{id}', [StudentController::class, 'show']);
 Route::delete('/student/{id}', [StudentController::class, 'destroy']);
 Route::post('/student/{id}', [StudentController::class, 'update']);
 Route::post('/student/{id}', [StudentController::class, 'updatePassword']);
+Route::put('/student/reset_profile/{student}', [StudentController::class, 'updateProfile']);
 
 Route::post('/studentleaveRequest', [StudentLeaveRquestController::class, 'store']);
 Route::get('/studentleaveRequest', [StudentLeaveRquestController::class, 'index']);
