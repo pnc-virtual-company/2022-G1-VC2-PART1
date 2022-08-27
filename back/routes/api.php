@@ -3,6 +3,7 @@
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\StudentLeaveRquestController;
 use App\Http\Controllers\TeacherController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\MailController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -22,42 +23,44 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/student', [StudentController::class, 'store']);
-Route::get('/student', [StudentController::class, 'index']);
-Route::get('/student/{id}', [StudentController::class, 'show']);
-Route::delete('/student/{id}', [StudentController::class, 'destroy']);
-Route::post('/student/{id}', [StudentController::class, 'update']);
-Route::post('/student/{id}', [StudentController::class, 'updatePassword']);
-Route::put('/student/reset_profile/{student}', [StudentController::class, 'updateProfile']);
+/*
+================= User route =====================
+ */
 
-Route::post('/studentleaveRequest', [StudentLeaveRquestController::class, 'store']);
-Route::get('/studentleaveRequest', [StudentLeaveRquestController::class, 'index']);
-Route::get('/studentleaveRequest/{id}', [StudentLeaveRquestController::class, 'show']);
-Route::put('/updateLeaveRequest/{id}', [StudentLeaveRquestController::class, 'update']);
-Route::get('student/leaveRequest/{id}', [StudentLeaveRquestController::class, 'getLeaveByStudentId']);
-Route::put('/studentleaveRequest/{id}', [StudentLeaveRquestController::class, 'update']);
-Route::delete('/studentleaveRequest/{id}', [StudentLeaveRquestController::class, 'destroy']);
+Route::post("register", [UserController::class, "register"]);
+Route::post("signin", [UserController::class, "sigin"]);
 
-Route::post("addstudent", [StudentController::class, "createAccount"]);
-
-Route::post("login", [StudentController::class, "userLogin"]);
-Route::apiresource("studentleaveRequest", StudentLeaveRquestController::class);
-
-//Student private routes
-Route::group(['middleware' => ['auth:sanctum']], function () {
-    Route::post("logout", [StudentController::class, "logout"]);
-    Route::get("userLogin", [StudentController::class, "user"]);
-    Route::put('/student/password/update/{id}', [StudentController::class, 'updatePassword']);
-
+/*
+================= Teacher route =====================
+ */
+Route::post("/addTeacher", [TeacherController::class, "store"]);
+Route::post("teacher/sigin", [TeacherController::class, "sigin"]);
+Route::group(['middleware'=>['auth:sanctum']],function(){
+    Route::apiresource("/user", UserController::class);
+    Route::apiresource("/student", StudentController::class);
+    // Route::post("/addTeacher", [TeacherController::class, "store"]);
+    Route::put("/update_teacher", [TeacherController::class, "update"]);
+    Route::apiresource("/student_leave_request", StudentLeaveRquestController::class);
+    Route::post("sigout", [TeacherController::class, "sigout"]);
+    Route::get("userlogin", [TeacherController::class, "teacher"]);
+    Route::put("student_update_password", [TeacherController::class, "updatePassword"]);
+    Route::put("student_update_image", [TeacherController::class, "updateImage"]);
+    Route::put("user_update_password", [UserController::class, "updatePassword"]);
 });
 
 /*
-================= Teacher =====================
+================= Student route =====================
  */
 
-Route::post('/teachers', [TeacherController::class, 'store']);
-Route::get('/teachers', [TeacherController::class, 'index']);
-Route::get('/teachers/{id}', [TeacherController::class, 'show']);
-Route::put('/teachers/{id}', [TeacherController::class, 'update']);
-Route::delete('/teachers/{id}', [TeacherController::class, 'destroy']);
-Route::get('/sendMail',[MailController::class,"sendEmail"]);
+Route::post("/addStudent", [StudentController::class, "store"]);
+Route::post("student/sigin", [StudentController::class, "sigin"]);
+Route::group(['middleware'=>['auth:sanctum']],function(){
+    Route::apiresource("/user", UserController::class);
+    Route::apiresource("/student_leave_request", StudentLeaveRquestController::class);
+    Route::post("sigout", [StudentController::class, "sigout"]);
+    Route::put("student_update", [StudentController::class, "update"]);
+    Route::put("user_update_password", [UserController::class, "updatePassword"]);
+    Route::put("student_update_password", [StudentController::class, "updatePassword"]);
+    Route::put("student_update_image", [StudentController::class, "updateImage"]);
+    Route::get("userlogin", [StudentController::class, "student"]);
+});

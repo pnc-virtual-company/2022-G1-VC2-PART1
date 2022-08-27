@@ -18,9 +18,11 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'firstname',
+        'lasstname',
         'email',
         'password',
+        'role'
     ];
 
     /**
@@ -31,6 +33,9 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'updated_at',
+        'created_at',
+        'email_verified_at'
     ];
 
     /**
@@ -40,5 +45,16 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'role' => 'boolean'
     ];
+
+    protected $primaryKey = 'user_id';
+    public function student(){
+        return $this->hasOne(Student::class);
+    }
+    public function teacher(){
+    
+        return $this->hasOne(Teacher::class);
+    }
+    
 }

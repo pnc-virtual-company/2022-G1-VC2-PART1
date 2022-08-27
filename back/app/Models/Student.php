@@ -19,13 +19,13 @@ class Student extends Authenticatable
         'batch',
         'gender',
         'image',
-        'role'
     ];
 
     protected $hidden = [
         'updated_at',
         'remember_token',
-        'email_verified_at'
+        'email_verified_at',
+       
     ];
     protected $casts = [
         'email_verified_at' => 'datetime',
@@ -33,5 +33,10 @@ class Student extends Authenticatable
 
     public function studentleavequest(){
         return $this->hasMany(StudentLeaveRquest::class, 'studentleaveRequest_id');
+    }
+    
+    public function User()
+    {
+        return $this->belongsTo(User::class,'user_id');
     }
 }

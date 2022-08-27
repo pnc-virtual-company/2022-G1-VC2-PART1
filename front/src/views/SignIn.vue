@@ -33,7 +33,7 @@
   </div>
 </template>
 <script>
-import axios from "@/components/Auth/auth-http"
+import axios from "@/axios-http"
 export default {
   emits:["sigin"],
   data() {
@@ -51,12 +51,13 @@ export default {
 
     handleClick(event){
       event.preventDefault()
-      axios.post("login", {email:this.email, password:this.password})
+      axios.post("user/sigin", {email:this.email, password:this.password})
       .then(response =>{
-        localStorage.setItem("accessToken", response.data.token)
-        localStorage.setItem("user", JSON.stringify(response.data.user))
-        localStorage.setItem("user_role", response.data.user.role)
-        this.$router.push("/welcome")
+        console.log("My user: ", response);
+        // localStorage.setItem("accessToken", response.data.token)
+        // localStorage.setItem("user", JSON.stringify(response.data.user))
+        // localStorage.setItem("user_role", response.data.user.role)
+        // this.$router.push("/welcome")
       })
     },
   },

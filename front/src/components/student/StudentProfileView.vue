@@ -216,7 +216,6 @@ export default {
     showUpload() {
       this.isUpload = !this.isUpload;
     },
-
    
   },
 

@@ -48,7 +48,6 @@ class StudentLeaveRquestController extends Controller
     {
         //
         return StudentLeaveRquest::with('student')->where('id', $id)->get();
-        
     }
     public function getLeaveByStudentId($id)
     {
@@ -66,7 +65,6 @@ class StudentLeaveRquestController extends Controller
      */
     public function update(Request $request,$id)
     {
-  
         $studentLeaveRequest = StudentLeaveRquest::findOrFail($id);
         $studentLeaveRequest->status = $request->status;
         $studentLeaveRequest->save();
