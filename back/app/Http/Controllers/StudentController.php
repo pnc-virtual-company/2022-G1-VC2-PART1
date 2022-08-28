@@ -49,7 +49,7 @@ class StudentController extends Controller
         $student->class = $request->class;
         $student->batch = $request->batch;
         $student->user_id = $request->user_id;
-        $student->image = $request->file("image");
+        $student->image = $request->file("image")->hashName();
         $student->save();
         return response()->json($student);
     }
@@ -119,19 +119,19 @@ class StudentController extends Controller
     }
   
 
-    public function sigin(Request $request)
-    {
-        $student = Student::where('email', $request->email)->first();
-        if (!$student || !Hash::check($request->password, $student->password)) {
-            return response()->json(["ms" => "Invalid password"], 401);
-        }
-        $token = $student->createToken("mytoken")->plainTextToken;
-        $response = [
-            'user' => $student,
-            "token" => $token,
-        ];
-        return response()->json($response);
-    }
+    // public function sigin(Request $request)
+    // {
+    //     $student = Student::where('email', $request->email)->first();
+    //     if (!$student || !Hash::check($request->password, $student->password)) {
+    //         return response()->json(["ms" => "Invalid password"], 401);
+    //     }
+    //     $token = $student->createToken("mytoken")->plainTextToken;
+    //     $response = [
+    //         'user' => $student,
+    //         "token" => $token,
+    //     ];
+    //     return response()->json($response);
+    // }
     public function student()
     {
         return Auth::user();
