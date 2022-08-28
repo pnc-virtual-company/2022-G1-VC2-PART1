@@ -1,8 +1,8 @@
 <template>
   <section>
-    <nav v-if="role==null">
+    <!-- <nav v-if="role==null">
       <router-link to="/"></router-link>
-    </nav>
+    </nav> -->
     <nav v-if="role == 'admin'">
       <div class="nav-controll nav-left">
         <div class="pnc_logo">

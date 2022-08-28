@@ -66,7 +66,7 @@ export default {
       } else {
         localStorage.setItem("user_role", "student");
       }
-      setTimeout(() => {window.location.reload()}, 1000)
+      // setTimeout(() => {window.location.reload()}, 1000)
       this.$router.push("/welcome");
     },
   },
