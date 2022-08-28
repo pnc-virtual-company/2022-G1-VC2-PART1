@@ -22,7 +22,8 @@ class User extends Authenticatable
         'lasstname',
         'email',
         'password',
-        'role'
+        'role',
+        'image',
     ];
 
     /**
@@ -48,7 +49,6 @@ class User extends Authenticatable
         'role' => 'boolean'
     ];
 
-    protected $primaryKey = 'user_id';
     public function student(){
         return $this->hasOne(Student::class);
     }

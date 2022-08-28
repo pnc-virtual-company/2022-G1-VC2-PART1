@@ -84,7 +84,7 @@
         name="gender"
         v-model="gender"
       />
-      <label for="M">Female</label>
+      <label for="M">Male</label>
       <input
         class="radio-input"
         type="radio"
@@ -93,7 +93,7 @@
         name="gender"
         v-model="gender"
       />
-      <label for="F">Male</label>
+      <label for="F">Female</label>
     </div>
     <div class="btn-group">
       <button class="btn btn-cancele" type="submit"  @click.prevent="canceleAdd">Cancele</button>
@@ -129,6 +129,7 @@ export default {
     uploadImage(e) {
       this.image = e.target.files[0];
       console.log(this.image);
+      console.log(e.target.files)
     },
     addUser() {
       let user = new FormData();
