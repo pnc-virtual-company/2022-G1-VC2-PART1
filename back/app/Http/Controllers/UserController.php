@@ -31,7 +31,7 @@ class UserController extends Controller
         $user->firstname = $request->firstname;
         $user->lastname = $request->lastname;
         $user->email = $request->email;
-        $user->password = bcrypt("12345678");;
+        $user->password = bcrypt("12345678");
         $user->role = $request->role;
         return response()->json($user);
     }
@@ -63,6 +63,7 @@ class UserController extends Controller
         $user->lastname = $request->lastname;
         $user->email = $request->email;
         $user->password = bcrypt($request->password);
+        $user->image = $request->file("image")->hashName();
         $user->save();
         $response = [
             'user' => $user,

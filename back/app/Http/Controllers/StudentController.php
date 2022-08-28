@@ -29,9 +29,14 @@ class StudentController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            // 'user_id' => 'required|unique:users',
+            'firstname' => 'required',
+            'lastname' => 'required',
+            'gender' => 'required',
+            'phone' => 'required',
+            'email' => 'required|unique:users|email|regex:/(.*)@student.passerellesnumeriques.org\.com/i',
             'class' => 'required',
             'batch' => 'required|min:4',
+            'user_id' => 'required|',
         ]);
         $request->file('image')->store('public/pictures');
         $student = new Student();
@@ -44,9 +49,8 @@ class StudentController extends Controller
         $student->class = $request->class;
         $student->batch = $request->batch;
         $student->user_id = $request->user_id;
-        $student->image = $request->file("image")->hashName();
+        $student->image = $request->file("image");
         $student->save();
-       
         return response()->json($student);
     }
 
