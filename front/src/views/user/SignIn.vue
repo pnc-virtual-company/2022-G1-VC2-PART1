@@ -56,25 +56,21 @@ export default {
         this.userSigin(response.data.role)
       })
     },
-    userSigin(user){
-      if(user){
+    userSigin(admin){
+      if(admin){
         axios.post("teacher/sigin", {email:this.email, password:this.password})
         .then(response =>{
-          console.log("Teacher : ", response);
           localStorage.setItem("accessToken", response.data.token)
-          localStorage.setItem("user", JSON.stringify(response.data.user))
           localStorage.setItem("user_role", "admin")
         })
       }else{
         axios.post("student/sigin", {email:this.email, password:this.password})
         .then(response =>{
-          console.log("Student : ", response);
           localStorage.setItem("accessToken", response.data.token)
-          localStorage.setItem("user", JSON.stringify(response.data.user))
           localStorage.setItem("user_role", "student")
         })
       }
-      setTimeout(() => {window.location.reload()}, 1000)
+      // setTimeout(() => {window.location.reload()}, 1000)
       this.$router.push("/welcome")
     }
   },

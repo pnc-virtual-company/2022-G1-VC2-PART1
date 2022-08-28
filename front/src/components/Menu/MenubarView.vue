@@ -15,7 +15,7 @@
         <router-link to="/checkLeave">CHECK LEAVES</router-link>
       </div>
       <div class="nav-controll nav-right">
-        <img :src="'http://127.0.0.1:8000/storage/pictures/' + profile" alt="" class="profile-image" />
+        <img :src="'http://127.0.0.1:8000/storage/pictures/' + image" alt="" class="profile-image" />
         <router-link to="/profile">{{username}}</router-link>
         <div class="signOut">
           <i class="fa fa-sign-out fa-2x" @click="userSignOut"></i>
@@ -25,7 +25,7 @@
     <nav v-if="role == 'student'">
       <div class="nav-controll nav-left">
         <div class="pnc_logo">
-          <img src="../../assets/pnc_logo.png" alt="" />
+          <img src="@/assets/pnc_logo.png" alt="" />
         </div>
         <router-link to="/" class="welcome">PNC SLMS</router-link>
       </div>
@@ -36,7 +36,7 @@
         <router-link to="/studentListAllLeave">HISTORY</router-link>
       </div>
       <div class="nav-controll nav-right">
-        <img :src="'http://127.0.0.1:8000/storage/pictures/' +profile" alt="" class="profile-image" />
+        <img :src="'http://127.0.0.1:8000/storage/pictures/' +image" alt="" class="profile-image" />
         <router-link to="/profile">{{username}}</router-link>
         <div class="signOut">
           <i class="fa fa-sign-out fa-2x" @click="userSignOut"></i>
@@ -53,21 +53,24 @@ export default {
   data(){
     return{
       role:null,
+      username:null,
+      image:null,
     }
   },
-  computed: {
-    username(){
-      let user = JSON.parse(localStorage.getItem("user"))
-      return (user.firstname + " " + user.lastname)
-    },
-    profile(){
-      return JSON.parse(localStorage.getItem("user"))["image"]
-    },
-  },
-
+  
   methods:{
     get(){
       this.role=localStorage.getItem("user_role");
+      this.user()
+    },
+    user(){
+      if(localStorage.getItem("user_role")){
+        axios.get("userlogin").then((res)=>{
+          console.log("user", res);
+          this.username=res.data.firstname + " " + res.data.lastname;
+          this.image=res.data.image;
+        })
+      }
     },
     userSignOut(){
       axios.post("sigout").then(res => {if(res.data){this.$router.push("/"),localStorage.clear()}})
@@ -84,8 +87,6 @@ export default {
 nav {
   display: flex;
   justify-content: space-between;
-  /* box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
-    rgba(27, 31, 35, 0.15) 0px 0px 0px 1px; */
   position: sticky;
   top: 0;
 }

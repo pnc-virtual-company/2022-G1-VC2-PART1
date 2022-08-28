@@ -149,6 +149,7 @@ export default {
       currentuser_id: null,
       isUpload: false,
       image: null,
+      user:null,
     };
   },
   methods: {
@@ -159,13 +160,10 @@ export default {
         let formData = new FormData();
         formData.append('profile_image', this.image);
         formData.append('_method', 'PUT');
-
-        axios.post("/student/reset_profile/" + 16, formData).then(res => {
-          console.log(res);
-        })
+        // axios.post("/student/reset_profile/" + 16, formData).then(res => {
+        //   console.log(res);
+        // })
     },
-
-
     validatePassword(id) {
       if (this.password != "") {
         if (this.confirmPassword != "") {
@@ -212,18 +210,23 @@ export default {
     showHideCardPf() {
       this.clickChangeprofile = !this.clickChangeprofile;
     },
-
     showUpload() {
       this.isUpload = !this.isUpload;
     },
+    userlogin() {
+      if(localStorage.getItem("user_role")){
+        axios.get("userlogin").then((res)=>{
+          this.user = res.data;
+        })
+      }
+    }
    
   },
 
-  computed: {
-    user() {
-      return JSON.parse(localStorage.getItem("user"));
-    },
-  },
+  mounted(){
+    this.userlogin();
+  }
+
 };
 </script>
 
