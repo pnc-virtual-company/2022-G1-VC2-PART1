@@ -105,10 +105,7 @@ class UserController extends Controller
         $user->password = bcrypt("12345678");
         $user->role = $request->role;
         $user->save();
-        $response = [
-            'user' => $user,
-        ];
-        return response()->json($response);
+        return response()->json($user);
     }
     public function sigin(Request $request)
     {

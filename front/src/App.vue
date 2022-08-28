@@ -10,19 +10,6 @@ export default {
     "menu-bar": MenubarView,
   },
 
-  data(){
-    
-  },
-  computed:{
-    role(){
-      if(localStorage.getItem("user_role")){
-        return localStorage.getItem("user_role")
-      }else{
-        return null
-      }
-    }
-  }
-
 };
 </script>
 

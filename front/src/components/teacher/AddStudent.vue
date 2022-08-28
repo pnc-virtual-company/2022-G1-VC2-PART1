@@ -97,7 +97,7 @@
     </div>
     <div class="btn-group">
       <button class="btn btn-cancele" type="submit"  @click.prevent="canceleAdd">Cancele</button>
-      <button class="btn btn-submit" type="submit" @click.prevent="addStudent">
+      <button class="btn btn-submit" type="submit" @click.prevent="addUser">
         ADD
       </button>
     </div>
@@ -107,7 +107,7 @@
 <script>
 // <!-- +++++++++++++++++++++++++++ MY CODE +++++++++++++++++ -->
 
-import http from "../../axios-http";
+import axios from "@/axios-http";
 import swal from "sweetalert";
 export default {
   data() {
@@ -121,6 +121,7 @@ export default {
       generation: "",
       phone: "",
       image: null,
+      user_id: null,
     };
   },
 
@@ -130,19 +131,33 @@ export default {
       console.log(this.image);
       console.log(e.target.files)
     },
-    addStudent() {
+    addUser() {
+      let user = new FormData();
+      user.append("firstname", this.firstname);
+      user.append("lastname", this.lastname);
+      user.append("email", this.email);
+      user.append("password", this.password);
+      user.append("role", 0);
+      axios.post("register", user).then(response => {
+        this.user_id=response.data.id
+        if(this.user_id){
+          this.createStudent();
+        }
+      })
+    },
+    createStudent(){
       let student = new FormData();
       student.append("firstname", this.firstname);
       student.append("lastname", this.lastname);
       student.append("email", this.email);
       student.append("password", this.password);
+      student.append("image", this.image);
       student.append("phone", this.phone);
       student.append("class", this.classroom);
       student.append("batch", this.generation);
       student.append("gender", this.gender);
-      student.append("image", this.image);
-      http
-        .post("addstudent", student)
+      student.append("user_id", this.user_id);
+      axios.post("student", student)
         .then((res) => {
            swal({
         title:
@@ -172,7 +187,6 @@ export default {
             console.log(error.response);
           }
         });
-     
     },
     canceleAdd(){
       console.log('hh')
