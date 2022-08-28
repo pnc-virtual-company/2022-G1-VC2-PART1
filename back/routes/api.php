@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\StudentLeaveRquestController;
-use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\MailController;
 use Illuminate\Http\Request;
@@ -33,17 +32,11 @@ Route::post("user/sigin", [UserController::class, "sigin"]);
 /*
 ================= Teacher route =====================
  */
-Route::post("/addTeacher", [TeacherController::class, "store"]);
 Route::post("teacher/sigin", [TeacherController::class, "sigin"]);
 Route::group(['middleware'=>['auth:sanctum']],function(){
-    Route::apiresource("/user", UserController::class);
+    Route::post("/admin", [UserController::class, "store"]);
     Route::apiresource("/student", StudentController::class);  
-    Route::put("/update_teacher", [TeacherController::class, "update"]);
     Route::apiresource("/student_leave_request", StudentLeaveRquestController::class);
-    Route::post("sigout", [TeacherController::class, "sigout"]);
-    Route::get("userlogin", [TeacherController::class, "teacher"]);
-    Route::put("student_update_password", [TeacherController::class, "updatePassword"]);
-    Route::put("student_update_image", [TeacherController::class, "updateImage"]);
     Route::put("user_update_password", [UserController::class, "updatePassword"]);
 });
 
