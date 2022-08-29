@@ -112,6 +112,7 @@ class UserController extends Controller
             'lastname' => 'required',
             'email' => 'required|email|regex:/(.*)@passerellesnumeriques.org/i',
         ]);
+        $request->file('image')->store('public/pictures');
         $user = new User();
         $user->firstname = $request->firstname;
         $user->lastname = $request->lastname;
