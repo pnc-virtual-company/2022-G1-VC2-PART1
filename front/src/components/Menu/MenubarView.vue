@@ -57,7 +57,6 @@ export default {
       image:null,
     }
   },
-  
   methods:{
     get(){
       this.role=localStorage.getItem("user_role");
@@ -66,7 +65,6 @@ export default {
     user(){
       if(localStorage.getItem("user_role")){
         axios.get("userlogin").then((res)=>{
-          console.log("user", res);
           this.username=res.data.firstname + " " + res.data.lastname;
           this.image=res.data.image;
         })

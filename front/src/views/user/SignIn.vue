@@ -53,12 +53,11 @@ export default {
 
     handleClick(event) {
       event.preventDefault();
-      axios
-        .post("user/sigin", { email: this.email, password: this.password })
+      axios.post("user/sigin", { email: this.email, password: this.password })
         .then((response) => {
           this.userSigin(response.data.user.role);
           localStorage.setItem("accessToken", response.data.token);
-        });
+        })
     },
     userSigin(role) {
       if (role) {
