@@ -1,7 +1,8 @@
 <template>
   <section>
-    <menu-bar :role="role" :userData="userData"></menu-bar>
-    <router-view @sign-in="login"> </router-view>
+    <menu-bar :role="role" :userData="userData" @sign-out="signOut"></menu-bar>
+    <router-view @sign-in="login" :unauthorizedError="unauthorizedError">
+    </router-view>
   </section>
 </template>
 <script>
@@ -12,6 +13,7 @@ export default {
     return {
       role: "",
       userData: {},
+      unauthorizedError: "",
     };
   },
   components: {
@@ -23,27 +25,40 @@ export default {
         axios.get("userlogin").then((res) => {
           this.userData = res.data;
           this.role = this.userData.role;
-          console.log(this.userData.firstname, this.userData.lastname);
         });
       }
-      //  else {
-      //   this.$router.push("/");
-      // }
     },
     login(userData) {
-      axios.post("user/sigin", userData).then((response) => {
-        this.role = response.data.user.role;
-        localStorage.setItem("accessToken", response.data.token);
-        this.getUserData();
-        this.$router.push("/welcome");
+      axios
+        .post("user/sigin", userData)
+        .then((response) => {
+          this.role = response.data.user.role;
+          localStorage.setItem("accessToken", response.data.token);
+          this.getUserData();
+          this.unauthorizedError = "";
+          this.$router.push("/welcome");
+        })
+        .catch((error) => {
+          console.log(error);
+          let serverCode = error.response.status;
+          if (serverCode === 401) {
+            this.unauthorizedError = "Unauthorized! incorrect email or password";
+          }
+        });
+    },
+    signOut() {
+      axios.post("sigout").then((res) => {
+        if (res.data) {
+          this.role = null;
+          localStorage.clear();
+          this.$router.push("/");
+        }
       });
     },
   },
   mounted() {
     this.getUserData();
-    this.$router.push("/");
     if (localStorage.getItem("accessToken") === null) {
-      console.log(localStorage.getItem("accessToken"))
       this.$router.push("/");
     } else {
       this.$router.push("/welcome");
@@ -58,4 +73,5 @@ export default {
   padding: 0;
   font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
 }
+
 </style>

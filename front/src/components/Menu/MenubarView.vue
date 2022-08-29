@@ -12,7 +12,7 @@
           <router-link to="/studentsList">STUDENTS</router-link>
           <router-link to="/checkLeave">CHECK LEAVES</router-link>
         </div>
-        <div class="nav-controll nav-right">
+        <div class="nav-controll nav-right" v-if="userData.image != undefined">
           <img
             :src="'http://127.0.0.1:8000/storage/pictures/' + userData.image"
             alt=""
@@ -35,7 +35,7 @@
           <router-link to="/newRequest">REQUEST LEAVE</router-link>
           <router-link to="/studentListAllLeave">HISTORY</router-link>
         </div>
-        <div class="nav-controll nav-right">
+        <div class="nav-controll nav-right" v-if="userData.image != undefined">
           <img
             :src="'http://127.0.0.1:8000/storage/pictures/' + userData.image"
             alt=""
@@ -50,21 +50,14 @@
     </div>
   </section>
 </template>
-
 <script>
-import axios from "@/axios-http";
+// import axios from "@/axios-http";
 export default {
+  emits:['sign-out'],
   props: ["role", "userData"],
   methods: {
     userSignOut() {
-      axios.post("sigout").then((res) => {
-        if (res.data) {
-          this.$router.push("/"), localStorage.clear();
-        }
-      });
-      setTimeout(() => {
-        window.location.reload();
-      }, 1000);
+      this.$emit('sign-out');
     },
   },
 };
