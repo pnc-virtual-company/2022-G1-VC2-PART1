@@ -1,85 +1,72 @@
 <template>
   <section>
-    <!-- <nav v-if="role==null">
-      <router-link to="/"></router-link>
-    </nav> -->
-    <nav v-if="role == 'admin'">
-      <div class="nav-controll nav-left">
-        <div class="pnc_logo">
-          <img src="../../assets/pnc_logo.png" alt="" />
+    <div v-if="role != ''">
+      <nav v-if="role == true">
+        <div class="nav-controll nav-left">
+          <div class="pnc_logo">
+            <img src="../../assets/pnc_logo.png" alt="" />
+          </div>
+          <router-link to="/welcome" class="welcome">PNC SLMS</router-link>
         </div>
-        <router-link to="/welcome" class="welcome">PNC SLMS</router-link>
-      </div>
-      <div class="nav-controll nav-center">
-        <router-link to="/studentsList">STUDENTS</router-link>
-        <router-link to="/checkLeave">CHECK LEAVES</router-link>
-      </div>
-      <div class="nav-controll nav-right">
-        <img :src="'http://127.0.0.1:8000/storage/pictures/' + image" alt="" class="profile-image" />
-        <router-link to="/profile">{{username}}</router-link>
-        <div class="signOut">
-          <i class="fa fa-sign-out fa-2x" @click="userSignOut"></i>
+        <div class="nav-controll nav-center">
+          <router-link to="/studentsList">STUDENTS</router-link>
+          <router-link to="/checkLeave">CHECK LEAVES</router-link>
         </div>
-      </div>
-    </nav>
-    <nav v-if="role == 'student'">
-      <div class="nav-controll nav-left">
-        <div class="pnc_logo">
-          <img src="@/assets/pnc_logo.png" alt="" />
+        <div class="nav-controll nav-right">
+          <img
+            :src="'http://127.0.0.1:8000/storage/pictures/' + userData.image"
+            alt=""
+            class="profile-image"
+          />
+          <router-link to="/profile">{{ userData.firstname  }} {{ userData.lastname }}</router-link>
+          <div class="signOut">
+            <i class="fa fa-sign-out fa-2x" @click="userSignOut"></i>
+          </div>
         </div>
-        <router-link to="/" class="welcome">PNC SLMS</router-link>
-      </div>
-      <div class="nav-controll nav-center">
-        <router-link to="/newRequest"
-          >REQUEST LEAVE</router-link
-        >
-        <router-link to="/studentListAllLeave">HISTORY</router-link>
-      </div>
-      <div class="nav-controll nav-right">
-        <img :src="'http://127.0.0.1:8000/storage/pictures/' +image" alt="" class="profile-image" />
-        <router-link to="/profile">{{username}}</router-link>
-        <div class="signOut">
-          <i class="fa fa-sign-out fa-2x" @click="userSignOut"></i>
+      </nav>
+      <nav v-if="role == false">
+        <div class="nav-controll nav-left">
+          <div class="pnc_logo">
+            <img src="@/assets/pnc_logo.png" alt="" />
+          </div>
+          <router-link to="/" class="welcome">PNC SLMS</router-link>
         </div>
-      </div>
-    </nav>
-    <router-view/>
+        <div class="nav-controll nav-center">
+          <router-link to="/newRequest">REQUEST LEAVE</router-link>
+          <router-link to="/studentListAllLeave">HISTORY</router-link>
+        </div>
+        <div class="nav-controll nav-right">
+          <img
+            :src="'http://127.0.0.1:8000/storage/pictures/' + userData.image"
+            alt=""
+            class="profile-image"
+          />
+          <router-link to="/profile">{{ userData.username }}</router-link>
+          <div class="signOut">
+            <i class="fa fa-sign-out fa-2x" @click="userSignOut"></i>
+          </div>
+        </div>
+      </nav>
+    </div>
   </section>
 </template>
 
 <script>
-import axios from "@/axios-http"
+import axios from "@/axios-http";
 export default {
-  data(){
-    return{
-      role:null,
-      username:null,
-      image:null,
-    }
-  },
-  
-  methods:{
-    get(){
-      this.role=localStorage.getItem("user_role");
-      this.user()
+  props: ["role", "userData"],
+  methods: {
+    userSignOut() {
+      axios.post("sigout").then((res) => {
+        if (res.data) {
+          this.$router.push("/"), localStorage.clear();
+        }
+      });
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
     },
-    user(){
-      if(localStorage.getItem("user_role")){
-        axios.get("userlogin").then((res)=>{
-          console.log("user", res);
-          this.username=res.data.firstname + " " + res.data.lastname;
-          this.image=res.data.image;
-        })
-      }
-    },
-    userSignOut(){
-      axios.post("sigout").then(res => {if(res.data){this.$router.push("/"),localStorage.clear()}})
-      setTimeout(() => {window.location.reload()}, 1000)
-    }
   },
-  mounted(){
-    this.get()
-  }
 };
 </script>
 
@@ -89,6 +76,8 @@ nav {
   justify-content: space-between;
   position: sticky;
   top: 0;
+  box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px,
+    rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
 }
 .nav-left {
   width: 25%;

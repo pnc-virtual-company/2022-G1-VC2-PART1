@@ -26,7 +26,7 @@
           ></i>
         </div>
         <br />
-        <button value="Login" class="login-button" @click="handleClick">
+        <button value="Login" class="login-button" @click.prevent="handleClick">
           Login
         </button>
         <br />
@@ -35,9 +35,9 @@
   </div>
 </template>
 <script>
-import axios from "@/axios-http";
+// import axios from "@/axios-http";
 export default {
-  emits: ["sigin"],
+  emits: ["sign-in"],
   data() {
     return {
       isPasswordShow: false,
@@ -51,24 +51,20 @@ export default {
       this.isPasswordShow = !this.isPasswordShow;
     },
 
-    handleClick(event) {
-      event.preventDefault();
-      axios
-        .post("user/sigin", { email: this.email, password: this.password })
-        .then((response) => {
-          this.userSigin(response.data.user.role);
-          localStorage.setItem("accessToken", response.data.token);
-        });
+    handleClick() {
+      let userData = {
+        email: this.email,
+        password: this.password,
+      };
+      this.$emit("sign-in", userData);
     },
-    userSigin(role) {
-      if (role) {
-        localStorage.setItem("user_role", "admin");
-      } else {
-        localStorage.setItem("user_role", "student");
-      }
-      // setTimeout(() => {window.location.reload()}, 1000)
+  },
+  mounted() {
+    if (localStorage.getItem("accessToken") === null) {
+      this.$router.push("/");
+    } else {
       this.$router.push("/welcome");
-    },
+    }
   },
 };
 </script>
