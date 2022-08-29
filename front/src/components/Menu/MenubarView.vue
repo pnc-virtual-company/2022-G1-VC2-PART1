@@ -18,7 +18,7 @@
             alt=""
             class="profile-image"
           />
-          <router-link to="/profile">{{ userData.firstname  }} {{ userData.lastname }}</router-link>
+          <router-link to="/TeacherProfile">{{ userData.firstname  }} {{ userData.lastname }}</router-link>
           <div class="signOut">
             <i class="fa fa-sign-out fa-2x" @click="userSignOut"></i>
           </div>
