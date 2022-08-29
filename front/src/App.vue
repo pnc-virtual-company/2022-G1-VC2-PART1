@@ -17,6 +17,7 @@ export default {
   components: {
     "menu-bar": MenubarView,
   },
+
   methods: {
     getUserData() {
       if (localStorage.accessToken) {

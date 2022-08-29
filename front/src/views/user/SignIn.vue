@@ -35,7 +35,6 @@
   </div>
 </template>
 <script>
-// import axios from "@/axios-http";
 export default {
   emits: ["sign-in"],
   data() {
@@ -50,7 +49,6 @@ export default {
     showHidePassword() {
       this.isPasswordShow = !this.isPasswordShow;
     },
-
     handleClick() {
       let userData = {
         email: this.email,

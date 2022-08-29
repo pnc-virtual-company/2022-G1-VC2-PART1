@@ -54,6 +54,13 @@
 <script>
 import axios from "@/axios-http";
 export default {
+  data(){
+    return{
+      role:null,
+      username:null,
+      image:null,
+    }
+  },
   props: ["role", "userData"],
   methods: {
     userSignOut() {
@@ -66,6 +73,7 @@ export default {
         window.location.reload();
       }, 1000);
     },
+
   },
 };
 </script>
