@@ -28,9 +28,6 @@ class TeacherController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'email' => 'required|unique:users',
-        ]);
         $request->file('image')->store('public/pictures');
         $teacher = new Teacher();
         $teacher->firstname = $request->firstname;
@@ -38,11 +35,10 @@ class TeacherController extends Controller
         $teacher->email = $request->email;
         $teacher->password = bcrypt("12345678");
         $teacher->gender = $request->gender;
-        $teacher->phone = $request->phone;
-        $teacher->role = "teacher";
+        $teacher->user_id= $request->user_id;
         $teacher->image = $request->file("image")->hashName();
         $teacher->save();
-        return response()->json(['message:' => 'create teacher successfully']);
+        return response()->json($teacher);
     }
 
     /**

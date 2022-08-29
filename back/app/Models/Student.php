@@ -25,7 +25,7 @@ class Student extends Authenticatable
         'updated_at',
         'remember_token',
         'email_verified_at',
-        'password',
+       
     ];
     protected $casts = [
         'email_verified_at' => 'datetime',
@@ -34,7 +34,9 @@ class Student extends Authenticatable
     public function studentleavequest(){
         return $this->hasMany(StudentLeaveRquest::class, 'studentleaveRequest_id');
     }
-    public function user(){
-        return $this->hasOne(User::class, 'user_id');
+    
+    public function User()
+    {
+        return $this->belongsTo(User::class,'user_id');
     }
 }

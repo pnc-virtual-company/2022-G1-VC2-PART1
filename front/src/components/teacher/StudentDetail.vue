@@ -4,12 +4,11 @@
       <div class="header header-detail">
         <h3>Personal Information</h3>
         <img
-          src="../../assets/cross.png"
+          src="@/assets/cross.png"
           alt=""
           @click="this.$emit('hide-detail')"
         />
       </div>
-
       <div class="personal-info">
         <div class="header header-info">
           <h3>Personal Information</h3>
@@ -17,11 +16,18 @@
         <div class="main-content">
           <div class="profile-container">
             <div class="profile">
-              <img src="../../assets/profile.jpg" alt="" />
+              <img
+                :src="'http://127.0.0.1:8000/storage/pictures/' + student.image"
+              />
             </div>
             <h1 class="username">
               {{ student.firstname }} {{ student.lastname }}
             </h1>
+            <i
+              class="fa fa-edit fa-2x"
+              style="color: #03a9f4"
+              @click="editStudent(student)"
+            ></i>
           </div>
           <div class="user-info">
             <div class="two-info">
@@ -112,6 +118,26 @@
 <script>
 export default {
   props: ["student", "studentLeaves"],
+  data() {
+    return {
+      firstname: "",
+      lastname: "",
+      email: "",
+      password: "",
+      phone: "",
+      class: "",
+      batch: "",
+      role: "",
+      gender: "",
+      image: null,
+    };
+  },
+
+  methods: {
+    editStudent(student) {
+      this.$emit("studentUpdate", student);
+    },
+  },
 };
 </script>
 
@@ -174,18 +200,21 @@ export default {
 .profile-container {
   padding: 1rem;
   width: 20%;
-  height: 25vh;
+  height: 35vh;
   border-radius: 5px;
   margin: 1rem;
 }
 
 .profile img {
-  width: 70%;
-  margin: 2px 0 0px 1.5rem;
+  width: 10rem;
+  height: 10rem;
+  border-radius: 50%;
+  margin: 2px auto;
 }
 .username {
   text-align: center;
   margin-top: 1rem;
+  font-size: 20px;
 }
 .user-info {
   width: 63.5%;

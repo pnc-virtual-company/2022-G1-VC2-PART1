@@ -48,11 +48,13 @@ class User extends Authenticatable
         'role' => 'boolean'
     ];
 
+    protected $primaryKey = 'user_id';
     public function student(){
-        return $this->belongsTo(Student::class);
+        return $this->hasOne(Student::class);
     }
     public function teacher(){
-        return $this->belongsTo(Teacher::class);
+    
+        return $this->hasOne(Teacher::class);
     }
     
 }

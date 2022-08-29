@@ -2,7 +2,7 @@
   <div class="container">
     <div class="overlay-container">
       <div class="overlay">
-        <img src="../assets/Login.png" alt=""/>
+        <img src="@/assets/Login.png" alt=""/>
       </div>
     </div>
     <div class="form-contianer">
@@ -51,14 +51,32 @@ export default {
 
     handleClick(event){
       event.preventDefault()
-      axios.post("login", {email:this.email, password:this.password})
+      axios.post("user/sigin", {email:this.email, password:this.password})
       .then(response =>{
-        localStorage.setItem("accessToken", response.data.token)
-        localStorage.setItem("user", JSON.stringify(response.data.user))
-        localStorage.setItem("user_role", response.data.user.role)
-        this.$router.push("/welcome")
+        this.userSigin(response.data.role)
       })
     },
+    userSigin(user){
+      if(user){
+        axios.post("teacher/sigin", {email:this.email, password:this.password})
+        .then(response =>{
+          console.log("Teacher : ", response);
+          localStorage.setItem("accessToken", response.data.token)
+          localStorage.setItem("user", JSON.stringify(response.data.user))
+          localStorage.setItem("user_role", "admin")
+        })
+      }else{
+        axios.post("student/sigin", {email:this.email, password:this.password})
+        .then(response =>{
+          console.log("Student : ", response);
+          localStorage.setItem("accessToken", response.data.token)
+          localStorage.setItem("user", JSON.stringify(response.data.user))
+          localStorage.setItem("user_role", "student")
+        })
+      }
+      setTimeout(() => {window.location.reload()}, 1000)
+      this.$router.push("/welcome")
+    }
   },
 };
 </script>

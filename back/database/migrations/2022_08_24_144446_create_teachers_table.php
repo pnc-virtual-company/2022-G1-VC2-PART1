@@ -17,10 +17,9 @@ return new class extends Migration
             $table->id();
             $table->string('firstname');
             $table->string('lastname');
-            $table->string('email')->unique();
+            $table->string('email');
             $table->string('password');
-            $table->string('phone')->unique();
-            $table->foreignId('user_id')->constrained()->onDelete('CASCADE');
+            $table->foreignId('user_id')->uniqid()->constrained()->onDelete('CASCADE');
             $table->string('gender');
             $table->string('image');
             $table->rememberToken();

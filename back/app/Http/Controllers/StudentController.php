@@ -29,7 +29,7 @@ class StudentController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'email' => 'required|unique:users',
+            // 'user_id' => 'required|unique:users',
             'class' => 'required',
             'batch' => 'required|min:4',
         ]);
@@ -46,6 +46,7 @@ class StudentController extends Controller
         $student->user_id = $request->user_id;
         $student->image = $request->file("image")->hashName();
         $student->save();
+       
         return response()->json($student);
     }
 
@@ -67,6 +68,7 @@ class StudentController extends Controller
      * @param  \App\Models\Student  $student
      * @return \Illuminate\Http\Response
      */
+   
     public function updatePassword(Request $request, $id)
     {$request->validate([
         'password' => [
@@ -135,5 +137,12 @@ class StudentController extends Controller
     {
         auth()->user()->tokens()->delete();
         return response()->json(true);
+    }
+
+    public function updateProfile(Request $request, Student $student)
+    {
+        $student->image = $request->image;
+        $student->save();
+        return response()->json(["ms" => "update successfully"]);
     }
 }

@@ -1,4 +1,3 @@
-
 <template>
   <section>
     <div v-if="clickEdit" class="mainDiv">
@@ -63,35 +62,42 @@
         </form>
       </div>
     </div>
-    <div v-if="!clickEdit" class="contianer">
+    <div v-if="!clickEdit && !clickChangeprofile" class="contianer">
       <div class="card">
         <div class="card_profile">
           <img
-            :src="'http://127.0.0.1:8000/storage/pictures/' +user.image"
+            :src="'http://127.0.0.1:8000/storage/pictures/' + user.image"
             alt=""
             class="img-profile"
           />
+          <i
+            class="fa fa-camera"
+            style="font-size: 24px"
+            @click="showHideCardPf"
+          ></i>
         </div>
-        <h1 style="text-align: center; margin: 1rem">{{user.firstname}} {{user.lastname}}</h1>
+        <h1 style="text-align: center; margin: 1rem">
+          {{ user.firstname }} {{ user.lastname }}
+        </h1>
         <hr />
         <div class="card_body">
-          <div class="student-name">{{user.username }}</div>
+          <div class="student-name">{{ user.username }}</div>
           <ul>
             <li>
               <span class="bold-text">Class : </span>
-              <span>{{user.class }}</span>
+              <span>{{ user.class }}</span>
             </li>
             <li>
               <span class="bold-text">Batch : </span>
-              <span>{{user.batch }}</span>
+              <span>{{ user.batch }}</span>
             </li>
             <li>
               <span class="bold-text">Gender : </span>
-              <span>{{user.gender }}</span>
+              <span>{{ user.gender }}</span>
             </li>
             <li>
               <span class="bold-text">Email : </span>
-              <span>{{user.email }}</span>
+              <span>{{ user.email }}</span>
             </li>
           </ul>
         </div>
@@ -99,32 +105,30 @@
           Change Password
         </button>
       </div>
-      <div class="card_body">
-        <div class="student-name">{{ profile.username }}</div>
-        <ul>
-          <li>
-            <span class="bold-text">Gender : </span>
-            <span>{{ profile.gender }}</span>
-          </li>
-          <li>
-            <span class="bold-text">Class : </span>
-            <span>{{ profile.class }}</span>
-          </li>
-          <li>
-            <span class="bold-text">Generation : </span>
-            <span>{{ profile.batch }}</span>
-          </li>
-           <li>
-            <span class="bold-text">Phone : </span>
-            <span>0973432123</span>
-          </li>
-          <li>
-            <span class="bold-text">Email : </span>
-            <span>{{ profile.email }}</span>
-          </li>
-        </ul>
+      
+    </div>
+
+    <!-- update profile -->
+    <div class="update-pf" v-if="clickChangeprofile">
+      <h2 class="title">Update your profile</h2>
+      <div class="card_pf">
+        <img
+          :src="'http://127.0.0.1:8000/storage/pictures/' + user.image"
+          class="img-pf"
+        />
       </div>
-      <button @click="clickEdit = true" class="btn-edit">Change Password</button>
+      <div class="card-change">
+        <input @change="saveUpload" id="profile-upload" type="file" hidden>
+        <label for="profile-upload" class="change" @click="showUpload">
+          <i class="fa fa-edit" style="font-size: 36px; color: #3cabce"></i>
+          <p>Change</p>
+        </label>
+
+        <div class="trash">
+          <i class="fa fa-trash" style="font-size: 36px; color: #ff0d0d"></i>
+          <p>remove</p>
+        </div>
+      </div>
     </div>
   </section>
 </template>
@@ -135,22 +139,39 @@ import swal from "sweetalert";
 export default {
   data() {
     return {
+      clickChangeprofile: false,
       confirmPassword: "",
       password: "",
       clickEdit: false,
       isPasswordShown: false,
       isPasswordConfirmed: false,
       invalidPassword: "",
-      currentuser_id:null
+      currentuser_id: null,
+      isUpload: false,
+      image: null,
     };
   },
   methods: {
+
+    saveUpload(event){
+      console.log(this.user.id);
+        this.image = event.target.files[0];
+        let formData = new FormData();
+        formData.append('profile_image', this.image);
+        formData.append('_method', 'PUT');
+
+        axios.post("/student/reset_profile/" + 1, formData).then(res => {
+          console.log(res);
+        })
+    },
+
+
     validatePassword(id) {
       if (this.password != "") {
         if (this.confirmPassword != "") {
           if (this.confirmPassword == this.password) {
             axios
-              .put("/student/password/update/"+id, this.password)
+              .put("/student/password/update/" + id, this.password)
               .then((res) => {
                 swal("Good job!", "Your password is changed!", "success").then(
                   (isChange) => {
@@ -187,14 +208,22 @@ export default {
     showHidePasswordConfirm() {
       this.isPasswordConfirmed = !this.isPasswordConfirmed;
     },
+
+    showHideCardPf() {
+      this.clickChangeprofile = !this.clickChangeprofile;
+    },
+
+    showUpload() {
+      this.isUpload = !this.isUpload;
+    },
+   
   },
 
-  computed:{
-    user(){
-      return JSON.parse(localStorage.getItem("user"))
+  computed: {
+    user() {
+      return JSON.parse(localStorage.getItem("user"));
     },
-    
-  }
+  },
 };
 </script>
 
@@ -236,6 +265,14 @@ ul li {
   height: 6rem;
   border-radius: 100%;
 }
+
+.fa-camera {
+  position: absolute;
+  margin-top: 4rem;
+  margin-right: 5px;
+  color: #cccccc;
+}
+
 .student-name {
   font-weight: bolder;
 }
@@ -351,6 +388,62 @@ button[disabled] {
   color: #065492;
   font-weight: bold;
   cursor: pointer;
+}
+
+.update-pf {
+  width: 40%;
+  border: 1px solid black;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  border: none;
+  margin: auto;
+}
+
+.title {
+  text-align: center;
+  font-size: 30px;
+}
+
+.card-pf {
+  border-radius: 80%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.img-pf {
+  display: flex;
+  margin: 20px auto;
+  box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px,
+    rgba(6, 24, 44, 0.65) 0px 4px 6px -1px,
+    rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
+  width: 20rem;
+  height: 20rem;
+  border-radius: 100%;
+}
+
+.card-change {
+  display: flex;
+  justify-content: space-evenly;
+  padding: 10px;
+}
+
+.card-change p {
+  margin: 0 20px;
+  font-size: 20px;
+}
+
+.change,
+.trash {
+  display: flex;
+  align-items: center;
+  border: none;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  display: flex;
+  padding: 10px 10px;
+  cursor: pointer;
+  border-radius: 5px;
 }
 
 @keyframes spin {

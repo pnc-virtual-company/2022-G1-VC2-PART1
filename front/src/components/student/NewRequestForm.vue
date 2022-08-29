@@ -124,6 +124,7 @@ export default {
         end_date: this.endDate,
         duration: this.duration,
         reason: this.cause,
+        // student_id: 1,
         student_id: this.student_id,
       };
       axios.post("studentleaveRequest", requestleave).then((res) => {
