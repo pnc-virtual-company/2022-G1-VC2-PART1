@@ -4,10 +4,10 @@
       <div class="cardStyle">
         <form id="signupForm">
           <div class="card_profile">
-            <img
+            <!-- <img
               :src="'http://127.0.0.1:8000/storage/pictures/' + user.image"
               class="img-profile"
-            />
+            /> -->
           </div>
           <h2 class="formTitle">Change your password</h2>
           <div class="inputDiv">
@@ -63,7 +63,7 @@
       </div>
     </div>
     <div v-if="!clickEdit && !clickChangeprofile" class="contianer">
-      <div class="card">
+      <div class="card" v-if="user!=null">
         <div class="card_profile">
           <img
             :src="'http://127.0.0.1:8000/storage/pictures/' + user.image"
@@ -80,27 +80,14 @@
           {{ user.firstname }} {{ user.lastname }}
         </h1>
         <hr />
-        <div class="card_body">
-          <div class="student-name">{{ user.username }}</div>
+       
           <ul>
             <li>
-              <span class="bold-text">Class : </span>
-              <span>{{ user.class }}</span>
-            </li>
-            <li>
-              <span class="bold-text">Batch : </span>
-              <span>{{ user.batch }}</span>
-            </li>
-            <li>
-              <span class="bold-text">Gender : </span>
-              <span>{{ user.gender }}</span>
-            </li>
-            <li>
               <span class="bold-text">Email : </span>
-              <span>{{ user.email }}</span>
+              <span>{{user.email}}</span>
             </li>
           </ul>
-        </div>
+       
         <button @click="clickEdit = true" class="btn-edit">
           Change Password
         </button>
@@ -134,7 +121,7 @@
 </template>
 <script>
 import axios from "@/axios-http";
-import swal from "sweetalert";
+// import swal from "sweetalert";
 
 export default {
   data() {
@@ -171,15 +158,15 @@ export default {
         if (this.confirmPassword != "") {
           if (this.confirmPassword == this.password) {
             axios
-              .put("/student/password/update/" + id, this.password)
+              .put("/userlogin/password/update/" + id, this.password)
               .then((res) => {
-                swal("Good job!", "Your password is changed!", "success").then(
-                  (isChange) => {
-                    if (isChange) {
-                      this.clickEdit = false;
-                    }
-                  }
-                );
+                // swal("Good job!", "Your password is changed!", "success").then(
+                //   (isChange) => {
+                //     if (isChange) {
+                //       this.clickEdit = false;
+                //     }
+                //   }
+                // );
                 this.password = "";
                 this.confirmPassword = "";
                 this.invalidPassword = "";
@@ -216,11 +203,11 @@ export default {
       this.isUpload = !this.isUpload;
     },
     userlogin() {
-      if(localStorage.getItem("user_role")){
+      
         axios.get("userlogin").then((res)=>{
           this.user = res.data;
-        })
-      }
+          console.log("user is ", this.user);
+      })
     }
    
   },

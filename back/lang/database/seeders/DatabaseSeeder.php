@@ -17,12 +17,12 @@ class DatabaseSeeder extends Seeder
     {
 
         // Create Teacher Vandy account 
-        // User::create([
-        //     "firstname" => "Vandy",
-        //     "lastname" => "Noun",
-        //     "email" => "vandy.noun@passerellesnumeriques.org",
-        //     "password" => "12345678",
-        //     "role" => true,
-        // ]);
+        User::create([
+            "firstname" => "Vandy",
+            "lastname" => "Noun",
+            "email" => "vandy.noun@passerellesnumeriques.org",
+            "password" => "12345678",
+            "role" => true,
+        ]);
     }
 }

@@ -11,19 +11,17 @@ return new class extends Migration
      *
      * @return void
      */
-    
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('student_leave_rquests', function (Blueprint $table) {
             $table->id();
-            $table->string('firstname');
-            $table->string('lastname');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->boolean('role');
-            $table->string('image');
-            $table->rememberToken();
+            $table->string('leave_type');
+            $table->date('start_date');
+            $table->date('end_date');
+            $table->string('duration');
+            $table->string('status');
+            $table->string('reason');
+            $table->foreignId('student_id')->constrained()->onDelete('CASCADE');
             $table->timestamps();
         });
     }
@@ -35,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('student_leave_rquests');
     }
 };

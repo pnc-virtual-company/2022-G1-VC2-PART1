@@ -1,5 +1,6 @@
 <?php
 
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,15 +14,18 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('teachers', function (Blueprint $table) {
+        Schema::create('students', function (Blueprint $table) {
             $table->id();
             $table->string('firstname');
             $table->string('lastname');
             $table->string('email');
             $table->string('password');
-            $table->foreignId('user_id')->uniqid()->constrained()->onDelete('CASCADE');
+            $table->string('phone')->unique();
+            $table->string('class');
+            $table->string('batch');
             $table->string('gender');
             $table->string('image');
+            $table->foreignId('user_id')->uniqid()->constrained()->onDelete('CASCADE');
             $table->rememberToken();
             $table->timestamp('email_verified_at')->nullable();
             $table->timestamps();
@@ -35,6 +39,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('teachers');
+        Schema::dropIfExists('students');
     }
 };
