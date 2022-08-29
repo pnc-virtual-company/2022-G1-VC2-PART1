@@ -44,7 +44,6 @@
   </div>
 </template>
 <script>
-// import axios from "@/axios-http";
 export default {
   emits: ["sign-in"],
   props: ["unauthorizedError"],
@@ -86,7 +85,6 @@ export default {
     showHidePassword() {
       this.isPasswordShow = !this.isPasswordShow;
     },
-
     handleClick() {
       if(this.isValidated) {
         let userData = {

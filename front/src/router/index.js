@@ -5,6 +5,7 @@ import CheckLeave from '../views/teacher/CheckStudentLeave.vue'
 import StudentListAllLeave from '../views/student/StudentListAllLeave.vue'
 import NewRequest from '../views/student/NewRequest.vue'
 import StudentProfile from '../views/student/StudentProfile.vue'
+import TeacherProfile from '../views/teacher/TeacherProfile.vue'
 import Signin from "@/views/user/SignIn.vue"
 const routes = [
   {
@@ -43,6 +44,11 @@ const routes = [
     path: '/profile',
     name: 'profile',
     component: StudentProfile
+  }, 
+  {
+    path: '/TeacherProfile',
+    name: 'TeacherProfile',
+    component: TeacherProfile
   }, 
 ]
 

@@ -32,9 +32,9 @@ Route::post("user/sigin", [UserController::class, "sigin"]);
 /*
 ================= Teacher route =====================
  */
-Route::post("teacher/sigin", [TeacherController::class, "sigin"]);
 Route::group(['middleware'=>['auth:sanctum']],function(){
     Route::post("/admin", [UserController::class, "store"]);
+    Route::post("/userlogin", [UserController::class, "admin"]);
     Route::apiresource("/student", StudentController::class);  
     Route::apiresource("/student_leave_request", StudentLeaveRquestController::class);
     Route::put("user_update_password", [UserController::class, "updatePassword"]);

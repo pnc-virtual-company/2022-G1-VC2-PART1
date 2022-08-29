@@ -19,6 +19,7 @@ export default {
   components: {
     "menu-bar": MenubarView,
   },
+
   methods: {
     getUserData() {
       if (localStorage.accessToken) {
@@ -27,6 +28,7 @@ export default {
           this.role = this.userData.role;
         });
       }
+
     },
     login(userData) {
       axios
