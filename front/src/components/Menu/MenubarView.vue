@@ -56,7 +56,6 @@ import axios from "@/axios-http";
 export default {
   data(){
     return{
-      role:null,
       username:null,
       image:null,
     }

@@ -32,7 +32,7 @@ class UserController extends Controller
         $request->validate([
             'firstname' => 'required',
             'lastname' => 'required',
-            'email' => 'required|unique:users|email|regex:/(.*)@passerellesnumeriques.org\.com/i',
+            'email' => 'required|unique:users|email|regex:/(.*)@passerellesnumeriques.org',
         ]);
         $user = new User();
         $user->firstname = $request->firstname;
