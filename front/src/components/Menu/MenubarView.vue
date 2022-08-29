@@ -18,7 +18,7 @@
             alt=""
             class="profile-image"
           />
-          <router-link to="/TeacherProfile">{{ userData.firstname  }} {{ userData.lastname }}</router-link>
+          <router-link to="/tprofile">{{ userData.firstname  }} {{ userData.lastname }}</router-link>
           <div class="signOut">
             <i class="fa fa-sign-out fa-2x" @click="userSignOut"></i>
           </div>
@@ -54,13 +54,6 @@
 <script>
 import axios from "@/axios-http";
 export default {
-  data(){
-    return{
-      role:null,
-      username:null,
-      image:null,
-    }
-  },
   props: ["role", "userData"],
   methods: {
     userSignOut() {
@@ -73,7 +66,6 @@ export default {
         window.location.reload();
       }, 1000);
     },
-
   },
 };
 </script>
