@@ -36,7 +36,7 @@ class StudentController extends Controller
             'email' => 'required|unique:users|email|regex:/(.*)@student.passerellesnumeriques.org\.com/i',
             'class' => 'required',
             'batch' => 'required|min:4',
-            'user_id' => 'required|',
+            'user_id' => 'required',
         ]);
         $request->file('image')->store('public/pictures');
         $student = new Student();

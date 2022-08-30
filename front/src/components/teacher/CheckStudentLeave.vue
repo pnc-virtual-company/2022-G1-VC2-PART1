@@ -176,15 +176,16 @@ section{
   color: red;
 }
 .reject,.padding,.aproved{
-  margin-left: 28rem;
+  /* margin-left: 30rem; */
   margin-top: 1rem;
+  /* margin-right: 30rem; */
 }
   .student-profile{
     padding: 0.5rem;
   }
   .student-profile img{
     width: 90%;
-    height: 10vh;
+    height: 8vh;
     border-radius: 50%;
     border: 2px solid orange;
   }
