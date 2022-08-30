@@ -56,7 +56,7 @@ class StudentController extends Controller
 
     /**
      * Display the specified resource.
-     *
+     *4
      * @param  \App\Models\Student  $student
      * @return \Illuminate\Http\Response
      */
@@ -74,15 +74,21 @@ class StudentController extends Controller
      */
    
     public function updatePassword(Request $request, $id)
-    {$request->validate([
+    {
+        $request->validate([
         'password' => [
             'string',
             'min:8',  ],
         ]); 
         $student = Student::findOrFail($id);
         $student->password = bcrypt($request->password);
+        $token = $student->createToken("mytoken")->plainTextToken;
+        $response = [
+            'user' => $student,
+            "token" => $token,
+        ];
         $student->save();
-        return response()->json(['message:' => 'update student successfully']);
+        return response()->json(['message:' => 'update student successfully', 'user' => $student]);
     }
 
     public function updateImage(Request $request, $id){
@@ -117,7 +123,11 @@ class StudentController extends Controller
         //
         return Student::destroy($id);
     }
-  
+    
+
+    public function getStudent(Request $request, $user_id){
+        return Student::where('user_id', $user_id)->get();
+    }
 
     // public function sigin(Request $request)
     // {

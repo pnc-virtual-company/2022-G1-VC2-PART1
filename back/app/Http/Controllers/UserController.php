@@ -89,6 +89,11 @@ class UserController extends Controller
     ]);
         $user = User::findOrFail($id);
         $user->password = bcrypt($request->password);
+        $token = $user->createToken("mytoken")->plainTextToken;
+        $response = [
+            'user' => $user,
+            "token" => $token,
+        ];
         $user->save();
         return response()->json($user);
     }
