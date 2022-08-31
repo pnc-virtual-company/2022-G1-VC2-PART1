@@ -2,7 +2,7 @@
   <div class="welcome">
     <div class="card">
       <div class="contaner">
-        <h1>WELCOME TO SMLS!</h1>
+        <h1>WELCOME TO SLMS!</h1>
         <p>
           Hello guys this for our App that easy for the studends to use in
           <br />
@@ -30,12 +30,12 @@ body {
 
 }
 .contaner h1 {
-    font-size: 3.2rem;
+    font-size: 2.7rem;
     color: #FF9620;
     animation: type 3s steps(19);
     overflow: hidden;
     white-space: nowrap;
-    border-right: 4px solid #FF9620;
+    border-right: 2px solid #FF9620;
     width: 19ch;
 }
 @keyframes type {

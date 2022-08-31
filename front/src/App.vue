@@ -11,7 +11,7 @@ import axios from "./axios-http";
 export default {
   data() {
     return {
-      role: "",
+      role: null,
       userData: {},
       unauthorizedError: "",
     };

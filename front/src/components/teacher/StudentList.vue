@@ -1,163 +1,42 @@
 <template>
   <section>
-    <!-- ++++++++++++++++++++++++++++ Form Update +++++++++++++++++ +++++++++++++++++-->
-    <div v-if="isUpdated" class="contianer_update">
-      <form @submit.prevent="toUpdate">
-    <label for="image" style="color: black">
-      <div class="user-profile">
-        <img :src="'http://127.0.0.1:8000/storage/pictures/' + image" />
-      </div>
-      <input
-        type="file"
-        style="display: none"
-        id="image"
-        @change="uploadImage"
-      />
-    </label>
-    <div class="two-input">
-      <div class="form-group">
-        <div>
-          <label for="firstname">First Name</label>
-        </div>
-        <input
-          class="form-control"
-          type="text"
-          id="firstname"
-          v-model="firstname"
-        />
-      </div>
-      <div class="form-group">
-        <div>
-          <label for="lastname">Last Name</label>
-        </div>
-        <input
-          class="form-control"
-          type="text"
-          id="lastname"
-          v-model="lastname"
-        />
-      </div>
-    </div>
-    <div class="form-group">
-      <div>
-        <label for="email">Email</label>
-      </div>
-      <input class="form-control" type="text" id="email" v-model="email" />
-    </div>
-    <div class="form-group">
-      <div>
-        <label for="phone">Phone</label>
-      </div>
-      <input class="form-control" type="tel" id="phone" v-model="phone" />
-    </div>
-
-    <div class="two-input">
-      <div class="form-group">
-        <div>
-          <label for="class">Classroom</label>
-        </div>
-        <input
-          class="form-control"
-          type="text"
-          id="class"
-          v-model="classroom"
-        />
-      </div>
-      <div class="form-group">
-        <div>
-          <label for="generation">Generation</label>
-        </div>
-        <input
-          class="form-control"
-          type="text"
-          id="generation"
-          v-model="generation"
-        />
-      </div>
-    </div>
-    <div class="form-group radio">
-      <span>Gender : </span>
-      <input
-        class="radio-input"
-        type="radio"
-        id="M"
-        value="M"
-        name="gender"
-        v-model="gender"
-      />
-      <label for="M">Female</label>
-      <input
-        class="radio-input"
-        type="radio"
-        id="F"
-        value="F"
-        name="gender"
-        v-model="gender"
-      />
-      <label for="F">Male</label>
-    </div>
-    <div class="btn-group">
-      <button class="btn btn-submit" type="submit">
-        Update
-      </button>
-    </div>
-  </form>
-    </div>
-    <!--  action on student like search by name, filter by batch, and add new students  -->
-    <div class="action" v-if="!isDetail">
-      <div style="display: flex">
-        <h2 class="students">Students</h2>
-        <div class="search">
-          <input type="text" placeholder="search" v-model="search" />
-        </div>
-        <div class="filter">
-          <select v-model="batch">
-            <option value="" selected disabled>Batch</option>
-            <option value="all">All</option>
-            <option value="2022">2022</option>
-            <option value="2023">2023</option>
-          </select>
-        </div>
-      </div>
-      <div class="btnadd">
-        <button class="btn-add" @click="addStudent()">ADD STUDENT</button>
-      </div>
-    </div>
-    <!-- ++++++++++++++++++++ List students ++++++++++++++++ -->
-
-    <div class="tb-container" v-if="!isDetail">
+    <!--++++++++++++++++++++++++++ Show all information of teacher ++++++++++++++++++++++-->
+    <div class="tb-container" v-if="!isTeacherDetail && !isDetail">
+      <h2 class="students">Social Affair</h2>
       <table class="table">
         <thead>
           <tr>
             <th>USER</th>
-            <th class="padding-right">GENDER</th>
             <th>ACTION</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for:="(student, index) of filteredStudentLists">
+          <tr v-for:="(teacher, index) of listOfTeachers">
             <td>
               <div class="user">
                 <div class="img">
                   <img
                     :src="
-                      'http://127.0.0.1:8000/storage/pictures/' + student.image
+                      'http://127.0.0.1:8000/storage/pictures/' + teacher.image
                     "
                     alt=""
                   />
                 </div>
                 <div class="info">
                   <strong>{{
-                    student.firstname + " " + student.lastname
+                    teacher.firstname + " " + teacher.lastname
                   }}</strong>
-                  <p>{{ student.class }} {{ student.batch }}</p>
+                  <p>social affair</p>
                 </div>
               </div>
             </td>
-            <td class="padding-right">{{ student.gender }}</td>
             <td class="tb-btn">
               <div class="icon">
-                <img src="../../assets/view-details.png" alt="" @click="viewStudentDetail(student.id)"/>
+                <img
+                  src="../../assets/view-details.png"
+                  alt=""
+                  @click="viewTeacherDetail(teacher.id)"
+                />
                 <i
                   class="fa fa-trash fa-2x"
                   @click="removeStudent(index, student.id)"
@@ -168,14 +47,193 @@
         </tbody>
       </table>
     </div>
+
+    <!-- ++++++++++++++++++++++++++++ Form Update +++++++++++++++++ +++++++++++++++++-->
+    <div v-if="isUpdated" class="contianer_update">
+      <form @submit.prevent="toUpdate">
+        <label for="image" style="color: black">
+          <div class="user-profile">
+            <img :src="'http://127.0.0.1:8000/storage/pictures/' + image" />
+          </div>
+          <input
+            type="file"
+            style="display: none"
+            id="image"
+            @change="uploadImage"
+          />
+        </label>
+        <div class="two-input">
+          <div class="form-group">
+            <div>
+              <label for="firstname">First Name</label>
+            </div>
+            <input
+              class="form-control"
+              type="text"
+              id="firstname"
+              v-model="firstname"
+            />
+          </div>
+          <div class="form-group">
+            <div>
+              <label for="lastname">Last Name</label>
+            </div>
+            <input
+              class="form-control"
+              type="text"
+              id="lastname"
+              v-model="lastname"
+            />
+          </div>
+        </div>
+        <div class="form-group">
+          <div>
+            <label for="email">Email</label>
+          </div>
+          <input class="form-control" type="text" id="email" v-model="email" />
+        </div>
+        <div class="form-group">
+          <div>
+            <label for="phone">Phone</label>
+          </div>
+          <input class="form-control" type="tel" id="phone" v-model="phone" />
+        </div>
+
+        <div class="two-input">
+          <div class="form-group">
+            <div>
+              <label for="class">Classroom</label>
+            </div>
+            <input
+              class="form-control"
+              type="text"
+              id="class"
+              v-model="classroom"
+            />
+          </div>
+          <div class="form-group">
+            <div>
+              <label for="generation">Generation</label>
+            </div>
+            <input
+              class="form-control"
+              type="text"
+              id="generation"
+              v-model="generation"
+            />
+          </div>
+        </div>
+        <div class="form-group radio">
+          <span>Gender : </span>
+          <input
+            class="radio-input"
+            type="radio"
+            id="M"
+            value="M"
+            name="gender"
+            v-model="gender"
+          />
+          <label for="M">Female</label>
+          <input
+            class="radio-input"
+            type="radio"
+            id="F"
+            value="F"
+            name="gender"
+            v-model="gender"
+          />
+          <label for="F">Male</label>
+        </div>
+        <div class="btn-group">
+          <button class="btn btn-submit" type="submit">Update</button>
+        </div>
+      </form>
+    </div>
+    <!--  action on student like search by name, filter by batch, and add new students  -->
+    <!-- ++++++++++++++++++++ List students ++++++++++++++++ -->
+    <div v-if="!isTeacherDetail">
+      <div class="action" v-if="!isDetail">
+        <div style="display: flex">
+          <h2 class="students">Students</h2>
+          <div class="search">
+            <input type="text" placeholder="search" v-model="search" />
+          </div>
+          <div class="filter">
+            <select v-model="batch">
+              <option value="" selected disabled>Batch</option>
+              <option value="all">All</option>
+              <option value="2022">2022</option>
+              <option value="2023">2023</option>
+            </select>
+          </div>
+        </div>
+        <div class="btnadd">
+          <button class="btn-add" @click="addStudent()">ADD STUDENT</button>
+        </div>
+      </div>
+
+      <div class="tb-container" v-if="!isDetail">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>USER</th>
+              <th class="padding-right">GENDER</th>
+              <th>ACTION</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for:="(student, index) of filteredStudentLists">
+              <td>
+                <div class="user">
+                  <div class="img">
+                    <img
+                      :src="
+                        'http://127.0.0.1:8000/storage/pictures/' +
+                        student.image
+                      "
+                      alt=""
+                    />
+                  </div>
+                  <div class="info">
+                    <strong>{{
+                      student.firstname + " " + student.lastname
+                    }}</strong>
+                    <p>{{ student.class }} {{ student.batch }}</p>
+                  </div>
+                </div>
+              </td>
+              <td class="padding-right">{{ student.gender }}</td>
+              <td class="tb-btn">
+                <div class="icon">
+                  <img
+                    src="../../assets/view-details.png"
+                    alt=""
+                    @click="viewStudentDetail(student.id)"
+                  />
+                  <i
+                    class="fa fa-trash fa-2x"
+                    @click="removeStudent(index, student.id)"
+                  ></i>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
     <student-detail
       v-if="isDetail"
       :student="student"
       :studentLeaves="studentLeaves"
-
       @hide-detail="isDetail = !isDetail"
       @studentUpdate="UpdateStudent"
-    ></student-detail >
+    ></student-detail>
+    <teacher-detail
+      v-if="isTeacherDetail"
+      :teacher="teacher"
+      @hide-detail="isTeacherDetail = !isTeacherDetail"
+    ></teacher-detail>
   </section>
 </template>
 
@@ -183,17 +241,21 @@
 import http from "../../axios-http";
 import swal from "sweetalert";
 import StudentDetail from "./StudentDetail.vue";
+import TeacherDetail from "./TeacherDetail.vue";
 export default {
-  components: { "student-detail": StudentDetail },
+  components: {
+    "student-detail": StudentDetail,
+    "teacher-detail": TeacherDetail,
+  },
   data() {
     return {
       listOfStudents: [],
-
+      listOfTeachers: [],
       firstname: "",
       lastname: "",
       email: "",
       password: "",
-      phone:"",
+      phone: "",
       gender: "",
       classroom: "",
       generation: "",
@@ -205,7 +267,9 @@ export default {
 
       // +++++++++++ student detail data ++++++++++++++++++++
       isDetail: false,
+      isTeacherDetail: false,
       student: [],
+      teacher: [],
       studentLeaves: [],
     };
   },
@@ -214,6 +278,12 @@ export default {
     studentFromAPI() {
       http.get("student").then((res) => {
         this.listOfStudents = res.data;
+      });
+    },
+    teacherFromAPI() {
+      http.get("teacher").then((res) => {
+        this.listOfTeachers = res.data;
+        console.log(this.listOfTeachers);
       });
     },
 
@@ -239,7 +309,7 @@ export default {
     },
     UpdateStudent(student) {
       this.isUpdated = true;
-      this.isDetail=false;
+      this.isDetail = false;
       this.update_id = student.id;
       this.firstname = student.firstname;
       this.lastname = student.lastname;
@@ -277,8 +347,15 @@ export default {
       http.get("student/" + student_id).then((res) => {
         this.student = res.data[0];
       });
-      http.get("/student/leaveRequest/"+student_id).then((result) => {
+      http.get("/student/leaveRequest/" + student_id).then((result) => {
         this.studentLeaves = result.data;
+      });
+    },
+    viewTeacherDetail(id) {
+      this.isTeacherDetail = !this.isTeacherDetail;
+      http.get("user/" + id).then((res) => {
+        console.log(res.data);
+        this.teacher = res.data[0];
       });
     },
   },
@@ -317,11 +394,15 @@ export default {
   },
   mounted() {
     this.studentFromAPI();
+    this.teacherFromAPI();
   },
 };
 </script>
 
 <style scoped>
+/* *{
+    background: linear-gradient(to right top, #65dfc9, #6cdbed);
+  } */
 .contianer_update {
   position: absolute;
   width: 100%;
@@ -452,17 +533,24 @@ label {
   font-size: small;
 }
 
-img {
+.user img {
   height: 50px;
   width: 50px;
   border-radius: 50%;
+  border: 2px solid rgb(53, 159, 245);
+  transition: 1s;
+}
+img:hover {
+  transform: scale(1.3);
+  z-index: 2;
 }
 
 .icon {
   display: flex;
 }
 .icon img {
-  margin: 0;padding: 0;
+  margin: 0;
+  padding: 0;
   width: 2rem;
   height: 2rem;
 }
@@ -506,14 +594,12 @@ tr td {
 tbody tr {
   border-top: 8px solid white;
   border-bottom: 8px solid white;
-  background: rgb(233, 233, 233);
-  border-radius: 40%;
 }
 thead tr th {
   border: none;
 }
 tbody tr:hover {
-  background: rgb(220, 220, 220);
+  background: rgba(220, 220, 220, 0.299);
 }
 tr td:first-child {
   border-top-left-radius: 10%;

@@ -33,7 +33,7 @@ class StudentController extends Controller
             'lastname' => 'required',
             'gender' => 'required',
             'phone' => 'required',
-            'email' => 'required|unique:users|email|regex:/(.*)@student.passerellesnumeriques.org\.com/i',
+            // 'email' => 'required|unique:users|email|regex:/(.*)@student.passerellesnumeriques.org\.com/i',
             'class' => 'required',
             'batch' => 'required|min:4',
             'user_id' => 'required|',
