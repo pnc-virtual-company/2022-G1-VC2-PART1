@@ -1,6 +1,5 @@
 <template>
   <section>
-    <div v-if="role != ''">
       <nav v-if="role == true">
         <div class="nav-controll nav-left">
           <div class="pnc_logo">
@@ -12,13 +11,13 @@
           <router-link to="/studentsList">STUDENTS</router-link>
           <router-link to="/checkLeave">CHECK LEAVES</router-link>
         </div>
-        <div class="nav-controll nav-right">
+        <div class="nav-controll nav-right" v-if="userData.image != undefined">
           <img
             :src="'http://127.0.0.1:8000/storage/pictures/' + userData.image"
             alt=""
             class="profile-image"
           />
-          <router-link to="/profile">{{ userData.firstname  }} {{ userData.lastname }}</router-link>
+          <router-link to="/TeacherProfile">{{ userData.firstname  }} {{ userData.lastname }}</router-link>
           <div class="signOut">
             <i class="fa fa-sign-out fa-2x" @click="userSignOut"></i>
           </div>
@@ -35,7 +34,7 @@
           <router-link to="/newRequest">REQUEST LEAVE</router-link>
           <router-link to="/studentListAllLeave">HISTORY</router-link>
         </div>
-        <div class="nav-controll nav-right">
+        <div class="nav-controll nav-right" v-if="userData.image != undefined">
           <img
             :src="'http://127.0.0.1:8000/storage/pictures/' + userData.image"
             alt=""
@@ -47,31 +46,17 @@
           </div>
         </div>
       </nav>
-    </div>
   </section>
 </template>
-
 <script>
-import axios from "@/axios-http";
+// import axios from "@/axios-http";
 export default {
-  data(){
-    return{
-      // role:null,
-      username:null,
-      image:null,
-    }
-  },
+
+  emits:['sign-out'],
   props: ["role", "userData"],
   methods: {
     userSignOut() {
-      axios.post("sigout").then((res) => {
-        if (res.data) {
-          this.$router.push("/"), localStorage.clear();
-        }
-      });
-      setTimeout(() => {
-        window.location.reload();
-      }, 1000);
+      this.$emit('sign-out');
     },
 
   },

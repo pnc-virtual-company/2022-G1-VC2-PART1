@@ -55,7 +55,8 @@
     <div class="form-group">
       <p>
         Duration : <span v-if="duration == 0">0 Days</span
-        ><span v-else>{{ duration }} Days</span>
+        ><span v-else-if="duration<=3">{{ duration }} Days</span>
+        <span v-else style="color:red;">Can't not allow</span>
       </p>
     </div>
     <div class="form-group">
@@ -84,14 +85,12 @@
     </div>
   </form>
 </template>
-
 <script>
 import axios from "@/axios-http";
 import moment from "moment";
-import swal from "sweetalert";
+// import swal from "sweetalert";
 export default {
   emits: ["addRequestLeave"],
-
   data() {
     return {
       leaveType: "",
@@ -113,52 +112,70 @@ export default {
       this.startTime = "";
       this.endTime = "";
     },
-
-    currentuser_id() {
-      this.student_id = JSON.parse(localStorage.getItem("user"))["id"];
+    getRequestLeave(){
+      axios.get("/student_leave_request").then((res)=>{
+        console.log(res.data);
+      })
     },
-
-    addRequestLeave() {
-      this.currentuser_id();
+    addRequestLeave(){
       let requestleave = {
         leave_type: this.leaveType,
         start_date: this.startDate,
         end_date: this.endDate,
         duration: this.duration,
         reason: this.cause,
-        // student_id: 1,
         student_id: this.student_id,
-      };
-      axios.post("studentleaveRequest", requestleave).then((res) => {
-        this.leaveType = "";
-        this.startDate = "";
-        this.endDate = "";
-        this.cause = "";
-        this.startTime = "";
-        this.endTime = "";
-        swal({
-          title: "Okay!",
-          text: "Your leave request has been sent !",
-          icon: "success",
-        }).then((isOkay) => {
-          if (isOkay) {
-            this.$router.push("/studentListAllLeave");
-          }
-        });
+      }
+      axios.post("/student_leave_request",requestleave).then((res)=>{
+        console.log(res.data);
+      })
+    }
 
-        axios
-          .get("sendMail")
-          .then((res) => {
-            console.log(res);
-          })
-          .catch((error) => {
-            if (error.response) {
-              console.log(error.response);
-            }
-          });
-        return res;
-      });
-    },
+    // currentuser_id() {
+    //   this.student_id = JSON.parse(localStorage.getItem("user"))["id"];
+    // },
+
+    // addRequestLeave() {
+    //   // this.currentuser_id();
+    //   let requestleave = {
+    //     leave_type: this.leaveType,
+    //     start_date: this.startDate,
+    //     end_date: this.endDate,
+    //     duration: this.duration,
+    //     reason: this.cause,
+    //     student_id: this.student_id,
+    //   };
+    //   axios.post("/student_leave_request", requestleave).then((res) => {
+    //     swal({
+    //       title: "Okay!",
+    //       text: "Your leave request has been sent !",
+    //       icon: "success",
+    //     })
+    //     .then((isOkay) => {
+    //       if (isOkay) {
+    //         this.$router.push("/student_leave_request");
+    //         console.log(res.data)
+    //       }
+    //     });
+    //     this.leaveType = "";
+    //     this.startDate = "";
+    //     this.endDate = "";
+    //     this.cause = "";
+    //     this.startTime = "";
+    //     this.endTime = "";
+    //     axios
+    //       .get("sendMail")
+    //       .then((res) => {
+    //         console.log(res);
+    //       })
+    //       .catch((error) => {
+    //         if (error.response) {
+    //           console.log(error.response);
+    //         }
+    //       });
+    //     return res;
+    //   });
+    // },
   },
 
   computed: {
@@ -233,6 +250,9 @@ export default {
       return dateTime;
     },
   },
+  mounted(){
+    this.getRequestLeave()
+  }
 };
 </script>
 

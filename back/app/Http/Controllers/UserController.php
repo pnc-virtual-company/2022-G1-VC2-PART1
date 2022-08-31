@@ -136,7 +136,7 @@ class UserController extends Controller
         ];
         return response()->json($response);
     }
-    public function user()
+    public function admin()
     {
         return Auth::user();
     }
