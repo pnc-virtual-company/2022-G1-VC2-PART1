@@ -17,7 +17,7 @@ class StudentController extends Controller
     public function index()
     {
         //
-        return Student::get();
+        return Student::orderBy('id', 'DESC')->get();
     }
 
     /**
@@ -33,7 +33,7 @@ class StudentController extends Controller
             'lastname' => 'required',
             'gender' => 'required',
             'phone' => 'required',
-            'email' => 'required|unique:users|email|regex:/(.*)@student.passerellesnumeriques.org\.com/i',
+            'email' => 'required|email|regex:/(.*)@passerellesnumeriques.org',
             'class' => 'required',
             'batch' => 'required|min:4',
             'user_id' => 'required',
@@ -56,13 +56,20 @@ class StudentController extends Controller
 
     /**
      * Display the specified resource.
-     *
+     *4
      * @param  \App\Models\Student  $student
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
         return Student::where('id', $id)->get();
+    }
+
+
+    
+    public function getStudentByuserId(Request $request, $user_id)
+    {
+        return Student::with('studentleavequest')->where('user_id', $user_id)->get();
     }
 
     /**
@@ -74,15 +81,21 @@ class StudentController extends Controller
      */
    
     public function updatePassword(Request $request, $id)
-    {$request->validate([
+    {
+        $request->validate([
         'password' => [
             'string',
             'min:8',  ],
         ]); 
         $student = Student::findOrFail($id);
         $student->password = bcrypt($request->password);
+        $token = $student->createToken("mytoken")->plainTextToken;
+        $response = [
+            'user' => $student,
+            "token" => $token,
+        ];
         $student->save();
-        return response()->json(['message:' => 'update student successfully']);
+        return response()->json(['message:' => 'update student successfully', 'user' => $student]);
     }
 
     public function updateImage(Request $request, $id){
@@ -90,7 +103,11 @@ class StudentController extends Controller
         $student = Student::findOrFail($id);
         $student->image = $request->file("image")->hashName();
         $student->save();
-        return response()->json(['message:' => 'update student successfully']);
+        $token = $user->createToken("mytoken")->plainTextToken;
+        $response = [
+            'user' => $user,
+            "token" => $token,
+        ];
     }
 
     public function update(Request $request, $id){
@@ -117,7 +134,11 @@ class StudentController extends Controller
         //
         return Student::destroy($id);
     }
-  
+    
+
+    public function getStudent(Request $request, $user_id){
+        return Student::where('user_id', $user_id)->get();
+    }
 
     // public function sigin(Request $request)
     // {

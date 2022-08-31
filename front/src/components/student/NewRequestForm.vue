@@ -88,7 +88,7 @@
 <script>
 import axios from "@/axios-http";
 import moment from "moment";
-// import swal from "sweetalert";
+import swal from "sweetalert";
 export default {
   emits: ["addRequestLeave"],
   data() {
@@ -117,7 +117,13 @@ export default {
         console.log(res.data);
       })
     },
-    addRequestLeave(){
+
+    currentuser_id() {
+      this.student_id = JSON.parse(localStorage.getItem("user"))["id"];
+    },
+
+    addRequestLeave() {
+      // this.currentuser_id();
       let requestleave = {
         leave_type: this.leaveType,
         start_date: this.startDate,
@@ -125,57 +131,38 @@ export default {
         duration: this.duration,
         reason: this.cause,
         student_id: this.student_id,
-      }
-      axios.post("/student_leave_request",requestleave).then((res)=>{
-        console.log(res.data);
-      })
-    }
-
-    // currentuser_id() {
-    //   this.student_id = JSON.parse(localStorage.getItem("user"))["id"];
-    // },
-
-    // addRequestLeave() {
-    //   // this.currentuser_id();
-    //   let requestleave = {
-    //     leave_type: this.leaveType,
-    //     start_date: this.startDate,
-    //     end_date: this.endDate,
-    //     duration: this.duration,
-    //     reason: this.cause,
-    //     student_id: this.student_id,
-    //   };
-    //   axios.post("/student_leave_request", requestleave).then((res) => {
-    //     swal({
-    //       title: "Okay!",
-    //       text: "Your leave request has been sent !",
-    //       icon: "success",
-    //     })
-    //     .then((isOkay) => {
-    //       if (isOkay) {
-    //         this.$router.push("/student_leave_request");
-    //         console.log(res.data)
-    //       }
-    //     });
-    //     this.leaveType = "";
-    //     this.startDate = "";
-    //     this.endDate = "";
-    //     this.cause = "";
-    //     this.startTime = "";
-    //     this.endTime = "";
-    //     axios
-    //       .get("sendMail")
-    //       .then((res) => {
-    //         console.log(res);
-    //       })
-    //       .catch((error) => {
-    //         if (error.response) {
-    //           console.log(error.response);
-    //         }
-    //       });
-    //     return res;
-    //   });
-    // },
+      };
+      axios.post("/student_leave_request", requestleave).then((res) => {
+        this.leaveType = "";
+        this.startDate = "";
+        this.endDate = "";
+        this.cause = "";
+        this.startTime = "";
+        this.endTime = "";
+        swal({
+          title: "Okay!",
+          text: "Your leave request has been sent !",
+          icon: "success",
+        })
+        .then((isOkay) => {
+          if (isOkay) {
+            this.$router.push("/student_leave_request");
+            console.log(res.data)
+          }
+        });
+        axios
+          .get("sendMail")
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((error) => {
+            if (error.response) {
+              console.log(error.response);
+            }
+          });
+        return res;
+      });
+    },
   },
 
   computed: {
