@@ -12,6 +12,9 @@
         <div class="form-group">
           <input type="text" placeholder="email" v-model="email" />
         </div>
+        <div class="error" v-if="emailError">
+          <p v-text="emailError"></p>
+        </div>
         <h3>Password:</h3>
         <div class="form-group">
           <input
@@ -25,8 +28,14 @@
             style="font-size: 20px"
           ></i>
         </div>
+        <div class="serverMessage" v-if="unauthorizedError">
+          <p v-text="unauthorizedError"></p>
+        </div>
+        <div class="error" v-if="passwordError">
+          <p v-text="passwordError"></p>
+        </div>
         <br />
-        <button value="Login" class="login-button" @click.prevent="handleClick">
+        <button :disabled='!isValidated' :class="isValidated ? 'buttonActive' : 'buttonInactive'"  value="Login" class="login-button" @click.prevent="handleClick">
           Login
         </button>
         <br />
@@ -37,12 +46,39 @@
 <script>
 export default {
   emits: ["sign-in"],
+  props: ["unauthorizedError"],
   data() {
     return {
       isPasswordShow: false,
       email: "",
       password: "",
+      emailError: "",
+      passwordError: "",
     };
+  }, watch: {
+    email: function(value) {
+      const emailRegex = RegExp(
+        /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+      );
+      if(emailRegex.test(value)) {
+        this.emailError = '';
+      } else {
+        this.emailError = 'invalid email';
+      }
+    },
+    password: function(value) {
+      if(value.length >= 8) {
+        this.passwordError = '';
+      } else {
+        this.passwordError = "password must be at least 8 characters";
+      }
+    },
+  },
+  computed: {
+    isValidated() {
+      return this.emailError === '' && this.passwordError === '' && this.email !== '' && this.password !== '';
+    }
+    
   },
 
   methods: {
@@ -50,17 +86,21 @@ export default {
       this.isPasswordShow = !this.isPasswordShow;
     },
     handleClick() {
-      let userData = {
+      if(this.isValidated) {
+        let userData = {
         email: this.email,
         password: this.password,
       };
       this.$emit("sign-in", userData);
+      }
+
     },
   },
   mounted() {
     if (localStorage.getItem("accessToken") === null) {
       this.$router.push("/");
-    } else {
+    } 
+    else {
       this.$router.push("/welcome");
     }
   },
@@ -133,7 +173,6 @@ h3 {
 .login-button {
   height: 40px;
   width: 100px;
-  background-color: orange;
   border: 1px solid #f2f2f2;
   border: none;
   border-radius: 10px;
@@ -141,5 +180,17 @@ h3 {
   text-transform: uppercase;
   font-family: "Ubuntu", sans-serif;
   cursor: pointer;
+}
+.buttonActive{
+  background-color: orange;
+}
+.buttonInactive{
+  background-color: #f2f2f2;
+  color:orange;
+}
+.error,.serverMessage {
+  color: rgb(255, 97, 97);
+  margin: 5px 0 0 3.5rem;
+  text-align: left;
 }
 </style>

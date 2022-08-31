@@ -52,7 +52,7 @@
               type="submit"
               id="submitButton"
               class="submitButton pure-button pure-button-primary"
-              @click.prevent="validatePassword(user.id)"
+              @click.prevent="validatePassword(user.id,user.user_id)"
             >
               <span>Change</span>
             </button>
@@ -63,13 +63,14 @@
       </div>
     </div>
     <div v-if="!clickEdit && !clickChangeprofile" class="contianer">
-      <div class="card">
+      <div class="card" v-if="user!=null">
         <div class="card_profile">
           <img
             :src="profile"
             alt=""
             class="img-profile"
           />
+
           <i
             class="fa fa-camera"
             style="font-size: 24px"
@@ -80,9 +81,8 @@
           {{ user.firstname }} {{ user.lastname }}
         </h1>
         <hr />
-        <div class="card_body">
-          <div class="student-name">{{ user.username }}</div>
-          <ul>
+       
+        <ul>
             <li>
               <span class="bold-text">Class : </span>
               <span>{{ user.class }}</span>
@@ -100,7 +100,7 @@
               <span>{{ user.email }}</span>
             </li>
           </ul>
-        </div>
+       
         <button @click="clickEdit = true" class="btn-edit">
           Change Password
         </button>
@@ -168,13 +168,18 @@ export default {
         .then(() => {console.log("Student have successfully updated the image")});
     },
 
-    validatePassword(id) {
+    validatePassword(id,userId) {
+      console.log(id,userId)
+      console.log(this.password);
+      console.log(this.confirmPassword);
       if (this.password != "") {
         if (this.confirmPassword != "") {
           if (this.confirmPassword == this.password) {
+            this.updateUserpassword(userId, {password:  this.password})
             axios
-              .put("/student/password/update/" + id, this.password)
+              .put("student_update_password/" + id, {password:  this.password})
               .then((res) => {
+                console.log(res.data);
                 swal("Good job!", "Your password is changed!", "success").then(
                   (isChange) => {
                     if (isChange) {
@@ -185,7 +190,7 @@ export default {
                 this.password = "";
                 this.confirmPassword = "";
                 this.invalidPassword = "";
-                return res.data;
+                console.log("student update is : ", res.data);
               })
               .catch((error) => {
                 if (error.response) {
@@ -204,6 +209,9 @@ export default {
         this.invalidPassword = "* Please enter your new password !";
       }
     },
+    updateUserpassword(userId, password){
+      axios.put("user_update_password/"+userId, password).then(response => {console.log("user update is : ", response);})
+    },
     showHidePassword() {
       this.isPasswordShown = !this.isPasswordShown;
     },
@@ -218,16 +226,21 @@ export default {
       this.isUpload = !this.isUpload;
     },
     userlogin() {
-      if(localStorage.getItem("user_role")){
         axios.get("userlogin").then((res)=>{
           this.user = res.data;
           this.profile='http://127.0.0.1:8000/storage/pictures/' + res.data.image
           this.currentuser_id=res.data.user_id;
           this.student_id = res.data.id;
-        })
-      }
+          this.getStudentByUserId(res.data.id)
+      })
+    },
+
+    getStudentByUserId(id){
+      axios.get("student_through_user_id/" + id).then((res)=>{
+        this.user = res.data[0];
+        console.log("user is ", this.user);
+      })
     }
-   
   },
 
   mounted(){
@@ -260,7 +273,7 @@ ul li {
   display: flex;
 }
 .card_profile {
-  border-radius: 50%;
+  border-radius: 90%;
   padding: 5px;
   display: flex;
   align-items: center;
