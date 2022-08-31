@@ -112,22 +112,23 @@ export default {
       this.endTime = "";
     },
 
-    currentuser_id() {
-      this.student_id = JSON.parse(localStorage.getItem("user"))["id"];
-    },
+    // currentuser_id() {
+    //   this.student_id = JSON.parse(localStorage.getItem("user"))["id"];
+    // },
 
     addRequestLeave() {
-      this.currentuser_id();
+      // this.currentuser_id();
       let requestleave = {
         leave_type: this.leaveType,
         start_date: this.startDate,
         end_date: this.endDate,
         duration: this.duration,
         reason: this.cause,
-        // student_id: 1,
         student_id: this.student_id,
+        
       };
-      axios.post("studentleaveRequest", requestleave).then((res) => {
+      console.log("request leave:", requestleave)
+      axios.post("student_leave_request", requestleave).then((res) => {
         this.leaveType = "";
         this.startDate = "";
         this.endDate = "";
@@ -155,6 +156,18 @@ export default {
             }
           });
         return res;
+      });
+    },
+
+    userlogin() {
+      axios.get("userlogin").then((res) => {
+        this.getStudentByUserId(res.data.id);
+      });
+    },
+
+    getStudentByUserId(id) {
+      axios.get("student_through_user_id/" + id).then((res) => {
+       this.student_id = res.data[0].id
       });
     },
   },
@@ -227,9 +240,14 @@ export default {
         }
       }
 
-      console.log(dateforLeave);
       return dateTime;
     },
+  },
+
+  mounted(){
+    
+    this.userlogin();
+
   },
 };
 </script>
