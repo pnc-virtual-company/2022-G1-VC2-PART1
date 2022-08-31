@@ -140,7 +140,6 @@ export default {
       user.append("password", this.password);
       user.append("role", 0);
       user.append("image",this.image);
-      user.append("image", this.image);
       axios.post("register", user).then(response => {
         this.user_id=response.data.id
         if(this.user_id){
@@ -200,7 +199,6 @@ export default {
 // <!-- +++++++++++++++++++++++++++ MY CODE +++++++++++++++++ -->
 </script>
 <style scoped>
-/* // <!-- +++++++++++++++++++++++++++ MY CODE +++++++++++++++++ --> */
 
 form {
   width: 40%;

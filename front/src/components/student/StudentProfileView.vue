@@ -84,20 +84,20 @@
        
         <ul>
             <li>
-              <span class="bold-text">Class : </span>
-              <span>{{ user.class }}</span>
+              <div class="bold-text">Class : </div>
+              <div>{{ user.class }}</div>
             </li>
             <li>
-              <span class="bold-text">Batch : </span>
-              <span>{{ user.batch }}</span>
+              <div class="bold-text">Batch : </div>
+              <div>{{ user.batch }}</div>
             </li>
             <li>
-              <span class="bold-text">Gender : </span>
-              <span>{{ user.gender }}</span>
+              <div class="bold-text">Gender : </div>
+              <div>{{ user.gender }}</div>
             </li>
             <li>
-              <span class="bold-text">Email : </span>
-              <span>{{ user.email }}</span>
+              <div class="bold-text">Email :</div>
+              <div>{{ user.email }}</div>
             </li>
           </ul>
        
@@ -178,8 +178,7 @@ export default {
             this.updateUserpassword(userId, {password:  this.password})
             axios
               .put("student_update_password/" + id, {password:  this.password})
-              .then((res) => {
-                console.log(res.data);
+              .then(() => {
                 swal("Good job!", "Your password is changed!", "success").then(
                   (isChange) => {
                     if (isChange) {
@@ -190,7 +189,6 @@ export default {
                 this.password = "";
                 this.confirmPassword = "";
                 this.invalidPassword = "";
-                console.log("student update is : ", res.data);
               })
               .catch((error) => {
                 if (error.response) {
@@ -256,7 +254,7 @@ export default {
   margin: 2rem auto;
 }
 .card {
-  width: 60%;
+  width: 70%;
   margin: auto;
   padding: 2rem;
   border-radius: 10px;
@@ -271,7 +269,14 @@ ul li {
   list-style: none;
   padding: 10px 0;
   display: flex;
+  align-items: center;
 }
+
+.bold-text{
+  display: flex;
+  width: 4rem;
+}
+
 .card_profile {
   border-radius: 90%;
   padding: 5px;
