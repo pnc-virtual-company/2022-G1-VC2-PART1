@@ -28,6 +28,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post("register", [UserController::class, "register"]);
 Route::post("user/sigin", [UserController::class, "sigin"]);
+Route::put("user_update_image/{id}", [UserController::class, "updateImage"]);
 
 /*
 ================= Teacher route =====================
@@ -35,9 +36,10 @@ Route::post("user/sigin", [UserController::class, "sigin"]);
 Route::group(['middleware'=>['auth:sanctum']],function(){
     Route::post("/admin", [UserController::class, "store"]);
     Route::post("/userlogin", [UserController::class, "admin"]);
+    // Route::put("user_update_image/{id}", [UserController::class, "updateImage"]);
     Route::apiresource("/student", StudentController::class);  
     Route::apiresource("/student_leave_request", StudentLeaveRquestController::class);
-    Route::put("user_update_password", [UserController::class, "updatePassword"]);
+    Route::put("user_update_password/{id}", [UserController::class, "updatePassword"]);
 });
 
 /*
@@ -51,8 +53,8 @@ Route::group(['middleware'=>['auth:sanctum']],function(){
     Route::apiresource("/student_leave_request", StudentLeaveRquestController::class);
     Route::post("sigout", [StudentController::class, "sigout"]);
     Route::put("student_update", [StudentController::class, "update"]);
-    Route::put("user_update_password", [UserController::class, "updatePassword"]);
-    Route::put("student_update_password", [StudentController::class, "updatePassword"]);
+    Route::put("user_update_password/{id}", [UserController::class, "updatePassword"]);
+    Route::put("student_update_password/{id}", [StudentController::class, "updatePassword"]);
     Route::put("student_update_image", [StudentController::class, "updateImage"]);
     Route::get("userlogin", [StudentController::class, "student"]);
 });

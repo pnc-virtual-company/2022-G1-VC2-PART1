@@ -90,7 +90,11 @@ class StudentController extends Controller
         $student = Student::findOrFail($id);
         $student->image = $request->file("image")->hashName();
         $student->save();
-        return response()->json(['message:' => 'update student successfully']);
+        $token = $user->createToken("mytoken")->plainTextToken;
+        $response = [
+            'user' => $user,
+            "token" => $token,
+        ];
     }
 
     public function update(Request $request, $id){

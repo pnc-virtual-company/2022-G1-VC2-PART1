@@ -5,7 +5,7 @@
         <form id="signupForm">
           <div class="card_profile">
             <img
-              :src="'http://127.0.0.1:8000/storage/pictures/' + user.image"
+              :src="profile"
               class="img-profile"
             />
           </div>
@@ -66,7 +66,7 @@
       <div class="card">
         <div class="card_profile">
           <img
-            :src="'http://127.0.0.1:8000/storage/pictures/' + user.image"
+            :src="profile"
             alt=""
             class="img-profile"
           />
@@ -113,7 +113,7 @@
       <h2 class="title">Update your profile</h2>
       <div class="card_pf">
         <img
-          :src="'http://127.0.0.1:8000/storage/pictures/' + user.image"
+          :src="profile"
           class="img-pf"
         />
       </div>
@@ -147,25 +147,27 @@ export default {
       isPasswordConfirmed: false,
       invalidPassword: "",
       currentuser_id: null,
+      student_id: null,
       isUpload: false,
       image: null,
       user:null,
+      profile:null,
     };
   },
   methods: {
 
     saveUpload(event){
-      console.log(this.user.id);
+        this.profile = URL.createObjectURL(event.target.files[0]);
         this.image = event.target.files[0];
         let formData = new FormData();
-        formData.append('profile_image', this.image);
+        formData.append('image', this.image);
         formData.append('_method', 'PUT');
-
-        axios.post("/student/reset_profile/" + 1, formData).then(res => {
-          console.log(res);
-        })
-
+        axios.post("user_update_image/" + this.currentuser_id, formData)
+        .then(() => {console.log("You have successfully updated the image")});
+        axios.post("student_update_image/" + this.student_id, formData)
+        .then(() => {console.log("Student have successfully updated the image")});
     },
+
     validatePassword(id) {
       if (this.password != "") {
         if (this.confirmPassword != "") {
@@ -219,6 +221,9 @@ export default {
       if(localStorage.getItem("user_role")){
         axios.get("userlogin").then((res)=>{
           this.user = res.data;
+          this.profile='http://127.0.0.1:8000/storage/pictures/' + res.data.image
+          this.currentuser_id=res.data.user_id;
+          this.student_id = res.data.id;
         })
       }
     }

@@ -4,7 +4,8 @@
   <form>
     <label for="image" style="color: black">
       <div class="user-profile">
-        <img src="../../assets/profile1.png" alt="" />
+        <img v-if="profile!=null" :src="profile" alt="" />
+        <img v-else src="@/assets/profile1.png" alt="" />
       </div>
       <input
         type="file"
@@ -122,14 +123,14 @@ export default {
       phone: "",
       image: null,
       user_id: null,
+      profile: null,
     };
   },
 
   methods: {
     uploadImage(e) {
       this.image = e.target.files[0];
-      console.log(this.image);
-      console.log(e.target.files)
+      this.profile = URL.createObjectURL(e.target.files[0]);
     },
     addUser() {
       let user = new FormData();
