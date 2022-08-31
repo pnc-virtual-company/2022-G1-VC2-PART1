@@ -65,7 +65,7 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update($id)
+    public function update(Request $request,$id)
     {
         //
         $user = User::findOrFail($id);
@@ -96,7 +96,7 @@ class UserController extends Controller
         return response()->json($response);
     }
 
-    public function updatePassword($id)
+    public function updatePassword(Request $request,$id)
     {$request->validate([
         'password' => [
             'string',
@@ -131,6 +131,7 @@ class UserController extends Controller
             'firstname' => 'required',
             'lastname' => 'required',
             // 'email' => 'required|email|regex:/(.*)passerellesnumeriques.org/i',
+
         ]);
         $request->file('image')->store('public/pictures');
         $user = new User();

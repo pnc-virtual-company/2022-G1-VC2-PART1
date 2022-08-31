@@ -111,9 +111,8 @@
           <p>{{isUpload? "Save":"Change"}}</p>
         </label>
 
-        <div class="trash" >
-          <i class="fa fa-trash" style="font-size: 36px; color: #ff0d0d"></i>
-          <p>remove</p>
+        <div class="trash" @click="clearUploadImage">
+          <p>Back</p>
         </div>
       </div>
     </div>
@@ -136,6 +135,7 @@ export default {
       image: null,
       user:null,
       profile:"",
+      user_id: null,
     };
   },
   methods: {
@@ -197,9 +197,16 @@ export default {
       }
       this.isUpload = !this.isUpload;
     },
+    clearUploadImage() {
+      this.image=null;
+      this.profile='http://127.0.0.1:8000/storage/pictures/'+this.user.image
+      this.isUpload=false;
+      this.clickChangeprofile=!this.clickChangeprofile;
+    },
     userlogin() {
       axios.get("userlogin").then((res)=>{
         this.user = res.data;
+        this.user_id = res.data.id;
         this.profile='http://127.0.0.1:8000/storage/pictures/'+this.user.image
     })
   }
