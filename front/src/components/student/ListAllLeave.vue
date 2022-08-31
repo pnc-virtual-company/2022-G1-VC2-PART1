@@ -38,7 +38,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for:="student in students.reverse()">
+          <tr v-for:="student in students">
             <th>{{ student.start_date }}</th>
             <th>{{ student.end_date }}</th>
             <th>{{ student.reason }}</th>
@@ -61,27 +61,32 @@ export default {
       students: [],
       status_type: "show all",
       leave_type: "show all",
-      currentuser_id:null
+      user_id: null,
+      student_id: null,
     };
   },
 
   methods: {
-    studentleaveID(){
-      this.currentuser_id=JSON.parse(localStorage.getItem("user"))["id"]
+    getStudentLeaves() {
+      if (localStorage.accessToken) {
+        axios.get("userlogin").then((res) => {
+          this.user_id = res.data.id;
+          axios.get("studentByUserId/" + this.user_id).then((res) => {
+            this.student_leaves = res.data[0].studentleavequest;
+            this.students = this.student_leaves;
+          });
+        });
+      }
     },
-    getData() {
-      this.studentleaveID()
-      axios.get("/studentleaveRequest/", this.currentuser_id).then((result) => {
-        this.student_leaves = result.data;
-        this.students = this.student_leaves;
-      });
-    },
+
     studentEachStatus() {
       this.students = this.student_leaves;
+      console.log(this.students);
       if (this.status_type != "show all") {
         const lists = this.student_leaves.filter(
           (students) => students.status.toLowerCase() == this.status_type
         );
+
         if (this.leave_type != "show all") {
           this.students = lists.filter(
             (students) => students.leave_type.toLowerCase() == this.leave_type
@@ -106,10 +111,11 @@ export default {
           (students) => students.status.toLowerCase() == this.status_type
         );
       }
+      return this.students;
     },
   },
   mounted() {
-    this.getData();
+    this.getStudentLeaves();
   },
 };
 </script>
@@ -150,10 +156,10 @@ export default {
   padding: 20px 30px;
   border-radius: 5px;
   border: none;
-  background-color: #FF9620;
+  background-color: #ff9620;
   color: white;
 }
-span{
+span {
   padding: 10px;
   font-size: large;
 }
@@ -175,14 +181,14 @@ td {
 }
 
 thead tr th {
-  background-color: #23BBEA;
+  background-color: #23bbea;
   color: #fff;
   padding: 15px;
   font-size: 15px;
   font-weight: 600;
 }
-tbody tr:hover{
-    background-color:rgba(100, 100, 111, 0.2);
+tbody tr:hover {
+  background-color: rgba(100, 100, 111, 0.2);
 }
 .padding {
   color: #ffba07;

@@ -115,7 +115,11 @@ class UserController extends Controller
         $request->validate([
             'firstname' => 'required',
             'lastname' => 'required',
+<<<<<<< HEAD
+            'email' => 'required|email|regex:/(.*)passerellesnumeriques.org/i',
+=======
             // 'email' => 'required|email|regex:/(.*)@passerellesnumeriques.org/i',
+>>>>>>> a98f1fdcc16b4deacf30797a99390e52a6542ff0
         ]);
         $request->file('image')->store('public/pictures');
         $user = new User();

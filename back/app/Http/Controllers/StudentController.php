@@ -65,6 +65,13 @@ class StudentController extends Controller
         return Student::where('id', $id)->get();
     }
 
+
+    
+    public function getStudentByuserId(Request $request, $user_id)
+    {
+        return Student::with('studentleavequest')->where('user_id', $user_id)->get();
+    }
+
     /**
      * Update the specified resource in storage.
      *
