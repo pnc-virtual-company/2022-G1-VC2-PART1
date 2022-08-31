@@ -49,7 +49,9 @@ Route::post("student/sigin", [StudentController::class, "sigin"]);
 Route::group(['middleware'=>['auth:sanctum']],function(){
     Route::apiresource("/user", UserController::class);
     Route::apiresource("/student_leave_request", StudentLeaveRquestController::class);
+    Route::get("/student_leave_request/student/{student_id}", [StudentLeaveRquestController::class,"getLeaveByStudentId"]);
     Route::post("sigout", [StudentController::class, "sigout"]);
+    Route::get("studentByUserId/{user_id}", [StudentController::class, "getStudentByuserId"]);
     Route::put("student_update", [StudentController::class, "update"]);
     Route::put("user_update_password", [UserController::class, "updatePassword"]);
     Route::put("student_update_password", [StudentController::class, "updatePassword"]);
