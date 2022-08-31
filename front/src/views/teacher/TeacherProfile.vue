@@ -18,10 +18,7 @@ export default {
       axios.get("userlogin").then(result => {this.profile=result.data[0]; console.log(this.profile);})
       
     },
-    // update(newpassword){
-    //   axios.put("Teacher/1", newpassword)
-    //   .then(result =>(console.log("Teacher Updated", result.data)));
-    // },
+
 
   mounted() {
     this.getTeacherProfile();

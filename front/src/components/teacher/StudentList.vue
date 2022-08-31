@@ -277,9 +277,9 @@ export default {
       http.get("student/" + student_id).then((res) => {
         this.student = res.data[0];
       });
-      http.get("/student/leaveRequest/"+student_id).then((result) => {
-        this.studentLeaves = result.data;
-      });
+      // http.get("/student/leaveRequest/"+student_id).then((result) => {
+      //   this.studentLeaves = result.data;
+      // });
     },
   },
   computed: {

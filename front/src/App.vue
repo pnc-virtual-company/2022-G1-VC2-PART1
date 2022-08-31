@@ -26,6 +26,7 @@ export default {
         axios.get("userlogin").then((res) => {
           this.userData = res.data;
           this.role = this.userData.role;
+          console.log(this.role)
         });
       }
 
@@ -62,7 +63,8 @@ export default {
     this.getUserData();
     if (localStorage.getItem("accessToken") === null) {
       this.$router.push("/");
-    } else {
+    } 
+    else {
       this.$router.push("/welcome");
     }
   },
