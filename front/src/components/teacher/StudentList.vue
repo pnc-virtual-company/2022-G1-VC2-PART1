@@ -361,6 +361,7 @@ export default {
       this.isDetail = !this.isDetail;
       http.get("student/" + student_id).then((res) => {
         this.student = res.data[0];
+        console.log(this.student)
       });
       http.get("/student/leaveRequest/" + student_id).then((result) => {
         this.studentLeaves = result.data;

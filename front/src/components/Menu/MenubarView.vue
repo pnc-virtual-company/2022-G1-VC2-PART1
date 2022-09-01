@@ -49,6 +49,7 @@
           <i class="fa fa-sign-out fa-2x" @click="userSignOut"></i>
         </div>
         </div>
+  
       </nav>
       <!-- </div>
     </nav> -->

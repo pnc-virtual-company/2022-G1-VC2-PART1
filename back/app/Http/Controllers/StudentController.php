@@ -64,7 +64,7 @@ class StudentController extends Controller
      */
     public function show($id)
     {
-        return Student::where('id', $id)->get();
+        return Student::with('studentleavequest')->where('id', $id)->get();
     }
 
 
