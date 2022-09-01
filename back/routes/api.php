@@ -3,7 +3,6 @@
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\StudentLeaveRquestController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\MailController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -32,11 +31,13 @@ Route::put("user_update_image/{id}", [UserController::class, "updateImage"]);
 
 Route::group(['middleware'=>['auth:sanctum']],function(){
     Route::post("/admin", [UserController::class, "store"]);
+
     Route::post("/userlogin", [UserController::class, "admin"]);
 
     Route::get("/user/{id}", [UserController::class, "show"]);
-    // Route::put("user_update_image/{id}", [UserController::class, "updateImage"]);
+    Route::put("user_update_image/{id}", [UserController::class, "updateImage"]);
     Route::put("student_update_image/{id}", [StudentController::class, "updateImage"]);
+
     Route::apiresource("/student", StudentController::class);  
     Route::apiresource("/student_leave_request", StudentLeaveRquestController::class);
     Route::put("user_update_password/{id}", [UserController::class, "updatePassword"]);

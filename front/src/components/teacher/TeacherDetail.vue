@@ -25,11 +25,6 @@
             <h1 class="username">
               {{ teacher.firstname }} {{ teacher.lastname }}
             </h1>
-            <i
-              class="fa fa-edit fa-2x"
-              style="color: #03a9f4"
-              @click="editStudent(teacher)"
-            ></i>
           </div>
 
           <div class="user-info">
@@ -167,9 +162,7 @@ export default {
   border-radius: 5px;
   margin: 1rem;
 }
-/* .two-info {
-    display: flex;
-  } */
+
 .user-group {
   width: 100%;
   padding: 10px;
@@ -218,13 +211,5 @@ thead tr th {
 tbody tr:hover {
   background-color: rgba(100, 100, 111, 0.2);
 }
-.padding {
-  color: #ffba07;
-}
-.approved {
-  color: #3e9e10;
-}
-.rejected {
-  color: #fe0000;
-}
+
 </style>

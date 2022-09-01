@@ -70,7 +70,9 @@
             alt=""
             class="img-profile"
           />
-
+          <div class="camera">
+            
+          </div>
           <i
             class="fa fa-camera"
             style="font-size: 24px"
@@ -260,7 +262,7 @@ export default {
 
 <style scoped>
 .contianer {
-  width: 50%;
+  width: 100vh;
   margin: 2rem auto;
 }
 .card {
@@ -294,6 +296,7 @@ ul li {
   align-items: center;
   justify-content: center;
 }
+
 .img-profile {
   margin: auto;
   box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px,
@@ -305,12 +308,7 @@ ul li {
   border:none;
 }
 
-.fa-camera {
-  position: absolute;
-  margin-top: 4rem;
-  margin-right: 5px;
-  color: #cccccc;
-}
+
 
 .student-name {
   font-weight: bolder;
@@ -330,6 +328,7 @@ ul li {
   margin-top: 1rem;
 }
 .mainDiv {
+  width: 100px;
   display: flex;
   min-height: 100%;
   align-items: center;
@@ -484,6 +483,22 @@ button[disabled] {
   padding: 5px;
   cursor: pointer;
   border-radius: 5px;
+}
+
+.fa-camera {
+  position: absolute;
+  margin-top: 4.4rem;
+  margin-right: 2px;
+  color: #cccccc;
+  opacity: 0;
+  border-radius: 0 0 100px 100px;
+}
+
+.fa-camera:hover {
+  opacity: 100%;
+  background-color:#89898d41;
+  padding:0 1.7rem;
+  
 }
 
 

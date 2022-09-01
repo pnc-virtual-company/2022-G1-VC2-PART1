@@ -8,7 +8,7 @@
         <router-link to="/welcome" class="welcome">PNC SLMS</router-link>
       </div>
       <div class="nav-controll nav-center">
-        <router-link to="/studentsList">STUDENTS</router-link>
+        <router-link to="/studentsList">PEOPLE</router-link>
         <router-link to="/checkLeave">CHECK LEAVES</router-link>
       </div>
       <div class="nav-controll nav-right" v-if="userData.image != undefined">
@@ -42,7 +42,14 @@
           alt=""
           class="profile-image"
         />
+        <router-link to="/studentprofile"
+          >{{ userData.firstname }} {{ userData.lastname }}</router-link
+        >
+        <div class="signOut">
+          <i class="fa fa-sign-out fa-2x" @click="userSignOut"></i>
         </div>
+        </div>
+  
       </nav>
       <!-- </div>
     </nav> -->

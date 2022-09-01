@@ -41,7 +41,7 @@ const routes = [
     component: NewRequest
   },
   {
-    path: '/profile',
+    path: '/studentprofile',
     name: 'profile',
     component: StudentProfile
   }, 
