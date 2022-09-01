@@ -283,20 +283,25 @@ ul li {
 }
 .img-profile {
   margin: auto;
-  box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px,
-    rgba(6, 24, 44, 0.65) 0px 4px 6px -1px,
-    rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
+  box-shadow: #FF9620 0px 0px 0px 2px,
+    #FF9620 0px 4px 6px -1px,
+    #FF9620 0px 1px 0px inset;
   width: 6rem;
   height: 6rem;
   border-radius: 100%;
   border:none;
+  margin-top: 1rem;
 }
 
 .fa-camera {
   position: absolute;
   margin-top: 3.5rem;
-  margin-left:-15px;
-  color: orange;
+  color: rgb(156, 155, 155);
+  padding: 20px;
+  opacity: 0.1;
+}
+.fa-camera:hover{
+  opacity: 100;
 }
 .card .card-body {
   padding: 10px 40px;
@@ -316,12 +321,12 @@ ul li {
 .btn-edit {
   width: 100%;
   padding: 10px 20px;
-  background-color: #065492;
+  background-color: #23BBEA;
   border: none;
   cursor: pointer;
   color: white;
   border-radius: 5px;
-  margin-top: 1rem;
+  margin: 1rem 0rem 0rem 0rem;
 }
 .mainDiv {
   display: flex;
@@ -385,8 +390,8 @@ input:disabled {
   margin: auto;
   display: block;
   color: #fff;
-  background-color: #065492;
-  border-color: #065492;
+  background-color: #23BBEA;
+  border: none;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.12);
   box-shadow: 0 2px 0 rgba(0, 0, 0, 0.035);
   border-radius: 4px;
@@ -418,7 +423,7 @@ button[disabled] {
 #back {
   display: flex;
   justify-content: center;
-  color: #065492;
+  color: #FF9620;
   font-weight: bold;
   cursor: pointer;
 }
