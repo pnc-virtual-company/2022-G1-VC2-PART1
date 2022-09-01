@@ -3,12 +3,6 @@
     <div v-if="clickEdit" class="mainDiv">
       <div class="cardStyle">
         <form id="signupForm">
-          <div class="card_profile">
-            <img
-              :src="profile"
-              class="img-profile"
-            />
-          </div>
           <h2 class="formTitle">Change your password</h2>
           <div class="inputDiv">
             <label class="inputLabel" for="password">New Password</label>
