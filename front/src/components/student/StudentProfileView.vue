@@ -54,7 +54,7 @@
               class="submitButton pure-button pure-button-primary"
               @click.prevent="validatePassword(user.id,user.user_id)"
             >
-              <span>Change</span>
+              <span>Save</span>
             </button>
             <p>No, don't want to update</p>
             <strong id="back" @click="clickEdit = false">Go back</strong>
@@ -119,14 +119,12 @@
       </div>
       <div class="card-change">
         <input @change="saveUpload" id="profile-upload" type="file" hidden>
-        <label for="profile-upload" class="change" @click="showUpload">
+        <label :for=" isUpload? 'profile-upload':'not-upload'" class="change" @click="hadleUploadImage">
           <i class="fa fa-edit" style="font-size: 36px; color: #3cabce"></i>
-          <p>Change</p>
+          <p>{{isUpload ? 'Save' : 'Change'}}</p>
         </label>
-
-        <div class="trash">
-          <i class="fa fa-trash" style="font-size: 36px; color: #ff0d0d"></i>
-          <p>remove</p>
+        <div class="trash" @click="clearUploadImage">
+          <p>Back</p>
         </div>
       </div>
     </div>
@@ -137,6 +135,12 @@ import axios from "@/axios-http";
 import swal from "sweetalert";
 
 export default {
+  provide(){
+    return {
+      profileUniq:this.profile,
+    }
+  },
+
   data() {
     return {
       clickChangeprofile: false,
@@ -155,19 +159,6 @@ export default {
     };
   },
   methods: {
-
-    saveUpload(event){
-        this.profile = URL.createObjectURL(event.target.files[0]);
-        this.image = event.target.files[0];
-        let formData = new FormData();
-        formData.append('image', this.image);
-        formData.append('_method', 'PUT');
-        axios.post("user_update_image/" + this.currentuser_id, formData)
-        .then(() => {console.log("You have successfully updated the image")});
-        axios.post("student_update_image/" + this.student_id, formData)
-        .then(() => {console.log("Student have successfully updated the image")});
-    },
-
     validatePassword(id,userId) {
       console.log(id,userId)
       console.log(this.password);
@@ -220,15 +211,37 @@ export default {
     showHideCardPf() {
       this.clickChangeprofile = !this.clickChangeprofile;
     },
-    showUpload() {
+    
+    saveUpload(event){
+        this.profile = URL.createObjectURL(event.target.files[0]);
+        this.image = event.target.files[0];
+    },
+
+    hadleUploadImage() {
+      if(this.isUpload){
+          let formData = new FormData();
+          formData.append('image', this.image);
+          formData.append('_method', 'PUT');
+          axios.post("user_update_image/" + this.currentuser_id, formData)
+          .then(() => {console.log("You have successfully updated the image")});
+          axios.post("student_update_image/" + this.student_id, formData)
+          .then(() => {console.log("Student have successfully updated the image")});
+          this.clickChangeprofile= !this.clickChangeprofile;
+      }
       this.isUpload = !this.isUpload;
     },
+    clearUploadImage(){
+      this.profile='http://127.0.0.1:8000/storage/pictures/'+this.user.image
+      this.isUpload = false
+      this.clickChangeprofile= !this.clickChangeprofile;
+      this.image=null;
+    },
+
     userlogin() {
         axios.get("userlogin").then((res)=>{
           this.user = res.data;
           this.profile='http://127.0.0.1:8000/storage/pictures/' + res.data.image
-          this.currentuser_id=res.data.user_id;
-          this.student_id = res.data.id;
+          this.currentuser_id=res.data.id;
           this.getStudentByUserId(res.data.id)
       })
     },
@@ -236,7 +249,7 @@ export default {
     getStudentByUserId(id){
       axios.get("student_through_user_id/" + id).then((res)=>{
         this.user = res.data[0];
-        console.log("user is ", this.user);
+        this.student_id = res.data[0].id;
       })
     }
   },
@@ -292,6 +305,7 @@ ul li {
   width: 6rem;
   height: 6rem;
   border-radius: 100%;
+  border:none;
 }
 
 .fa-camera {
@@ -312,8 +326,8 @@ ul li {
 .btn-edit {
   width: 100%;
   padding: 10px 20px;
-  background-color: #065492;
-  border-color: #065492;
+  background-color: #4facff;
+  border:none;
   color: white;
   border-radius: 5px;
   margin-top: 1rem;
@@ -351,16 +365,17 @@ ul li {
   font-size: 12px;
   color: #555;
   margin-bottom: 6px;
-  margin-top: 24px;
+  margin-top: 10px;
 }
 .inputDiv {
   width: 70%;
   display: flex;
+  padding:1px;
   flex-direction: column;
   margin: auto;
 }
 input {
-  height: 40px;
+  height: 30px;
   width: 100%;
   font-size: 16px;
   border: none;
@@ -380,8 +395,8 @@ input:disabled {
   margin: auto;
   display: block;
   color: #fff;
-  background-color: #065492;
-  border-color: #065492;
+  background-color: #4facff;
+  border:none;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.12);
   box-shadow: 0 2px 0 rgba(0, 0, 0, 0.035);
   border-radius: 4px;
@@ -413,7 +428,7 @@ button[disabled] {
 #back {
   display: flex;
   justify-content: center;
-  color: #065492;
+  color: #4facff;
   font-weight: bold;
   cursor: pointer;
 }
@@ -424,7 +439,7 @@ button[disabled] {
   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
     rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
   border: none;
-  margin: auto;
+  margin: 20px auto;
 }
 
 .title {
@@ -469,10 +484,11 @@ button[disabled] {
   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
     rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
   display: flex;
-  padding: 10px 10px;
+  padding: 5px;
   cursor: pointer;
   border-radius: 5px;
 }
+
 
 @keyframes spin {
   0% {

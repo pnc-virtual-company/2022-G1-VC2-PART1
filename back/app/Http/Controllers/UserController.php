@@ -130,8 +130,8 @@ class UserController extends Controller
         $request->validate([
             'firstname' => 'required',
             'lastname' => 'required',
+            // 'email' => 'required|email|regex:/(.*)passerellesnumeriques.org/i',
 
-            // 'email' => 'required|email|regex:/(.*)@passerellesnumeriques.org/i',
         ]);
         $request->file('image')->store('public/pictures');
         $user = new User();

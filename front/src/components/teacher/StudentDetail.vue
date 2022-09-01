@@ -15,7 +15,15 @@
         </div>
         <div class="main-content">
           <div class="profile-container">
+           
             <div class="profile">
+              <div class="edit">
+                <i
+                class="fa fa-edit fa-2x"
+                style="color:#4facff"
+                @click="editStudent(student)"
+              ></i>
+              </div>
               <img
                 :src="'http://127.0.0.1:8000/storage/pictures/' + student.image"
               />
@@ -23,11 +31,7 @@
             <h1 class="username">
               {{ student.firstname }} {{ student.lastname }}
             </h1>
-            <i
-              class="fa fa-edit fa-2x"
-              style="color: #03a9f4"
-              @click="editStudent(student)"
-            ></i>
+           
           </div>
           <div class="user-info">
             <div class="two-info">
@@ -197,7 +201,7 @@ export default {
   height: 100%;
 }
 .profile-container {
-  padding: 1rem;
+  padding: 1.5rem;
   width: 20%;
   height: 35vh;
   border-radius: 5px;
@@ -283,5 +287,10 @@ tbody tr:hover {
 }
 .rejected {
   color: #fe0000;
+}
+
+.edit{
+  display: flex;
+  justify-content: flex-end;
 }
 </style>

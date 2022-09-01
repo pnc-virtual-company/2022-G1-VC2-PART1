@@ -115,8 +115,8 @@ export default {
       this.$router.push("/welcome");
     },
     getRequestLeave(){
-      axios.get("/student_leave_request").then((res)=>{
-        console.log(res.data);
+      axios.get("/student_leave_request").then(()=>{
+        console.log("You get student leave request");
       })
     },
 
@@ -131,7 +131,7 @@ export default {
         
       };
 
-      axios.post("/student_leave_request", requestleave).then((res) => {
+      axios.post("/student_leave_request", requestleave).then(() => {
 
         this.leaveType = "";
         this.startDate = "";
@@ -147,20 +147,18 @@ export default {
         .then((isOkay) => {
           if (isOkay) {
             this.$router.push("/studentListAllLeave");
-            console.log(res.data)
           }
         });
         axios
           .get("sendMail")
-          .then((res) => {
-            console.log(res);
+          .then(() => {
+            console.log("Mail was sent successfully");
           })
           .catch((error) => {
             if (error.response) {
               console.log(error.response);
             }
           });
-        return res;
       });
     },
 
