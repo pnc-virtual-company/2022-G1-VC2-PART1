@@ -119,14 +119,12 @@
       </div>
       <div class="card-change">
         <input @change="saveUpload" id="profile-upload" type="file" hidden>
-        <label for="profile-upload" class="change" @click="showUpload">
+        <label :for=" isUpload? 'profile-upload':'not-upload'" class="change" @click="hadleUploadImage">
           <i class="fa fa-edit" style="font-size: 36px; color: #3cabce"></i>
-          <p>Change</p>
+          <p>{{isUpload ? 'Save' : 'Change'}}</p>
         </label>
-
-        <div class="trash">
-          <i class="fa fa-trash" style="font-size: 36px; color: #ff0d0d"></i>
-          <p>remove</p>
+        <div class="trash" @click="clearUploadImage">
+          <p>Back</p>
         </div>
       </div>
     </div>
@@ -137,6 +135,12 @@ import axios from "@/axios-http";
 import swal from "sweetalert";
 
 export default {
+  provide(){
+    return {
+      profileUniq:this.profile,
+    }
+  },
+
   data() {
     return {
       clickChangeprofile: false,
@@ -155,19 +159,6 @@ export default {
     };
   },
   methods: {
-
-    saveUpload(event){
-        this.profile = URL.createObjectURL(event.target.files[0]);
-        this.image = event.target.files[0];
-        let formData = new FormData();
-        formData.append('image', this.image);
-        formData.append('_method', 'PUT');
-        axios.post("user_update_image/" + this.currentuser_id, formData)
-        .then(() => {console.log("You have successfully updated the image")});
-        axios.post("student_update_image/" + this.student_id, formData)
-        .then(() => {console.log("Student have successfully updated the image")});
-    },
-
     validatePassword(id,userId) {
       if (this.password != "") {
         if (this.confirmPassword != "") {
@@ -219,15 +210,37 @@ export default {
     showHideCardPf() {
       this.clickChangeprofile = !this.clickChangeprofile;
     },
-    showUpload() {
+    
+    saveUpload(event){
+        this.profile = URL.createObjectURL(event.target.files[0]);
+        this.image = event.target.files[0];
+    },
+
+    hadleUploadImage() {
+      if(this.isUpload){
+          let formData = new FormData();
+          formData.append('image', this.image);
+          formData.append('_method', 'PUT');
+          axios.post("user_update_image/" + this.currentuser_id, formData)
+          .then(() => {console.log("You have successfully updated the image")});
+          axios.post("student_update_image/" + this.student_id, formData)
+          .then(() => {console.log("Student have successfully updated the image")});
+          this.clickChangeprofile= !this.clickChangeprofile;
+      }
       this.isUpload = !this.isUpload;
     },
+    clearUploadImage(){
+      this.profile='http://127.0.0.1:8000/storage/pictures/'+this.user.image
+      this.isUpload = false
+      this.clickChangeprofile= !this.clickChangeprofile;
+      this.image=null;
+    },
+
     userlogin() {
         axios.get("userlogin").then((res)=>{
           this.user = res.data;
           this.profile='http://127.0.0.1:8000/storage/pictures/' + res.data.image
-          this.currentuser_id=res.data.user_id;
-          this.student_id = res.data.id;
+          this.currentuser_id=res.data.id;
           this.getStudentByUserId(res.data.id)
       })
     },
@@ -235,7 +248,7 @@ export default {
     getStudentByUserId(id){
       axios.get("student_through_user_id/" + id).then((res)=>{
         this.user = res.data[0];
-        console.log("user is ", this.user);
+        this.student_id = res.data[0].id;
       })
     }
   },

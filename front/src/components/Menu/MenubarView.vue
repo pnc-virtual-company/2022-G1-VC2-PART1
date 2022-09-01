@@ -1,6 +1,5 @@
 <template>
   <section>
-      
     <nav v-if="role == true">
       <div class="nav-controll nav-left">
         <div class="pnc_logo">
@@ -29,7 +28,7 @@
     <nav v-if="role == false">
       <div class="nav-controll nav-left">
         <div class="pnc_logo">
-          <img src="@/assets/pnc_logo.png" alt="" />
+          <img src="@/assets/pnc_logo.png" alt=""/>
         </div>
         <router-link to="/" class="welcome">PNC SLMS</router-link>
       </div>
@@ -43,12 +42,13 @@
           alt=""
           class="profile-image"
         />
+
         <router-link to="/profile">{{ userData.firstname }} {{ userData.lastname }}</router-link>
         <div class="signOut">
           <i class="fa fa-sign-out fa-2x" @click="userSignOut"></i>
         </div>
-        </div>
-      </nav>
+      </div>
+    </nav>
   </section>
 </template>
 <script>

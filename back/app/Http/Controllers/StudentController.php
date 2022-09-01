@@ -33,7 +33,7 @@ class StudentController extends Controller
             'lastname' => 'required',
             'gender' => 'required',
             'phone' => 'required',
-            'email' => 'required|email|regex:/(.*)@passerellesnumeriques.org',
+            // 'email' => 'required|email|regex:/(.*)@passerellesnumeriques.org',
             'class' => 'required',
             'batch' => 'required|min:4',
             'user_id' => 'required',
@@ -108,6 +108,7 @@ class StudentController extends Controller
             'user' => $student,
             "token" => $token,
         ];
+        return response()->json($response);
     }
 
     public function update(Request $request, $id){

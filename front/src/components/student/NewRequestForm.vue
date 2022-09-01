@@ -113,8 +113,8 @@ export default {
       this.endTime = "";
     },
     getRequestLeave(){
-      axios.get("/student_leave_request").then((res)=>{
-        console.log(res.data);
+      axios.get("/student_leave_request").then(()=>{
+        console.log("You get student leave request");
       })
     },
 
@@ -145,20 +145,20 @@ export default {
         .then((isOkay) => {
           if (isOkay) {
             this.$router.push("/studentListAllLeave");
+            this.$router.push("/student_leave_request");
             console.log(res.data)
           }
         });
         axios
           .get("sendMail")
-          .then((res) => {
-            console.log(res);
+          .then(() => {
+            console.log("Mail was sent successfully");
           })
           .catch((error) => {
             if (error.response) {
               console.log(error.response);
             }
           });
-        return res;
       });
     },
 
