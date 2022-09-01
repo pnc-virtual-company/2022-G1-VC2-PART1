@@ -42,13 +42,10 @@
           alt=""
           class="profile-image"
         />
-
-        <router-link to="/profile">{{ userData.firstname }} {{ userData.lastname }}</router-link>
-        <div class="signOut">
-          <i class="fa fa-sign-out fa-2x" @click="userSignOut"></i>
         </div>
-      </div>
-    </nav>
+      </nav>
+      <!-- </div>
+    </nav> -->
   </section>
 </template>
 <script>
@@ -70,11 +67,14 @@ export default {
 </script>
 
 <style scoped>
+section{
+  background:#fff;
+  position: sticky;
+  top: 0;
+}
 nav {
   display: flex;
   justify-content: space-between;
-  position: sticky;
-  top: 0;
   box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px,
     rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
 }
@@ -131,10 +131,13 @@ li {
   height: 3rem;
 }
 .profile-image {
-  width: 35px;
-  height: 35px;
+  
+  border-radius: 50%;
+  border: 2px solid orange;
+  width: 40px;
+  height: 40px;
   display: flex;
-  margin-top: 13px;
+  margin-top: 7px;
 }
 .signOut {
   padding: 7px 0;

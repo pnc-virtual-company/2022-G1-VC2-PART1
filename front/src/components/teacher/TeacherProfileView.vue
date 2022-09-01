@@ -63,7 +63,7 @@
       </div>
     </div>
     <div v-if="!clickEdit && !clickChangeprofile" class="contianer">
-      <div class="card" v-if="user!=null">
+      <div class="card" v-if="user != null">
         <div class="card_profile">
           <img
             :src="profile"
@@ -76,23 +76,22 @@
             @click="showHideCardPf"
           ></i>
         </div>
-        <h1 style="text-align: center; margin: 1rem">
+        <h1 class="card-body">
           {{ user.firstname }} {{ user.lastname }}
         </h1>
         <hr />
-       
-          <ul>
-            <li>
-              <span class="bold-text">Email : </span>
-              <span>{{user.email}}</span>
-            </li>
-          </ul>
-       
+
+        <ul>
+          <li>
+            <span class="bold-text">Email : </span>
+            <span>{{ user.email }}</span>
+          </li>
+        </ul>
+
         <button @click="clickEdit = true" class="btn-edit">
           Change Password
         </button>
       </div>
-      
     </div>
 
     <!-- update profile -->
@@ -140,7 +139,17 @@ export default {
     };
   },
   methods: {
-    
+    saveUpload(event) {
+      console.log(this.user.id);
+      this.image = event.target.files[0];
+      let formData = new FormData();
+      formData.append("profile_image", this.image);
+      formData.append("_method", "PUT");
+
+      axios.post("/student/reset_profile/" + 1, formData).then((res) => {
+        console.log(res);
+      });
+    },
     validatePassword(id) {
       console.log(id);
       console.log(this.password);
@@ -232,29 +241,29 @@ export default {
       axios.get("user/"+id).then((res)=>{
         this.user = res.data[0];
         console.log('admin',this.user);
-      })
+      });
     },
   },
-
-  mounted(){
+  mounted() {
     this.userlogin();
   }
-
 };
+// };
 </script>
 
 <style scoped>
 .contianer {
-  width: 50%;
+  width: 76%;
   margin: 2rem auto;
 }
 .card {
-  width: 60%;
-  margin: auto;
-  padding: 2rem;
-  border-radius: 10px;
-  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
-    rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+  max-width: 50%;
+  margin: 150px auto 0;
+  background-color: #f7fcff;
+  box-shadow: 0 10px 90px #00000024;
+  text-align: center;
+  font-size: 20px;
+  border-radius: 15px;
 }
 .card_body {
   text-align: center;
@@ -266,42 +275,47 @@ ul li {
   display: flex;
 }
 .card_profile {
-  border-radius: 50%;
-  padding: 5px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  position: relative;
+  height: 48px;
 }
-.img-profile {
-  margin: auto;
-  box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px,
-    rgba(6, 24, 44, 0.65) 0px 4px 6px -1px,
-    rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
-  width: 6rem;
-  height: 6rem;
-  border-radius: 100%;
+.card .card_profile .img-profile {
+  width: 130px;
+  height: 130px;
+  border-radius: 1000px;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 4px solid orange;
+  box-shadow: 0 0 20px #ead2d246;
 }
 
 .fa-camera {
   position: absolute;
-  margin-top: 4rem;
-  margin-right: 5px;
-  color: #cccccc;
+  margin-top: 3.5rem;
+  margin-left:-15px;
+  color: orange;
 }
-
+.card .card-body {
+  padding: 10px 40px;
+  margin-top: 30px;
+    font-size: 22px;
+    font-weight: bold;
+    color: black;
+}
 .student-name {
   font-weight: bolder;
 }
 .bold-text {
-  text-align: start;
+  margin-left: 10px;
   font-weight: bolder;
-  width: 6rem;
+  width: 5rem;
 }
 .btn-edit {
   width: 100%;
   padding: 10px 20px;
   background-color: #065492;
-  border-color: #065492;
+  border: none;
+  cursor: pointer;
   color: white;
   border-radius: 5px;
   margin-top: 1rem;
