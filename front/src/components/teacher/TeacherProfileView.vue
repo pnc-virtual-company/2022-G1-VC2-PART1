@@ -258,7 +258,7 @@ ul li {
   position: absolute;
   left: 50%;
   transform: translate(-50%, -50%);
-  border: 4px solid orange;
+  border: 4px solid rgb(117, 115, 115);
   box-shadow: 0 0 20px #ead2d246;
 }
 
@@ -266,7 +266,7 @@ ul li {
   position: absolute;
   margin-top: 3.5rem;
   margin-left:-15px;
-  color: orange;
+  color: rgb(14, 13, 13);
 }
 .card .card-body {
   padding: 10px 40px;
