@@ -148,6 +148,7 @@ li {
 }
 .signOut {
   padding: 0.8rem 0 0 2rem;
+  cursor: pointer;
 }
 i {
   color: #2ea3f2;

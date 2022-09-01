@@ -2,7 +2,10 @@
   <section>
     <!--++++++++++++++++++++++++++ Show all information of teacher ++++++++++++++++++++++-->
     <div>
-      <div class="tb-container" v-if="!isTeacherDetail && isUpdated==false && isDetail==false">
+      <div
+        class="tb-container"
+        v-if="!isTeacherDetail && isUpdated == false && isDetail == false"
+      >
         <h2 class="teacher">Social Affair</h2>
         <table class="table">
           <thead>
@@ -223,7 +226,6 @@
     <student-detail
       v-if="isDetail"
       :student="student"
-      :index="index"
       :studentLeaves="studentLeaves"
       @hide-detail="isDetail = !isDetail"
       @studentUpdate="UpdateStudent"
@@ -231,7 +233,6 @@
     <teacher-detail
       v-if="isTeacherDetail"
       :teacher="teacher"
-      :index="index"
       @hide-detail="isTeacherDetail = !isTeacherDetail"
     ></teacher-detail>
   </section>
@@ -284,7 +285,6 @@ export default {
     teacherFromAPI() {
       http.get("teacher").then((res) => {
         this.listOfTeachers = res.data;
-        console.log(this.listOfTeachers);
       });
     },
 
@@ -352,27 +352,22 @@ export default {
           student["image"] = img;
           student["id"] = id;
           this.listOfStudents[index] = student;
-          console.log("Student update is : ", this.listOfStudents[index]);
         }
         index++;
       }
     },
 
     viewStudentDetail(student_id) {
-      this.isDetail = !this.isDetail;
       http.get("student/" + student_id).then((res) => {
         this.student = res.data[0];
-        console.log(this.student);
-      });
-      http.get("/student/leaveRequest/" + student_id).then((result) => {
-        this.studentLeaves = result.data;
+        this.studentLeaves = this.student.studentleavequest;
+        this.isDetail = !this.isDetail;
       });
     },
     viewTeacherDetail(id) {
-      this.isTeacherDetail = !this.isTeacherDetail;
       http.get("user/" + id).then((res) => {
-        console.log(res.data);
         this.teacher = res.data[0];
+        this.isTeacherDetail = !this.isTeacherDetail;
       });
     },
   },
@@ -528,6 +523,7 @@ label {
   background-color: rgba(34, 187, 234, 1);
   border: none;
   border-radius: 5px;
+  cursor: pointer;
 }
 
 .user {
@@ -563,6 +559,7 @@ img:hover {
   display: flex;
 }
 .icon img {
+  cursor: pointer;
   margin: 0;
   padding: 0;
   width: 2rem;

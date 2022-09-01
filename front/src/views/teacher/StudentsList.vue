@@ -32,9 +32,8 @@ export default {
   },
 
   methods: {
-    addStudent(student) {
-      this.dialog = student;
-      console.log("Text" + student);
+    addStudent(dialog) {
+      this.dialog = dialog;
     },
 
     showListStudents(show) {
@@ -44,11 +43,10 @@ export default {
       this.dialog = hide;
     },
     updateStudent(student) {
-      console.log(student);
       http
         .put("student/" + student.update_id, student.infor)
         .then((response) => {
-          console.log(response);
+          return response;
         });
     },
   }
