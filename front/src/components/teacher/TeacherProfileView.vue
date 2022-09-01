@@ -281,16 +281,6 @@ ul li {
   align-items: center;
   justify-content: center;
 }
-.card .card_profile .img-profile {
-  width: 130px;
-  height: 130px;
-  border-radius: 1000px;
-  position: absolute;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  border: 4px solid rgb(117, 115, 115);
-  box-shadow: 0 0 20px #ead2d246;
-}
 .img-profile {
   margin: auto;
   box-shadow: #FF9620 0px 0px 0px 2px,
@@ -312,8 +302,7 @@ ul li {
 }
 .fa-camera:hover{
   opacity: 100;
-  margin-left:-15px;
-  color: rgb(14, 13, 13);
+  color:rgb(197, 196, 196);
 }
 .card .card-body {
   padding: 10px 40px;
