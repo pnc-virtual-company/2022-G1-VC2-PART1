@@ -32,7 +32,8 @@ class UserController extends Controller
         $request->validate([
             'firstname' => 'required',
             'lastname' => 'required',
-            'email' => 'required|unique:users|email|regex:/(.*)@passerellesnumeriques.org',
+            // 'email' => 'required|unique:users|email|regex:/(.*)@passerellesnumeriques.org\.com/i',
+
         ]);
         $user = new User();
         $user->firstname = $request->firstname;
@@ -57,7 +58,11 @@ class UserController extends Controller
         //
         return User::where('id', $id)->get();
     }
-
+    public function get_teacher()
+    {
+        //
+        return User::where('role', 1)->get();
+    }
     /**
      * Update the specified resource in storage.
      *
@@ -96,12 +101,13 @@ class UserController extends Controller
         return response()->json($response);
     }
 
-    public function updatePassword(Request $request,$id)
-    {$request->validate([
+    public function updatePassword(Request $request, $id)
+    {
+        $request->validate([
         'password' => [
             'string',
-            'min:8'],
-    ]);
+            'min:8',  ],
+        ]); 
         $user = User::findOrFail($id);
         $user->password = bcrypt($request->password);
         $token = $user->createToken("mytoken")->plainTextToken;
@@ -110,7 +116,7 @@ class UserController extends Controller
             "token" => $token,
         ];
         $user->save();
-        return response()->json($user);
+        return response()->json(['message:' => 'update user successfully', 'user' => $user]);
     }
 
     /**
@@ -124,6 +130,10 @@ class UserController extends Controller
         //
         return User::where('id', $id)->delete();
     }
+
+    // public function getUserById(Request $request,$user_id){
+    //     return User::where('user_id',$user_id)->get();
+    // }
 
     public function register(Request $request)
     {

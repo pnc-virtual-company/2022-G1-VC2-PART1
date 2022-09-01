@@ -35,6 +35,8 @@ class StudentLeaveRquestController extends Controller
         $studentLeaveRequest->reason = $request->reason;
         $studentLeaveRequest->student_id= $request->student_id;
         $studentLeaveRequest->save();
+        (new MailController)->requestLeave();
+
         return response()->json(['message:'=>'create studentLeaveRequest successfully']);
     }
 
@@ -64,12 +66,13 @@ class StudentLeaveRquestController extends Controller
      */
     public function update(Request $request,$id)
     {
-        $studentLeaveRequest = StudentLeaveRquest::findOrFail($id);
+        $studentLeaveRequest = StudentLeaveRquest::with('student')->findOrFail($id);
         $studentLeaveRequest->status = $request->status;
         $studentLeaveRequest->save();
-        return response()->json(['message:'=>'update studentLeaveRequest successfully']);
-    }
+        (new MailController)->responeLeaveMail($studentLeaveRequest->student);
 
+        return response()->json(['message:'=>"Response student's leave request successfully"]);
+    }
     /**
      * Remove the specified resource from storage.
      *

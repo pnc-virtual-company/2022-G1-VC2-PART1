@@ -60,42 +60,44 @@ export default {
   data() {
     return {
       student_leaves: [],
-      students: [],
+      filterLists: [],
       status_type: "show all",
       leave_type: "show all",
       user_id: null,
       student_id: null,
     };
   },
+  computed:{
+    students(){
+      return this.filterLists;
+    }
+  },
 
   methods: {
-    getStudentLeaves() {
+    reloadLeaves(){
+      axios.get("userlogin").then((res) => {this.getStudentLeaves(res.data.id)});
+    },
+    getStudentLeaves(id) {
       if (localStorage.accessToken) {
-        axios.get("userlogin").then((res) => {
-          this.user_id = res.data.id;
-          axios.get("studentByUserId/" + this.user_id).then((res) => {
+          axios.get("studentByUserId/" + id).then((res) => {
             this.student_leaves = res.data[0].studentleavequest;
-            this.students = this.student_leaves;
+            this.filterLists = this.student_leaves;
           });
-        });
       }
     },
-
     studentEachStatus() {
-      this.students = this.student_leaves;
-      console.log(this.students);
+      this.filterLists = this.student_leaves;
       if (this.status_type != "show all") {
         const lists = this.student_leaves.filter(
           (students) => students.status.toLowerCase() == this.status_type
         );
-
         if (this.leave_type != "show all") {
-          this.students = lists.filter(
+          this.filterLists = lists.filter(
             (students) => students.leave_type.toLowerCase() == this.leave_type
           );
         }
       } else if (this.leave_type != "show all") {
-        this.students = this.student_leaves.filter(
+        this.filterLists = this.student_leaves.filter(
           (students) => students.leave_type.toLowerCase() == this.leave_type
         );
       }
@@ -104,20 +106,20 @@ export default {
           (students) => students.leave_type.toLowerCase() == this.leave_type
         );
         if (this.status_type != "show all") {
-          this.students = lists.filter(
+          this.filterLists = lists.filter(
             (students) => students.status.toLowerCase() == this.status_type
           );
         }
       } else if (this.status_type != "show all") {
-        this.students = this.student_leaves.filter(
+        this.filterLists = this.student_leaves.filter(
           (students) => students.status.toLowerCase() == this.status_type
         );
       }
-      return this.students;
+      return this.filterLists;
     },
   },
   mounted() {
-    this.getStudentLeaves();
+    this.reloadLeaves();
   },
 };
 </script>

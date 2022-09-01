@@ -3,12 +3,6 @@
     <div v-if="clickEdit" class="mainDiv">
       <div class="cardStyle">
         <form id="signupForm">
-          <div class="card_profile">
-            <img
-              :src="profile"
-              class="img-profile"
-            />
-          </div>
           <h2 class="formTitle">Change your password</h2>
           <div class="inputDiv">
             <label class="inputLabel" for="password">New Password</label>
@@ -63,7 +57,7 @@
       </div>
     </div>
     <div v-if="!clickEdit && !clickChangeprofile" class="contianer">
-      <div class="card" v-if="user!=null">
+      <div class="card" v-if="user != null">
         <div class="card_profile">
           <img
             :src="profile"
@@ -76,23 +70,22 @@
             @click="showHideCardPf"
           ></i>
         </div>
-        <h1 style="text-align: center; margin: 1rem">
+        <h1 class="card-body">
           {{ user.firstname }} {{ user.lastname }}
         </h1>
         <hr />
-       
-          <ul>
-            <li>
-              <span class="bold-text">Email : </span>
-              <span>{{user.email}}</span>
-            </li>
-          </ul>
-       
+
+        <ul>
+          <li>
+            <span class="bold-text">Email : </span>
+            <span>{{ user.email }}</span>
+          </li>
+        </ul>
+
         <button @click="clickEdit = true" class="btn-edit">
           Change Password
         </button>
       </div>
-      
     </div>
 
     <!-- update profile -->
@@ -120,6 +113,7 @@
 </template>
 <script>
 import axios from "@/axios-http";
+import swal from "sweetalert";
 export default {
   data() {
     return {
@@ -135,22 +129,43 @@ export default {
       image: null,
       user:null,
       profile:"",
-      user_id: null,
+      user_id:null
     };
   },
   methods: {
-    
+    saveUpload(event) {
+      console.log(this.user.id);
+      this.image = event.target.files[0];
+      let formData = new FormData();
+      formData.append("profile_image", this.image);
+      formData.append("_method", "PUT");
+
+      axios.post("/student/reset_profile/" + 1, formData).then((res) => {
+        console.log(res);
+      });
+    },
     validatePassword(id) {
+      console.log(id);
+      console.log(this.password);
+      console.log(this.confirmPassword);
       if (this.password != "") {
         if (this.confirmPassword != "") {
           if (this.confirmPassword == this.password) {
+            this.updatePassword(id, {password:  this.password})
             axios
-              .put("/userlogin/password/update/" + id, this.password)
+              .put("user_update_password/" + id,{password:this.password} )
               .then((res) => {
                 this.password = "";
                 this.confirmPassword = "";
                 this.invalidPassword = "";
-                return res.data;
+                swal("Good job!", "Your password has changed!", "success").then(
+                  (isChange) => {
+                    if (isChange) {
+                      this.clickEdit = false;
+                    }
+                  }
+                  );
+                  return res.data;
               })
               .catch((error) => {
                 if (error.response) {
@@ -169,22 +184,26 @@ export default {
         this.invalidPassword = "* Please enter your new password !";
       }
     },
+    updatePassword(userId,newPassword){
+      axios.put("user_update_password/"+userId,newPassword).then((res)=>{
+        console.log(res.data);
+      })
+    },
     showHidePassword() {
       this.isPasswordShown = !this.isPasswordShown;
     },
     showHidePasswordConfirm() {
       this.isPasswordConfirmed = !this.isPasswordConfirmed;
     },
-
+    
     showHideCardPf() {
       this.clickChangeprofile = !this.clickChangeprofile;
     },
-
+    
     tageImage(event){
       this.image = event.target.files[0];
       this.profile = URL.createObjectURL(event.target.files[0]);
     },
-
     hadleUpload() {
       if(this.isUpload){
         let userProfile = new FormData();
@@ -208,30 +227,37 @@ export default {
         this.user = res.data;
         this.user_id = res.data.id;
         this.profile='http://127.0.0.1:8000/storage/pictures/'+this.user.image
-    })
-  }
-   
+        this.user_id = res.data.id;
+        this.getUserById(res.data.id)
+      })
+    },
+    getUserById(id){
+      axios.get("user/"+id).then((res)=>{
+        this.user = res.data[0];
+        console.log('admin',this.user);
+      });
+    },
   },
-
-  mounted(){
+  mounted() {
     this.userlogin();
   }
-
 };
+// };
 </script>
 
 <style scoped>
 .contianer {
-  width: 50%;
+  width: 76%;
   margin: 2rem auto;
 }
 .card {
-  width: 60%;
-  margin: auto;
-  padding: 2rem;
-  border-radius: 10px;
-  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
-    rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+  max-width: 50%;
+  margin: 150px auto 0;
+  background-color: #f7fcff;
+  box-shadow: 0 10px 90px #00000024;
+  text-align: center;
+  font-size: 20px;
+  border-radius: 15px;
 }
 .card_body {
   text-align: center;
@@ -243,7 +269,7 @@ ul li {
   display: flex;
 }
 .card_profile {
-  border-radius: 50%;
+  border-radius: 90%;
   padding: 5px;
   display: flex;
   align-items: center;
@@ -251,37 +277,51 @@ ul li {
 }
 .img-profile {
   margin: auto;
-  box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px,
-    rgba(6, 24, 44, 0.65) 0px 4px 6px -1px,
-    rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
+  box-shadow: #FF9620 0px 0px 0px 2px,
+    #FF9620 0px 4px 6px -1px,
+    #FF9620 0px 1px 0px inset;
   width: 6rem;
   height: 6rem;
   border-radius: 100%;
+  border:none;
+  margin-top: 1rem;
 }
 
 .fa-camera {
   position: absolute;
-  margin-top: 4rem;
-  margin-right: 5px;
-  color: #cccccc;
+  margin-top: 3.5rem;
+  color: rgb(156, 155, 155);
+  padding: 20px;
+  opacity: 0.1;
 }
-
+.fa-camera:hover{
+  opacity: 100;
+  color:rgb(197, 196, 196);
+}
+.card .card-body {
+  padding: 10px 40px;
+  margin-top: 30px;
+    font-size: 22px;
+    font-weight: bold;
+    color: black;
+}
 .student-name {
   font-weight: bolder;
 }
 .bold-text {
-  text-align: start;
+  margin-left: 10px;
   font-weight: bolder;
-  width: 6rem;
+  width: 5rem;
 }
 .btn-edit {
   width: 100%;
   padding: 10px 20px;
-  background-color: #065492;
-  border-color: #065492;
+  background-color: #23BBEA;
+  border: none;
+  cursor: pointer;
   color: white;
   border-radius: 5px;
-  margin-top: 1rem;
+  margin: 1rem 0rem 0rem 0rem;
 }
 .mainDiv {
   display: flex;
@@ -325,7 +365,7 @@ ul li {
   margin: auto;
 }
 input {
-  height: 40px;
+  height: 30px;
   width: 100%;
   font-size: 16px;
   border: none;
@@ -345,8 +385,8 @@ input:disabled {
   margin: auto;
   display: block;
   color: #fff;
-  background-color: #065492;
-  border-color: #065492;
+  background-color: #23BBEA;
+  border: none;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.12);
   box-shadow: 0 2px 0 rgba(0, 0, 0, 0.035);
   border-radius: 4px;
@@ -378,7 +418,7 @@ button[disabled] {
 #back {
   display: flex;
   justify-content: center;
-  color: #065492;
+  color: #FF9620;
   font-weight: bold;
   cursor: pointer;
 }

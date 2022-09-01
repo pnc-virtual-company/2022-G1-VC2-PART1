@@ -8,7 +8,7 @@
         <router-link to="/welcome" class="welcome">PNC SLMS</router-link>
       </div>
       <div class="nav-controll nav-center">
-        <router-link to="/studentsList">STUDENTS</router-link>
+        <router-link to="/studentsList">PEOPLE</router-link>
         <router-link to="/checkLeave">CHECK LEAVES</router-link>
       </div>
       <div class="nav-controll nav-right" v-if="userData.image != undefined">
@@ -17,9 +17,7 @@
           alt=""
           class="profile-image"
         />
-        <router-link to="/TeacherProfile"
-          >{{ userData.firstname }} {{ userData.lastname }}</router-link
-        >
+        <router-link to="/TeacherProfile">{{ userData.firstname }} {{ userData.lastname }}</router-link>
         <div class="signOut">
           <i class="fa fa-sign-out fa-2x" @click="userSignOut"></i>
         </div>
@@ -42,12 +40,14 @@
           alt=""
           class="profile-image"
         />
-        <router-link to="/profile">{{ userData.firstname }} {{ userData.lastname }}</router-link>
+        <router-link to="/studentprofile"
+          >{{ userData.firstname }} {{ userData.lastname }}</router-link
+        >
         <div class="signOut">
           <i class="fa fa-sign-out fa-2x" @click="userSignOut"></i>
         </div>
-      </div>
-    </nav>
+        </div>
+      </nav>
   </section>
 </template>
 <script>
@@ -69,11 +69,14 @@ export default {
 </script>
 
 <style scoped>
+section{
+  background:#fff;
+  position: sticky;
+  top: 0;
+}
 nav {
   display: flex;
   justify-content: space-between;
-  position: sticky;
-  top: 0;
   box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px,
     rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
 }
@@ -129,14 +132,19 @@ li {
   width: 3rem;
   height: 3rem;
 }
+
+
 .profile-image {
-  width: 35px;
-  height: 35px;
+  
+  border-radius: 50%;
+  border: 2px solid orange;
+  width: 40px;
+  height: 40px;
   display: flex;
-  margin-top: 13px;
+  margin-top: 7px;
 }
 .signOut {
-  padding: 7px 0;
+  padding: 0.8rem 0 0 2rem;
 }
 i {
   color: #2ea3f2;

@@ -10,9 +10,12 @@ export default {
   components: {
     "list-all-leave": AllLeave,
   },
+  methods:{
+    parameterRouter(){
+      console.log(this.$router.currentRoute.path);
+    }
+  }
 
+  
 };
 </script>
-
-<style>
-</style>

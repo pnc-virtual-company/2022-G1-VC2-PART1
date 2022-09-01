@@ -12,7 +12,5 @@
     <button style="border:none;padding: 6px 1rem;background-color: #23BBEA;">
         <a href="http://localhost:8080/checkLeave" style="text-decoration: none;color: #fff;">View</a>
     </button>
-
 </body>
-
 </html>
