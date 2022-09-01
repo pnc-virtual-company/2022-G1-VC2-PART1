@@ -40,7 +40,10 @@
           alt=""
           class="profile-image"
         />
-        <router-link to="/TeacherProfile">{{ userData.firstname }} {{ userData.lastname }}</router-link>
+
+        <router-link to="/TeacherProfile"
+          >{{ userData.firstname }} {{ userData.lastname }}</router-link
+        >
         <div class="signOut">
           <i class="fa fa-sign-out fa-2x" @click="userSignOut"></i>
         </div>
@@ -133,7 +136,7 @@ li {
   height: 3rem;
 }
 .nav-controll .profile-image{
-  
+
 }
 
 .profile-image {

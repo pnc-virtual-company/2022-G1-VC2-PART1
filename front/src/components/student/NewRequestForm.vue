@@ -77,7 +77,7 @@
           class="two-input submit"
           type="submit"
           @click.prevent="addRequestLeave($e)"
-          :disabled="startDate > endDate"
+          :disabled="(startDate > endDate) || duration>3"
         >
           Submit
         </button>
@@ -111,6 +111,8 @@ export default {
       this.cause = "";
       this.startTime = "";
       this.endTime = "";
+
+      this.$router.push("/welcome");
     },
     getRequestLeave(){
       axios.get("/student_leave_request").then(()=>{
@@ -129,7 +131,7 @@ export default {
         
       };
 
-      axios.post("/student_leave_request", requestleave).then(() => {
+      axios.post("/student_leave_request", requestleave).then((res) => {
 
         this.leaveType = "";
         this.startDate = "";
@@ -144,7 +146,9 @@ export default {
         })
         .then((isOkay) => {
           if (isOkay) {
+            this.$router.push("/studentListAllLeave");
             this.$router.push("/student_leave_request");
+            console.log(res.data)
           }
         });
         axios

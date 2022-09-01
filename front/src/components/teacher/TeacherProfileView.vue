@@ -113,6 +113,7 @@
 </template>
 <script>
 import axios from "@/axios-http";
+import swal from "sweetalert";
 export default {
   data() {
     return {
@@ -126,7 +127,9 @@ export default {
       currentuser_id: null,
       isUpload: false,
       image: null,
-      user: null,
+      user:null,
+      profile:"",
+      user_id:null
     };
   },
   methods: {
@@ -142,16 +145,27 @@ export default {
       });
     },
     validatePassword(id) {
+      console.log(id);
+      console.log(this.password);
+      console.log(this.confirmPassword);
       if (this.password != "") {
         if (this.confirmPassword != "") {
           if (this.confirmPassword == this.password) {
+            this.updatePassword(id, {password:  this.password})
             axios
-              .put("/userlogin/password/update/" + id, this.password)
+              .put("user_update_password/" + id,{password:this.password} )
               .then((res) => {
                 this.password = "";
                 this.confirmPassword = "";
                 this.invalidPassword = "";
-                return res.data;
+                swal("Good job!", "Your password has changed!", "success").then(
+                  (isChange) => {
+                    if (isChange) {
+                      this.clickEdit = false;
+                    }
+                  }
+                  );
+                  return res.data;
               })
               .catch((error) => {
                 if (error.response) {
@@ -170,22 +184,26 @@ export default {
         this.invalidPassword = "* Please enter your new password !";
       }
     },
+    updatePassword(userId,newPassword){
+      axios.put("user_update_password/"+userId,newPassword).then((res)=>{
+        console.log(res.data);
+      })
+    },
     showHidePassword() {
       this.isPasswordShown = !this.isPasswordShown;
     },
     showHidePasswordConfirm() {
       this.isPasswordConfirmed = !this.isPasswordConfirmed;
     },
-
+    
     showHideCardPf() {
       this.clickChangeprofile = !this.clickChangeprofile;
     },
-
+    
     tageImage(event){
       this.image = event.target.files[0];
       this.profile = URL.createObjectURL(event.target.files[0]);
     },
-
     hadleUpload() {
       if(this.isUpload){
         let userProfile = new FormData();
@@ -209,13 +227,22 @@ export default {
         this.user = res.data;
         this.user_id = res.data.id;
         this.profile='http://127.0.0.1:8000/storage/pictures/'+this.user.image
-    })
-  }
+        this.user_id = res.data.id;
+        this.getUserById(res.data.id)
+      })
+    },
+    getUserById(id){
+      axios.get("user/"+id).then((res)=>{
+        this.user = res.data[0];
+        console.log('admin',this.user);
+      });
+    },
   },
   mounted() {
     this.userlogin();
-  },
+  }
 };
+// };
 </script>
 
 <style scoped>
@@ -242,18 +269,21 @@ ul li {
   display: flex;
 }
 .card_profile {
-  position: relative;
-  height: 48px;
+  border-radius: 90%;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.card .card_profile .img-profile {
-  width: 130px;
-  height: 130px;
-  border-radius: 1000px;
-  position: absolute;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  border: 4px solid orange;
-  box-shadow: 0 0 20px #ead2d246;
+.img-profile {
+  margin: auto;
+  box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px,
+    rgba(6, 24, 44, 0.65) 0px 4px 6px -1px,
+    rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
+  width: 6rem;
+  height: 6rem;
+  border-radius: 100%;
+  border:none;
 }
 
 .fa-camera {
