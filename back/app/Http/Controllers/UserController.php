@@ -32,7 +32,8 @@ class UserController extends Controller
         $request->validate([
             'firstname' => 'required',
             'lastname' => 'required',
-            'email' => 'required|unique:users|email|regex:/(.*)@passerellesnumeriques.org',
+            // 'email' => 'required|unique:users|email|regex:/(.*)@passerellesnumeriques.org\.com/i',
+
         ]);
         $user = new User();
         $user->firstname = $request->firstname;
@@ -57,7 +58,11 @@ class UserController extends Controller
         //
         return User::where('id', $id)->get();
     }
-
+    public function get_teacher()
+    {
+        //
+        return User::where('role', 1)->get();
+    }
     /**
      * Update the specified resource in storage.
      *

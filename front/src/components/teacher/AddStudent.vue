@@ -1,18 +1,12 @@
 <template>
   <!-- +++++++++++++++++++++ MY CODE ++++++++++++++++ -->
-
   <form>
     <label for="image" style="color: black">
       <div class="user-profile">
         <img v-if="profile!=null" :src="profile" alt="" />
         <img v-else src="@/assets/profile1.png" alt="" />
       </div>
-      <input
-        type="file"
-        style="display: none"
-        id="image"
-        @change="uploadImage"
-      />
+      <input type="file" style="display: none" id="image" @change="uploadImage"/>
     </label>
     <div class="two-input">
       <div class="form-group">
@@ -97,7 +91,9 @@
       <label for="F">Female</label>
     </div>
     <div class="btn-group">
-      <button class="btn btn-cancele" type="submit"  @click.prevent="canceleAdd">Cancele</button>
+      <button class="btn btn-cancele" type="submit" @click.prevent="canceleAdd">
+        Cancele
+      </button>
       <button class="btn btn-submit" type="submit" @click.prevent="addUser">
         ADD
       </button>
@@ -130,7 +126,12 @@ export default {
   methods: {
     uploadImage(e) {
       this.image = e.target.files[0];
+
+      console.log(this.image);
+      console.log(e.target.files);
+
       this.profile = URL.createObjectURL(e.target.files[0]);
+
     },
     addUser() {
       let user = new FormData();
@@ -139,15 +140,18 @@ export default {
       user.append("email", this.email);
       user.append("password", this.password);
       user.append("role", 0);
+
+
       user.append("image",this.image);
       axios.post("register", user).then(response => {
         this.user_id=response.data.id
         if(this.user_id){
+
           this.createStudent();
         }
-      })
+      });
     },
-    createStudent(){
+    createStudent() {
       let student = new FormData();
       student.append("firstname", this.firstname);
       student.append("lastname", this.lastname);
@@ -159,29 +163,31 @@ export default {
       student.append("batch", this.generation);
       student.append("gender", this.gender);
       student.append("user_id", this.user_id);
-      axios.post("student", student)
+      console.log("student");
+      axios
+        .post("student", student)
         .then((res) => {
-           swal({
-        title:
-          this.firstname +
-          " " +
-          this.lastname +
-          " is added to the list of students.",
-        icon: "success",
-        buttons: true,
-      }).then((isAdd) => {
-        if (isAdd) {
-          this.firstname = "";
-          this.lastname = "";
-          this.email = "";
-          this.password = "";
-          this.gender = "";
-          this.classroom = "";
-          this.generation = "";
-          this.phone = "";
-          this.$emit("add-Student", false);
-        }
-      });
+          swal({
+            title:
+              this.firstname +
+              " " +
+              this.lastname +
+              " is added to the list of students.",
+            icon: "success",
+            buttons: true,
+          }).then((isAdd) => {
+            if (isAdd) {
+              this.firstname = "";
+              this.lastname = "";
+              this.email = "";
+              this.password = "";
+              this.gender = "";
+              this.classroom = "";
+              this.generation = "";
+              this.phone = "";
+              this.$emit("add-Student", false);
+            }
+          });
           return res.data;
         })
         .catch((error) => {
@@ -190,10 +196,10 @@ export default {
           }
         });
     },
-    canceleAdd(){
-      console.log('hh')
-      this.$emit('cancele-add',false);
-    }
+    canceleAdd() {
+      console.log("hh");
+      this.$emit("cancele-add", false);
+    },
   },
 };
 // <!-- +++++++++++++++++++++++++++ MY CODE +++++++++++++++++ -->

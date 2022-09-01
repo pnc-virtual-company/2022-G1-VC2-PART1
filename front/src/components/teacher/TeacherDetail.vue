@@ -1,6 +1,6 @@
 <template>
   <section>
-    <div class="student-detail">
+    <div class="teacher-detail">
       <div class="header header-detail">
         <h3>Personal Information</h3>
         <img
@@ -9,129 +9,66 @@
           @click="this.$emit('hide-detail')"
         />
       </div>
+
       <div class="personal-info">
         <div class="header header-info">
           <h3>Personal Information</h3>
         </div>
+
         <div class="main-content">
           <div class="profile-container">
-           
             <div class="profile">
-              <div class="edit">
-                <i
-                class="fa fa-edit fa-2x"
-                style="color:#4facff"
-                @click="editStudent(student)"
-              ></i>
-              </div>
               <img
-                :src="'http://127.0.0.1:8000/storage/pictures/' + student.image"
+                :src="'http://127.0.0.1:8000/storage/pictures/' + teacher.image"
               />
             </div>
             <h1 class="username">
-              {{ student.firstname }} {{ student.lastname }}
+              {{ teacher.firstname }} {{ teacher.lastname }}
             </h1>
-           
+            <i
+              class="fa fa-edit fa-2x"
+              style="color: #03a9f4"
+              @click="editStudent(teacher)"
+            ></i>
           </div>
+
           <div class="user-info">
             <div class="two-info">
               <div class="user-group">
                 <p>First name</p>
                 <div class="user-control">
-                  <p>{{ student.firstname }}</p>
+                  <p>{{ teacher.firstname }}</p>
                 </div>
               </div>
               <div class="user-group">
                 <p>Last name</p>
                 <div class="user-control">
-                  <p>{{ student.lastname }}</p>
-                </div>
-              </div>
-            </div>
-            <div class="two-info">
-              <div class="user-group">
-                <p>Class</p>
-                <div class="user-control">
-                  <p>{{ student.class }}</p>
+                  <p>{{ teacher.lastname }}</p>
                 </div>
               </div>
               <div class="user-group">
-                <p>Batch</p>
+                <p>Email</p>
                 <div class="user-control">
-                  <p>{{ student.batch }}</p>
+                  <p>{{ teacher.email }}</p>
                 </div>
-              </div>
-            </div>
-            <div class="user-group">
-              <p>Gender</p>
-              <div class="user-control">
-                <p>{{student.gender}}</p>
-              </div>
-            </div>
-
-            <div class="user-group">
-              <p>Phone</p>
-              <div class="user-control">
-                <p>{{ student.phone }}</p>
-              </div>
-            </div>
-            <div class="user-group">
-              <p>Email</p>
-              <div class="user-control">
-                <p>{{ student.email }}</p>
               </div>
             </div>
           </div>
         </div>
       </div>
-
-      <div class="container">
-        <div class="header header-info">
-          <h3>Student Leave Request</h3>
-        </div>
-        <table>
-          <thead>
-            <tr>
-              <th>Start Date</th>
-              <th>End Date</th>
-              <th>Reason</th>
-              <th>Duration</th>
-              <th>Leave Type</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for:="student in studentLeaves">
-              <th>{{ student.start_date }}</th>
-              <th>{{ student.end_date }}</th>
-              <th>{{ student.reason }}</th>
-              <th>{{ student.duration }}</th>
-              <th>{{ student.leave_type }}</th>
-              <th :class="student.status.toLowerCase()">
-                {{ student.status }}
-              </th>
-            </tr>
-          </tbody>
-        </table>
-      </div>
     </div>
   </section>
 </template>
-
-<script>
+  
+  <script>
 export default {
-  props: ["student", "studentLeaves"],
+  props: ["teacher"],
   data() {
     return {
       firstname: "",
       lastname: "",
       email: "",
-      password: "",
-      phone: "",
-      class: "",
-      batch: "",
       role: "",
-      gender: "",
       image: null,
     };
   },
@@ -143,19 +80,19 @@ export default {
   },
 };
 </script>
-
-<style scoped>
+  
+  <style scoped>
 .personal-info,
 .header,
 .profile-container,
 .user-info,
 .user-control,
 .container,
-.student-detail {
+.teacher-detail {
   box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
     rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
 }
-.student-detail {
+.teacher-detail {
   width: 58%;
   margin: 6rem 20.2%;
   position: absolute;
@@ -201,22 +138,21 @@ export default {
   height: 100%;
 }
 .profile-container {
-  padding: 1.5rem;
+  padding: 1rem;
   width: 20%;
-  height: 35vh;
+  height: 36vh;
   border-radius: 5px;
   margin: 1rem;
 }
-.profile-container .fa{
+.profile-container .fa {
   display: flex;
   justify-content: center;
-  margin-bottom: 5px;
 }
 .profile img {
   width: 9rem;
   height: 9rem;
   border-radius: 50%;
-  margin:auto;
+  margin: 2px auto;
 }
 .username {
   text-align: center;
@@ -229,12 +165,11 @@ export default {
   margin: 1rem;
   padding: 1rem;
   border-radius: 5px;
-
   margin: 1rem;
 }
-.two-info {
-  display: flex;
-}
+/* .two-info {
+    display: flex;
+  } */
 .user-group {
   width: 100%;
   padding: 10px;
@@ -291,10 +226,5 @@ tbody tr:hover {
 }
 .rejected {
   color: #fe0000;
-}
-
-.edit{
-  display: flex;
-  justify-content: flex-end;
 }
 </style>
