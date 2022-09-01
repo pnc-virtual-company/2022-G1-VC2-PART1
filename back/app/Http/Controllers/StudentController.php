@@ -103,9 +103,9 @@ class StudentController extends Controller
         $student = Student::findOrFail($id);
         $student->image = $request->file("image")->hashName();
         $student->save();
-        $token = $user->createToken("mytoken")->plainTextToken;
+        $token = $student->createToken("mytoken")->plainTextToken;
         $response = [
-            'user' => $user,
+            'user' => $student,
             "token" => $token,
         ];
     }

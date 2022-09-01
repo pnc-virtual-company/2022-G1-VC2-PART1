@@ -121,6 +121,7 @@
 </template>
 <script>
 import axios from "@/axios-http";
+import swal from "sweetalert";
 export default {
   data() {
     return {
@@ -136,21 +137,33 @@ export default {
       image: null,
       user:null,
       profile:"",
+      user_id:null,
     };
   },
   methods: {
     
     validatePassword(id) {
+      console.log(id);
+      console.log(this.password);
+      console.log(this.confirmPassword);
       if (this.password != "") {
         if (this.confirmPassword != "") {
           if (this.confirmPassword == this.password) {
+            this.updatePassword(id, {password:  this.password})
             axios
-              .put("/userlogin/password/update/" + id, this.password)
+              .put("user_update_password/" + id,{password:this.password} )
               .then((res) => {
                 this.password = "";
                 this.confirmPassword = "";
                 this.invalidPassword = "";
-                return res.data;
+                swal("Good job!", "Your password has changed!", "success").then(
+                  (isChange) => {
+                    if (isChange) {
+                      this.clickEdit = false;
+                    }
+                  }
+                  );
+                  return res.data;
               })
               .catch((error) => {
                 if (error.response) {
@@ -169,22 +182,26 @@ export default {
         this.invalidPassword = "* Please enter your new password !";
       }
     },
+    updatePassword(userId,newPassword){
+      axios.put("user_update_password/"+userId,newPassword).then((res)=>{
+        console.log(res.data);
+      })
+    },
     showHidePassword() {
       this.isPasswordShown = !this.isPasswordShown;
     },
     showHidePasswordConfirm() {
       this.isPasswordConfirmed = !this.isPasswordConfirmed;
     },
-
+    
     showHideCardPf() {
       this.clickChangeprofile = !this.clickChangeprofile;
     },
-
+    
     tageImage(event){
       this.image = event.target.files[0];
       this.profile = URL.createObjectURL(event.target.files[0]);
     },
-
     hadleUpload() {
       if(this.isUpload){
         let userProfile = new FormData();
@@ -201,9 +218,16 @@ export default {
       axios.get("userlogin").then((res)=>{
         this.user = res.data;
         this.profile='http://127.0.0.1:8000/storage/pictures/'+this.user.image
-    })
-  }
-   
+        this.user_id = res.data.id;
+        this.getUserById(res.data.id)
+      })
+    },
+    getUserById(id){
+      axios.get("user/"+id).then((res)=>{
+        this.user = res.data[0];
+        console.log('admin',this.user);
+      })
+    },
   },
 
   mounted(){

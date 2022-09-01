@@ -77,7 +77,7 @@
           class="two-input submit"
           type="submit"
           @click.prevent="addRequestLeave($e)"
-          :disabled="startDate > endDate"
+          :disabled="(startDate > endDate) || duration>3"
         >
           Submit
         </button>
@@ -144,7 +144,7 @@ export default {
         })
         .then((isOkay) => {
           if (isOkay) {
-            this.$router.push("/student_leave_request");
+            this.$router.push("/studentListAllLeave");
             console.log(res.data)
           }
         });

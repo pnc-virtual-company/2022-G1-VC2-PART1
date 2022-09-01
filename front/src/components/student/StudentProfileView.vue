@@ -169,9 +169,6 @@ export default {
     },
 
     validatePassword(id,userId) {
-      console.log(id,userId)
-      console.log(this.password);
-      console.log(this.confirmPassword);
       if (this.password != "") {
         if (this.confirmPassword != "") {
           if (this.confirmPassword == this.password) {
