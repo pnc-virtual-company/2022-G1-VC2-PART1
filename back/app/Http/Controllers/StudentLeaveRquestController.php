@@ -49,11 +49,10 @@ class StudentLeaveRquestController extends Controller
         //
         return StudentLeaveRquest::with('student')->where('id', $id)->get();
     }
-    public function getLeaveByStudentId($id)
+    public function getLeaveByStudentId(Request $request,$student_id)
     {
         //
-        return StudentLeaveRquest::where('student_id', $id)->get();
-        
+        return StudentLeaveRquest::where('student_id', $student_id)->get();
     }
 
     /**

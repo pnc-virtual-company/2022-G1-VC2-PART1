@@ -33,6 +33,7 @@ class UserController extends Controller
             'firstname' => 'required',
             'lastname' => 'required',
             // 'email' => 'required|unique:users|email|regex:/(.*)@passerellesnumeriques.org\.com/i',
+
         ]);
         $user = new User();
         $user->firstname = $request->firstname;
@@ -69,7 +70,7 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request,$id)
     {
         //
         $user = User::findOrFail($id);
@@ -77,7 +78,6 @@ class UserController extends Controller
         $user->lastname = $request->lastname;
         $user->email = $request->email;
         $user->password = bcrypt($request->password);
-        $user->image = $request->file("image")->hashName();
         $user->save();
         $response = [
             'user' => $user,
@@ -85,7 +85,23 @@ class UserController extends Controller
         return response()->json($response);
     }
 
-    public function updatePassword(Request $request, $id)
+    public function updateImage(Request $request, $id){
+        $request->validate([
+            'image'=>'image|mimes:jpg,png,jpeg,gif|max:19999',
+        ]);
+        $request->file('image')->store('public/pictures');
+        $user = User::findOrFail($id);
+        $user->image = $request->file("image")->hashName();
+        $user->save();
+        $token = $user->createToken("mytoken")->plainTextToken;
+        $response = [
+            'user' => $user,
+            "token" => $token,
+        ];
+        return response()->json($response);
+    }
+
+    public function updatePassword(Request $request,$id)
     {$request->validate([
         'password' => [
             'string',
@@ -93,6 +109,11 @@ class UserController extends Controller
     ]);
         $user = User::findOrFail($id);
         $user->password = bcrypt($request->password);
+        $token = $user->createToken("mytoken")->plainTextToken;
+        $response = [
+            'user' => $user,
+            "token" => $token,
+        ];
         $user->save();
         return response()->json($user);
     }
@@ -114,7 +135,8 @@ class UserController extends Controller
         $request->validate([
             'firstname' => 'required',
             'lastname' => 'required',
-            'email' => 'required|email|regex:/(.*)@passerellesnumeriques.org/i',
+            // 'email' => 'required|email|regex:/(.*)passerellesnumeriques.org/i',
+
         ]);
         $request->file('image')->store('public/pictures');
         $user = new User();

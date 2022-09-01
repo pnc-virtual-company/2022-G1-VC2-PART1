@@ -3,7 +3,8 @@
   <form>
     <label for="image" style="color: black">
       <div class="user-profile">
-        <img src="../../assets/profile1.png" alt="" />
+        <img v-if="profile!=null" :src="profile" alt="" />
+        <img v-else src="@/assets/profile1.png" alt="" />
       </div>
       <input type="file" style="display: none" id="image" @change="uploadImage"/>
     </label>
@@ -118,14 +119,19 @@ export default {
       phone: "",
       image: null,
       user_id: null,
+      profile: null,
     };
   },
 
   methods: {
     uploadImage(e) {
       this.image = e.target.files[0];
+
       console.log(this.image);
       console.log(e.target.files);
+
+      this.profile = URL.createObjectURL(e.target.files[0]);
+
     },
     addUser() {
       let user = new FormData();
@@ -134,10 +140,14 @@ export default {
       user.append("email", this.email);
       user.append("password", this.password);
       user.append("role", 0);
+
+
+      user.append("image",this.image);
       user.append("image", this.image);
-      axios.post("register", user).then((response) => {
-        this.user_id = response.data.id;
-        if (this.user_id) {
+      axios.post("register", user).then(response => {
+        this.user_id=response.data.id
+        if(this.user_id){
+
           this.createStudent();
         }
       });

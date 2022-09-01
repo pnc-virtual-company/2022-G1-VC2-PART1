@@ -6,14 +6,18 @@
       <div v-for="(leave) of listOfStudentsLeave" :key="leave">
         <div class="students-card" v-if="!seen" >
           <div class="card" @click="getAleave(leave.id)">
-            <div class="student-profile" :style="{'border-left':'6px solid #FF9620'}">
-              <img  :src="'http://127.0.0.1:8000/storage/pictures/' + leave.student.image" alt=""/>
+            <div class="student">
+              <div class="student-profile" :style="{'border-left':'6px solid #FF9620'}">
+                <img  :src="'http://127.0.0.1:8000/storage/pictures/' + leave.student.image" alt=""/>
+              </div>
+              <div class="student-info">
+                <h4>{{leave.student.lastname}} {{leave.student.firstname}}</h4>
+                <p>{{leave.student.class}} {{leave.student.batch}}</p>
+              </div>
             </div>
-            <div class="student-info">
-              <h4>{{leave.student.lastname}} {{leave.student.firstname}}</h4>
-              <p>{{leave.student.class}} {{leave.student.batch}}</p>
+            <div class="stauts">
+              <h4 :class="leave.status.toLowerCase()" >{{leave.status}}</h4>
             </div>
-            <h4 :class="leave.status.toLowerCase()" >{{leave.status}}</h4>
           </div>
         </div>
       </div>
@@ -25,7 +29,7 @@
               <img src="@/assets/cross.png" alt="" @click="seen = !seen" >
             </div>
             <div class="student-infor">
-              <div class="student-profile">
+              <div class="student-profile-detail">
                 <img :src="'http://127.0.0.1:8000/storage/pictures/' + leave.student.image" alt=""/>
               </div>
               <div class="student-info">
@@ -152,39 +156,53 @@ section{
     border-radius: 5px;
     cursor: pointer;
   }
-  .card,.student-infor{
+  .card{
+    display: flex;
+    justify-content: space-between;
+    margin-right: 10px;
+  }
+  .student{
     display: flex;
   }
   .student-infor{
     background: #23BBEA;
     border-radius:5px ; 
     margin-top: -17px;
+    display: flex;
+  }
+  .student-profile-detail img{
+    width: 90%;
+    height: 15vh;
+    border-radius: 50%;
+    border: 2px solid orange;
+    margin-left: 10px;
+    margin-top: 2px;
   }
 .student-info{
     margin-top: 25px;
+    margin-left: 20px;
   }
   .student-info p{
     font-size: 0.9rem;
   }
 .padding{
   color: #FF9620;
+  margin-top: 1rem;
 }
 .aproved{
   color: green;
+  margin-top: 1rem;
 }
 .reject{
   color: red;
-}
-.reject,.padding,.aproved{
-  margin-left: 28rem;
   margin-top: 1rem;
 }
   .student-profile{
     padding: 0.5rem;
   }
   .student-profile img{
-    width: 90%;
-    height: 10vh;
+    width: 100%;
+    height: 50px;
     border-radius: 50%;
     border: 2px solid orange;
   }

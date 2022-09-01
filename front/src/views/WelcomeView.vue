@@ -12,7 +12,9 @@
       <img src="../assets/pic.png" alt="" />
     </div>
   </div>
+  
 </template>
+
 <style scoped>
 * {
     margin: 0;

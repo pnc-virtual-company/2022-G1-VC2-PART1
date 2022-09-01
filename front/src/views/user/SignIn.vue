@@ -99,7 +99,8 @@ export default {
   mounted() {
     if (localStorage.getItem("accessToken") === null) {
       this.$router.push("/");
-    } else {
+    } 
+    else {
       this.$router.push("/welcome");
     }
   },

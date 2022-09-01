@@ -2,50 +2,46 @@
   <section>
     <!--++++++++++++++++++++++++++ Show all information of teacher ++++++++++++++++++++++-->
     <div class="tb-container" v-if="!isTeacherDetail && !isDetail">
-      <h2 class="students">Social Affair</h2>
-      <table class="table">
-        <thead>
-          <tr>
-            <th>USER</th>
-            <th>ACTION</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for:="(teacher, index) of listOfTeachers">
-            <td>
-              <div class="user">
-                <div class="img">
+      <h2 class="teacher">Social Affair</h2>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>USER</th>
+              <th>ACTION</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for:="(teacher, index) of listOfTeachers">
+              <td>
+                <div class="user">
+                  <div class="img">
+                    <img
+                      :src="
+                        'http://127.0.0.1:8000/storage/pictures/' + teacher.image
+                      "
+                      alt=""
+                    />
+                  </div>
+                  <div class="info">
+                    <strong>{{
+                      teacher.firstname + " " + teacher.lastname
+                    }}</strong>
+                    <p>social affair</p>
+                  </div>
+                </div>
+              </td>
+              <td class="tb-btn">
+                <div class="icon">
                   <img
-                    :src="
-                      'http://127.0.0.1:8000/storage/pictures/' + teacher.image
-                    "
+                    src="../../assets/view-details.png"
                     alt=""
+                    @click="viewTeacherDetail(teacher.id)"
                   />
                 </div>
-                <div class="info">
-                  <strong>{{
-                    teacher.firstname + " " + teacher.lastname
-                  }}</strong>
-                  <p>social affair</p>
-                </div>
-              </div>
-            </td>
-            <td class="tb-btn">
-              <div class="icon">
-                <img
-                  src="../../assets/view-details.png"
-                  alt=""
-                  @click="viewTeacherDetail(teacher.id)"
-                />
-                <i
-                  class="fa fa-trash fa-2x"
-                  @click="removeStudent(index, student.id)"
-                ></i>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+              </td>
+            </tr>
+          </tbody>
+        </table>
     </div>
 
     <!-- ++++++++++++++++++++++++++++ Form Update +++++++++++++++++ +++++++++++++++++-->
@@ -149,7 +145,6 @@
         </div>
       </form>
     </div>
-    <!--  action on student like search by name, filter by batch, and add new students  -->
     <!-- ++++++++++++++++++++ List students ++++++++++++++++ -->
     <div v-if="!isTeacherDetail">
       <div class="action" v-if="!isDetail">
@@ -225,6 +220,7 @@
     <student-detail
       v-if="isDetail"
       :student="student"
+      :index="index"
       :studentLeaves="studentLeaves"
       @hide-detail="isDetail = !isDetail"
       @studentUpdate="UpdateStudent"
@@ -232,6 +228,7 @@
     <teacher-detail
       v-if="isTeacherDetail"
       :teacher="teacher"
+      :index="index"
       @hide-detail="isTeacherDetail = !isTeacherDetail"
     ></teacher-detail>
   </section>
@@ -251,6 +248,7 @@ export default {
     return {
       listOfStudents: [],
       listOfTeachers: [],
+      indexToUpdate:null,
       firstname: "",
       lastname: "",
       email: "",
@@ -264,7 +262,6 @@ export default {
       isUpdated: false,
       search: "",
       batch: "",
-
       // +++++++++++ student detail data ++++++++++++++++++++
       isDetail: false,
       isTeacherDetail: false,
@@ -280,6 +277,7 @@ export default {
         this.listOfStudents = res.data;
       });
     },
+
     teacherFromAPI() {
       http.get("teacher").then((res) => {
         this.listOfTeachers = res.data;
@@ -336,13 +334,30 @@ export default {
         batch: this.generation,
         phone: this.phone,
       };
+    
+      this.updateCurrent(newInfor, this.update_id, this.image)
       this.$emit("updateStudent", {
         update_id: this.update_id,
         infor: newInfor,
       });
       this.isUpdated = false;
     },
+    updateCurrent(student, id, img){
+      let index=0
+      for (let update of this.listOfStudents){
+        if(update.id===id){
+          student["image"]=img
+          student['id']=id
+          this.listOfStudents[index]=student
+          console.log("Student update is : ", this.listOfStudents[index]);
+        }
+        index++
+      }
+      
+    },
+
     viewStudentDetail(student_id) {
+      
       this.isDetail = !this.isDetail;
       http.get("student/" + student_id).then((res) => {
         this.student = res.data[0];
@@ -400,9 +415,7 @@ export default {
 </script>
 
 <style scoped>
-/* *{
-    background: linear-gradient(to right top, #65dfc9, #6cdbed);
-  } */
+
 .contianer_update {
   position: absolute;
   width: 100%;

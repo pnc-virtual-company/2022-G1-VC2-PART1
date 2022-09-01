@@ -5,7 +5,7 @@
         <form id="signupForm">
           <div class="card_profile">
             <img
-              :src="'http://127.0.0.1:8000/storage/pictures/' + user.image"
+              :src="profile"
               class="img-profile"
             />
           </div>
@@ -52,7 +52,7 @@
               type="submit"
               id="submitButton"
               class="submitButton pure-button pure-button-primary"
-              @click.prevent="validatePassword(user.id)"
+              @click.prevent="validatePassword(user.id,user.user_id)"
             >
               <span>Change</span>
             </button>
@@ -63,13 +63,14 @@
       </div>
     </div>
     <div v-if="!clickEdit && !clickChangeprofile" class="contianer">
-      <div class="card">
+      <div class="card" v-if="user!=null">
         <div class="card_profile">
           <img
-            :src="'http://127.0.0.1:8000/storage/pictures/' + user.image"
+            :src="profile"
             alt=""
             class="img-profile"
           />
+
           <i
             class="fa fa-camera"
             style="font-size: 24px"
@@ -80,9 +81,8 @@
           {{ user.firstname }} {{ user.lastname }}
         </h1>
         <hr />
-        <div class="card_body">
-          <div class="student-name">{{ user.username }}</div>
-          <ul>
+       
+        <ul>
             <li>
               <span class="bold-text">Class : </span>
               <span>{{ user.class }}</span>
@@ -100,7 +100,7 @@
               <span>{{ user.email }}</span>
             </li>
           </ul>
-        </div>
+       
         <button @click="clickEdit = true" class="btn-edit">
           Change Password
         </button>
@@ -113,20 +113,18 @@
       <h2 class="title">Update your profile</h2>
       <div class="card_pf">
         <img
-          :src="'http://127.0.0.1:8000/storage/pictures/' + user.image"
+          :src="profile"
           class="img-pf"
         />
       </div>
       <div class="card-change">
         <input @change="saveUpload" id="profile-upload" type="file" hidden>
-        <label for="profile-upload" class="change" @click="showUpload">
+        <label :for=" isUpload? 'profile-upload':'not-upload'" class="change" @click="hadleUploadImage">
           <i class="fa fa-edit" style="font-size: 36px; color: #3cabce"></i>
-          <p>Change</p>
+          <p>{{isUpload ? 'Save' : 'Change'}}</p>
         </label>
-
-        <div class="trash">
-          <i class="fa fa-trash" style="font-size: 36px; color: #ff0d0d"></i>
-          <p>remove</p>
+        <div class="trash" @click="clearUploadImage">
+          <p>Back</p>
         </div>
       </div>
     </div>
@@ -137,6 +135,12 @@ import axios from "@/axios-http";
 import swal from "sweetalert";
 
 export default {
+  provide(){
+    return {
+      profileUniq:this.profile,
+    }
+  },
+
   data() {
     return {
       clickChangeprofile: false,
@@ -147,32 +151,26 @@ export default {
       isPasswordConfirmed: false,
       invalidPassword: "",
       currentuser_id: null,
+      student_id: null,
       isUpload: false,
       image: null,
       user:null,
+      profile:null,
     };
   },
   methods: {
-
-    saveUpload(event){
-      console.log(this.user.id);
-        this.image = event.target.files[0];
-        let formData = new FormData();
-        formData.append('profile_image', this.image);
-        formData.append('_method', 'PUT');
-
-        axios.post("/student/reset_profile/" + 1, formData).then(res => {
-          console.log(res);
-        })
-
-    },
-    validatePassword(id) {
+    validatePassword(id,userId) {
+      console.log(id,userId)
+      console.log(this.password);
+      console.log(this.confirmPassword);
       if (this.password != "") {
         if (this.confirmPassword != "") {
           if (this.confirmPassword == this.password) {
+            this.updateUserpassword(userId, {password:  this.password})
             axios
-              .put("/student/password/update/" + id, this.password)
+              .put("student_update_password/" + id, {password:  this.password})
               .then((res) => {
+                console.log(res.data);
                 swal("Good job!", "Your password is changed!", "success").then(
                   (isChange) => {
                     if (isChange) {
@@ -183,7 +181,7 @@ export default {
                 this.password = "";
                 this.confirmPassword = "";
                 this.invalidPassword = "";
-                return res.data;
+                console.log("student update is : ", res.data);
               })
               .catch((error) => {
                 if (error.response) {
@@ -202,6 +200,9 @@ export default {
         this.invalidPassword = "* Please enter your new password !";
       }
     },
+    updateUserpassword(userId, password){
+      axios.put("user_update_password/"+userId, password).then(response => {console.log("user update is : ", response);})
+    },
     showHidePassword() {
       this.isPasswordShown = !this.isPasswordShown;
     },
@@ -212,17 +213,47 @@ export default {
     showHideCardPf() {
       this.clickChangeprofile = !this.clickChangeprofile;
     },
-    showUpload() {
+    
+    saveUpload(event){
+        this.profile = URL.createObjectURL(event.target.files[0]);
+        this.image = event.target.files[0];
+    },
+
+    hadleUploadImage() {
+      if(this.isUpload){
+          let formData = new FormData();
+          formData.append('image', this.image);
+          formData.append('_method', 'PUT');
+          axios.post("user_update_image/" + this.currentuser_id, formData)
+          .then(() => {console.log("You have successfully updated the image")});
+          axios.post("student_update_image/" + this.student_id, formData)
+          .then(() => {console.log("Student have successfully updated the image")});
+          this.clickChangeprofile= !this.clickChangeprofile;
+      }
       this.isUpload = !this.isUpload;
     },
+    clearUploadImage(){
+      this.profile='http://127.0.0.1:8000/storage/pictures/'+this.user.image
+      this.isUpload = false
+      this.clickChangeprofile= !this.clickChangeprofile;
+      this.image=null;
+    },
+
     userlogin() {
-      if(localStorage.getItem("user_role")){
         axios.get("userlogin").then((res)=>{
           this.user = res.data;
-        })
-      }
+          this.profile='http://127.0.0.1:8000/storage/pictures/' + res.data.image
+          this.currentuser_id=res.data.id;
+          this.getStudentByUserId(res.data.id)
+      })
+    },
+
+    getStudentByUserId(id){
+      axios.get("student_through_user_id/" + id).then((res)=>{
+        this.user = res.data[0];
+        this.student_id = res.data[0].id;
+      })
     }
-   
   },
 
   mounted(){
@@ -255,7 +286,7 @@ ul li {
   display: flex;
 }
 .card_profile {
-  border-radius: 50%;
+  border-radius: 90%;
   padding: 5px;
   display: flex;
   align-items: center;

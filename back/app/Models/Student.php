@@ -32,7 +32,7 @@ class Student extends Authenticatable
     ];
 
     public function studentleavequest(){
-        return $this->hasMany(StudentLeaveRquest::class, 'studentleaveRequest_id');
+        return $this->hasMany(StudentLeaveRquest::class);
     }
     
     public function User()

@@ -61,8 +61,7 @@
             <div class="user-group">
               <p>Gender</p>
               <div class="user-control">
-                <p v-if="student.gender == 'M'">{{ student.gender }}ale</p>
-                <p v-if="student.gender == 'F'">{{ student.gender }}emale</p>
+                <p>{{student.gender}}</p>
               </div>
             </div>
 
