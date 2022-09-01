@@ -7,12 +7,6 @@
       <div class="user-profile">
         <img :src="'http://127.0.0.1:8000/storage/pictures/' + image" />
       </div>
-      <input
-        type="file"
-        style="display: none"
-        id="image"
-        @change="uploadImage"
-      />
     </label>
     <div class="two-input">
       <div class="form-group">
@@ -80,21 +74,21 @@
       <input
         class="radio-input"
         type="radio"
-        id="M"
-        value="M"
+        id="F"
+        value="Female"
         name="gender"
         v-model="gender"
       />
-      <label for="M">Female</label>
+      <label for="F">Female</label>
       <input
         class="radio-input"
         type="radio"
-        id="F"
-        value="F"
+        id="M"
+        value="Male"
         name="gender"
         v-model="gender"
       />
-      <label for="F">Male</label>
+      <label for="M">Male</label>
     </div>
     <div class="btn-group">
       <button class="btn btn-submit" type="submit">
@@ -171,6 +165,7 @@
     <student-detail
       v-if="isDetail"
       :student="student"
+      :index="index"
       :studentLeaves="studentLeaves"
 
       @hide-detail="isDetail = !isDetail"
@@ -188,7 +183,7 @@ export default {
   data() {
     return {
       listOfStudents: [],
-
+      indexToUpdate:null,
       firstname: "",
       lastname: "",
       email: "",
@@ -216,7 +211,6 @@ export default {
         this.listOfStudents = res.data;
       });
     },
-
     addStudent() {
       this.$emit("add-student", true);
       this.studentFromAPI();
@@ -266,20 +260,35 @@ export default {
         batch: this.generation,
         phone: this.phone,
       };
+    
+      this.updateCurrent(newInfor, this.update_id, this.image)
       this.$emit("updateStudent", {
         update_id: this.update_id,
         infor: newInfor,
       });
       this.isUpdated = false;
     },
+    updateCurrent(student, id, img){
+      let index=0
+      for (let update of this.listOfStudents){
+        if(update.id===id){
+          student["image"]=img
+          student['id']=id
+          this.listOfStudents[index]=student
+          console.log("Student update is : ", this.listOfStudents[index]);
+        }
+        index++
+      }
+      
+    },
+
     viewStudentDetail(student_id) {
+      
       this.isDetail = !this.isDetail;
       http.get("student/" + student_id).then((res) => {
         this.student = res.data[0];
+        console.log(this.student)
       });
-      // http.get("/student/leaveRequest/"+student_id).then((result) => {
-      //   this.studentLeaves = result.data;
-      // });
     },
   },
   computed: {

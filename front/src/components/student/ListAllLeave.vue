@@ -81,7 +81,6 @@ export default {
 
     studentEachStatus() {
       this.students = this.student_leaves;
-      console.log(this.students);
       if (this.status_type != "show all") {
         const lists = this.student_leaves.filter(
           (students) => students.status.toLowerCase() == this.status_type

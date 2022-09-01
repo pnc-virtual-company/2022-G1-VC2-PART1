@@ -3,8 +3,8 @@
 </template>
 
 <script>
+import axios from "../../axios-http";
 import TeacherProfile from "@/components/teacher/TeacherProfileView.vue";
- import axios from "@/axios-http";
 export default {
   components: { "TeacherProfile-view": TeacherProfile },
 

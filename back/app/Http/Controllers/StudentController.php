@@ -17,7 +17,7 @@ class StudentController extends Controller
     public function index()
     {
         //
-        return Student::get();
+        return Student::orderBy('id', 'DESC')->get();
     }
 
     /**
@@ -33,10 +33,10 @@ class StudentController extends Controller
             'lastname' => 'required',
             'gender' => 'required',
             'phone' => 'required',
-            // 'email' => 'required|email|regex:/(.*)@student.passerellesnumeriques.org\.com/i',
+            'email' => 'required|email|regex:/(.*)@passerellesnumeriques.org',
             'class' => 'required',
             'batch' => 'required|min:4',
-            'user_id' => 'required|',
+            'user_id' => 'required',
         ]);
         $request->file('image')->store('public/pictures');
         $student = new Student();
@@ -62,7 +62,7 @@ class StudentController extends Controller
      */
     public function show($id)
     {
-        return Student::where('id', $id)->get();
+        return Student::with('studentleavequest')->where('id', $id)->get();
     }
 
 
@@ -103,7 +103,11 @@ class StudentController extends Controller
         $student = Student::findOrFail($id);
         $student->image = $request->file("image")->hashName();
         $student->save();
-        return response()->json(['message:' => 'update student successfully']);
+        $token = $user->createToken("mytoken")->plainTextToken;
+        $response = [
+            'user' => $user,
+            "token" => $token,
+        ];
     }
 
     public function update(Request $request, $id){

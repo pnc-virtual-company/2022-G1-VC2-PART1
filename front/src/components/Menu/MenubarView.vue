@@ -1,5 +1,6 @@
 <template>
   <section>
+      
     <nav v-if="role == true">
       <div class="nav-controll nav-left">
         <div class="pnc_logo">
@@ -42,17 +43,24 @@
           alt=""
           class="profile-image"
         />
-        <router-link to="/profile">{{ userData.firstname }} {{ userData.lastname }}</router-link>
+        <router-link to="/TeacherProfile"
+          >{{ userData.firstname }} {{ userData.lastname }}</router-link
+        >
         <div class="signOut">
           <i class="fa fa-sign-out fa-2x" @click="userSignOut"></i>
         </div>
       </div>
-    </nav>
+      </nav>
   </section>
 </template>
 <script>
-// import axios from "@/axios-http";
 export default {
+  data(){
+    return{
+      username:null,
+      image:null,
+    }
+  },
   emits: ["sign-out"],
   props: ["role", "userData"],
   methods: {
