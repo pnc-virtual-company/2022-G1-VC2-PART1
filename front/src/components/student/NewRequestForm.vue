@@ -111,6 +111,8 @@ export default {
       this.cause = "";
       this.startTime = "";
       this.endTime = "";
+
+      this.$router.push("/welcome");
     },
     getRequestLeave(){
       axios.get("/student_leave_request").then(()=>{

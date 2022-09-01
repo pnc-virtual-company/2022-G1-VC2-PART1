@@ -189,11 +189,11 @@ section{
   color: #FF9620;
   margin-top: 1rem;
 }
-.aproved{
+.approved{
   color: green;
   margin-top: 1rem;
 }
-.reject{
+.rejected{
   color: red;
   margin-top: 1rem;
 }

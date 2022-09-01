@@ -54,7 +54,7 @@
               class="submitButton pure-button pure-button-primary"
               @click.prevent="validatePassword(user.id,user.user_id)"
             >
-              <span>Change</span>
+              <span>Save</span>
             </button>
             <p>No, don't want to update</p>
             <strong id="back" @click="clickEdit = false">Go back</strong>
@@ -84,20 +84,20 @@
        
         <ul>
             <li>
-              <span class="bold-text">Class : </span>
-              <span>{{ user.class }}</span>
+              <div class="bold-text">Class : </div>
+              <div>{{ user.class }}</div>
             </li>
             <li>
-              <span class="bold-text">Batch : </span>
-              <span>{{ user.batch }}</span>
+              <div class="bold-text">Batch : </div>
+              <div>{{ user.batch }}</div>
             </li>
             <li>
-              <span class="bold-text">Gender : </span>
-              <span>{{ user.gender }}</span>
+              <div class="bold-text">Gender : </div>
+              <div>{{ user.gender }}</div>
             </li>
             <li>
-              <span class="bold-text">Email : </span>
-              <span>{{ user.email }}</span>
+              <div class="bold-text">Email :</div>
+              <div>{{ user.email }}</div>
             </li>
           </ul>
        
@@ -166,8 +166,7 @@ export default {
             this.updateUserpassword(userId, {password:  this.password})
             axios
               .put("student_update_password/" + id, {password:  this.password})
-              .then((res) => {
-                console.log(res.data);
+              .then(() => {
                 swal("Good job!", "Your password is changed!", "success").then(
                   (isChange) => {
                     if (isChange) {
@@ -178,7 +177,6 @@ export default {
                 this.password = "";
                 this.confirmPassword = "";
                 this.invalidPassword = "";
-                console.log("student update is : ", res.data);
               })
               .catch((error) => {
                 if (error.response) {
@@ -266,7 +264,7 @@ export default {
   margin: 2rem auto;
 }
 .card {
-  width: 60%;
+  width: 70%;
   margin: auto;
   padding: 2rem;
   border-radius: 10px;
@@ -281,7 +279,14 @@ ul li {
   list-style: none;
   padding: 10px 0;
   display: flex;
+  align-items: center;
 }
+
+.bold-text{
+  display: flex;
+  width: 4rem;
+}
+
 .card_profile {
   border-radius: 90%;
   padding: 5px;
@@ -297,6 +302,7 @@ ul li {
   width: 6rem;
   height: 6rem;
   border-radius: 100%;
+  border:none;
 }
 
 .fa-camera {
@@ -317,8 +323,8 @@ ul li {
 .btn-edit {
   width: 100%;
   padding: 10px 20px;
-  background-color: #065492;
-  border-color: #065492;
+  background-color: #4facff;
+  border:none;
   color: white;
   border-radius: 5px;
   margin-top: 1rem;
@@ -356,16 +362,17 @@ ul li {
   font-size: 12px;
   color: #555;
   margin-bottom: 6px;
-  margin-top: 24px;
+  margin-top: 10px;
 }
 .inputDiv {
   width: 70%;
   display: flex;
+  padding:1px;
   flex-direction: column;
   margin: auto;
 }
 input {
-  height: 40px;
+  height: 30px;
   width: 100%;
   font-size: 16px;
   border: none;
@@ -385,8 +392,8 @@ input:disabled {
   margin: auto;
   display: block;
   color: #fff;
-  background-color: #065492;
-  border-color: #065492;
+  background-color: #4facff;
+  border:none;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.12);
   box-shadow: 0 2px 0 rgba(0, 0, 0, 0.035);
   border-radius: 4px;
@@ -418,7 +425,7 @@ button[disabled] {
 #back {
   display: flex;
   justify-content: center;
-  color: #065492;
+  color: #4facff;
   font-weight: bold;
   cursor: pointer;
 }
@@ -429,7 +436,7 @@ button[disabled] {
   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
     rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
   border: none;
-  margin: auto;
+  margin: 20px auto;
 }
 
 .title {
@@ -474,10 +481,11 @@ button[disabled] {
   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
     rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
   display: flex;
-  padding: 10px 10px;
+  padding: 5px;
   cursor: pointer;
   border-radius: 5px;
 }
+
 
 @keyframes spin {
   0% {
