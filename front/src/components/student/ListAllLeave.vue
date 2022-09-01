@@ -37,6 +37,7 @@
             <th>Request Date</th>
           </tr>
         </thead>
+          
         <tbody>
           <tr v-for:="student in students">
             <th>{{ student.start_date }}</th>
@@ -50,6 +51,7 @@
         </tbody>
       </table>
     </div>
+     <div v-if="students==null" class="text-center">You don't have story here !!!</div>
   </section>
 </template>
 <script>
@@ -163,7 +165,7 @@ span {
   padding: 10px;
   font-size: large;
 }
-
+.text-center{text-align: center;}
 table {
   width: 100%;
   border-collapse: collapse;
