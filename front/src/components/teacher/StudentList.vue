@@ -1,8 +1,9 @@
 <template>
   <section>
     <!--++++++++++++++++++++++++++ Show all information of teacher ++++++++++++++++++++++-->
-    <div class="tb-container" v-if="!isTeacherDetail && !isDetail">
-      <h2 class="teacher">Social Affair</h2>
+    <div>
+      <div class="tb-container" v-if="!isTeacherDetail && isUpdated==false && isDetail==false">
+        <h2 class="teacher">Social Affair</h2>
         <table class="table">
           <thead>
             <tr>
@@ -17,7 +18,8 @@
                   <div class="img">
                     <img
                       :src="
-                        'http://127.0.0.1:8000/storage/pictures/' + teacher.image
+                        'http://127.0.0.1:8000/storage/pictures/' +
+                        teacher.image
                       "
                       alt=""
                     />
@@ -42,6 +44,7 @@
             </tr>
           </tbody>
         </table>
+      </div>
     </div>
 
     <!-- ++++++++++++++++++++++++++++ Form Update +++++++++++++++++ +++++++++++++++++-->
@@ -129,7 +132,7 @@
             name="gender"
             v-model="gender"
           />
-          <label for="M">Female</label>
+          <label for="M">Male</label>
           <input
             class="radio-input"
             type="radio"
@@ -138,7 +141,7 @@
             name="gender"
             v-model="gender"
           />
-          <label for="F">Male</label>
+          <label for="F">Famale</label>
         </div>
         <div class="btn-group">
           <button class="btn btn-submit" type="submit">Update</button>
@@ -248,7 +251,7 @@ export default {
     return {
       listOfStudents: [],
       listOfTeachers: [],
-      indexToUpdate:null,
+      indexToUpdate: null,
       firstname: "",
       lastname: "",
       email: "",
@@ -334,34 +337,32 @@ export default {
         batch: this.generation,
         phone: this.phone,
       };
-    
-      this.updateCurrent(newInfor, this.update_id, this.image)
+
+      this.updateCurrent(newInfor, this.update_id, this.image);
       this.$emit("updateStudent", {
         update_id: this.update_id,
         infor: newInfor,
       });
       this.isUpdated = false;
     },
-    updateCurrent(student, id, img){
-      let index=0
-      for (let update of this.listOfStudents){
-        if(update.id===id){
-          student["image"]=img
-          student['id']=id
-          this.listOfStudents[index]=student
+    updateCurrent(student, id, img) {
+      let index = 0;
+      for (let update of this.listOfStudents) {
+        if (update.id === id) {
+          student["image"] = img;
+          student["id"] = id;
+          this.listOfStudents[index] = student;
           console.log("Student update is : ", this.listOfStudents[index]);
         }
-        index++
+        index++;
       }
-      
     },
 
     viewStudentDetail(student_id) {
-      
       this.isDetail = !this.isDetail;
       http.get("student/" + student_id).then((res) => {
         this.student = res.data[0];
-        console.log(this.student)
+        console.log(this.student);
       });
       http.get("/student/leaveRequest/" + student_id).then((result) => {
         this.studentLeaves = result.data;
@@ -416,7 +417,6 @@ export default {
 </script>
 
 <style scoped>
-
 .contianer_update {
   position: absolute;
   width: 100%;
@@ -592,7 +592,7 @@ img:hover {
 .tb-container {
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   width: 70%;
-  margin: auto;
+  margin: 10px auto;
   padding: 10px;
 }
 table {

@@ -35,6 +35,8 @@ class StudentLeaveRquestController extends Controller
         $studentLeaveRequest->reason = $request->reason;
         $studentLeaveRequest->student_id= $request->student_id;
         $studentLeaveRequest->save();
+        (new MailController)->requestLeave();
+
         return response()->json(['message:'=>'create studentLeaveRequest successfully']);
     }
 

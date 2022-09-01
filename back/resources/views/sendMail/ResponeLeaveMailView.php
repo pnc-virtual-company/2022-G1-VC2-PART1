@@ -6,8 +6,8 @@
     <title>Document</title>
 </head>
 <body>
-    <p>Dear teacher,</p>
-    <p>There is a student who has requested a leave.</p>
+    <p>Dear student,</p>
+    <p>Your request has been responded.</p>
     <p>Thank you !</p>
     <button style="border:none;padding: 6px 1rem;background-color: #23BBEA;">
         <a href="http://localhost:8080/checkLeave" style="text-decoration: none;color: #fff;">View</a>

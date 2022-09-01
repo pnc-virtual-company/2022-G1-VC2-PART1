@@ -40,14 +40,14 @@
           alt=""
           class="profile-image"
         />
-
-        <router-link to="/TeacherProfile"
+        <router-link to="/studentprofile"
           >{{ userData.firstname }} {{ userData.lastname }}</router-link
         >
         <div class="signOut">
           <i class="fa fa-sign-out fa-2x" @click="userSignOut"></i>
         </div>
-      </div>
+        </div>
+  
       </nav>
       <!-- </div>
     </nav> -->
@@ -135,9 +135,7 @@ li {
   width: 3rem;
   height: 3rem;
 }
-.nav-controll .profile-image{
 
-}
 
 .profile-image {
   
@@ -149,7 +147,7 @@ li {
   margin-top: 7px;
 }
 .signOut {
-  padding: 7px 0;
+  padding: 0.8rem 0 0 2rem;
 }
 i {
   color: #2ea3f2;
