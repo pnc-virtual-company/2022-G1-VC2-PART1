@@ -33,7 +33,9 @@ class StudentController extends Controller
             'lastname' => 'required',
             'gender' => 'required',
             'phone' => 'required',
-            'email' => 'required|email|regex:/(.*)@passerellesnumeriques.org',
+
+            // 'email' => 'required|unique:users|email|regex:/(.*)@student.passerellesnumeriques.org\.com/i',
+
             'class' => 'required',
             'batch' => 'required|min:4',
             'user_id' => 'required',
@@ -103,11 +105,12 @@ class StudentController extends Controller
         $student = Student::findOrFail($id);
         $student->image = $request->file("image")->hashName();
         $student->save();
-        $token = $user->createToken("mytoken")->plainTextToken;
+        $token = $student->createToken("mytoken")->plainTextToken;
         $response = [
-            'user' => $user,
+            'user' => $student,
             "token" => $token,
         ];
+        return response()->json($response);
     }
 
     public function update(Request $request, $id){

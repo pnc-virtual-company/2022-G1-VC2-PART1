@@ -1,6 +1,5 @@
 <template>
   <section>
-      
     <nav v-if="role == true">
       <div class="nav-controll nav-left">
         <div class="pnc_logo">
@@ -29,7 +28,7 @@
     <nav v-if="role == false">
       <div class="nav-controll nav-left">
         <div class="pnc_logo">
-          <img src="@/assets/pnc_logo.png" alt="" />
+          <img src="@/assets/pnc_logo.png" alt=""/>
         </div>
         <router-link to="/" class="welcome">PNC SLMS</router-link>
       </div>
@@ -51,6 +50,8 @@
         </div>
       </div>
       </nav>
+      <!-- </div>
+    </nav> -->
   </section>
 </template>
 <script>
@@ -72,11 +73,14 @@ export default {
 </script>
 
 <style scoped>
+section{
+  background:#fff;
+  position: sticky;
+  top: 0;
+}
 nav {
   display: flex;
   justify-content: space-between;
-  position: sticky;
-  top: 0;
   box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px,
     rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
 }
@@ -133,10 +137,13 @@ li {
   height: 3rem;
 }
 .profile-image {
-  width: 35px;
-  height: 35px;
+  
+  border-radius: 50%;
+  border: 2px solid orange;
+  width: 40px;
+  height: 40px;
   display: flex;
-  margin-top: 13px;
+  margin-top: 7px;
 }
 .signOut {
   padding: 7px 0;

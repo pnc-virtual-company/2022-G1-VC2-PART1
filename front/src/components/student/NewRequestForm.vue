@@ -77,7 +77,7 @@
           class="two-input submit"
           type="submit"
           @click.prevent="addRequestLeave($e)"
-          :disabled="startDate > endDate"
+          :disabled="(startDate > endDate) || duration>3"
         >
           Submit
         </button>
@@ -111,19 +111,16 @@ export default {
       this.cause = "";
       this.startTime = "";
       this.endTime = "";
+
+      this.$router.push("/welcome");
     },
     getRequestLeave(){
-      axios.get("/student_leave_request").then((res)=>{
-        console.log(res.data);
+      axios.get("/student_leave_request").then(()=>{
+        console.log("You get student leave request");
       })
     },
 
-    currentuser_id() {
-      this.student_id = JSON.parse(localStorage.getItem("user"))["id"];
-    },
-
     addRequestLeave() {
-      // this.currentuser_id();
       let requestleave = {
         leave_type: this.leaveType,
         start_date: this.startDate,
@@ -131,8 +128,11 @@ export default {
         duration: this.duration,
         reason: this.cause,
         student_id: this.student_id,
+        
       };
+
       axios.post("/student_leave_request", requestleave).then((res) => {
+
         this.leaveType = "";
         this.startDate = "";
         this.endDate = "";
@@ -146,21 +146,33 @@ export default {
         })
         .then((isOkay) => {
           if (isOkay) {
+            this.$router.push("/studentListAllLeave");
             this.$router.push("/student_leave_request");
             console.log(res.data)
           }
         });
         axios
           .get("sendMail")
-          .then((res) => {
-            console.log(res);
+          .then(() => {
+            console.log("Mail was sent successfully");
           })
           .catch((error) => {
             if (error.response) {
               console.log(error.response);
             }
           });
-        return res;
+      });
+    },
+
+    userlogin() {
+      axios.get("userlogin").then((res) => {
+        this.getStudentByUserId(res.data.id);
+      });
+    },
+
+    getStudentByUserId(id) {
+      axios.get("student_through_user_id/" + id).then((res) => {
+       this.student_id = res.data[0].id
       });
     },
   },
@@ -233,13 +245,16 @@ export default {
         }
       }
 
-      console.log(dateforLeave);
       return dateTime;
     },
   },
+
   mounted(){
-    this.getRequestLeave()
+    this.getRequestLeave(),
+    this.userlogin();
+
   }
+
 };
 </script>
 
