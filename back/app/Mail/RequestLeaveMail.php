@@ -3,7 +3,6 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
@@ -16,9 +15,9 @@ class RequestLeaveMail extends Mailable
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($details, $start_date)
     {
-        //
+        $this->details = $details;
     }
 
     /**
@@ -28,6 +27,7 @@ class RequestLeaveMail extends Mailable
      */
     public function build()
     {
-        return $this->view( 'sendMail\RequestLeaveMailView' );
+        return $this->subject('Leave request response')
+            ->view('emails/RequestLeaveMailView');
     }
 }

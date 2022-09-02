@@ -6,18 +6,24 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class ResponeLeaveMail extends Mailable
+class ResponseLeave extends Mailable
 {
     use Queueable, SerializesModels;
+
+    public $details;
+    public $start_date;
+    public $end_date;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($detail)
+    public function __construct($details, $start_date, $end_date)
     {
-        $this->detail = $detail;
+        $this->details = $details;
+        $this->start_date = $start_date;
+
     }
 
     /**
@@ -27,6 +33,7 @@ class ResponeLeaveMail extends Mailable
      */
     public function build()
     {
-        return $this->view('sendMail\ResponeLeaveMailView');
+        return $this->subject('Leave request response')
+            ->view('emails/ResponeLeaveMailView');
     }
 }

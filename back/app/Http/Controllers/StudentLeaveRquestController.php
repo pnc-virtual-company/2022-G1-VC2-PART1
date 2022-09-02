@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\StudentLeaveRquest;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Mail;
+use \App\Mail\ResponseLeave;
+use \App\Mail\RequestLeaveMail;
+use \Carbon\Carbon;
 class StudentLeaveRquestController extends Controller
 {
     /**
@@ -35,8 +38,9 @@ class StudentLeaveRquestController extends Controller
         $studentLeaveRequest->reason = $request->reason;
         $studentLeaveRequest->student_id= $request->student_id;
         $studentLeaveRequest->save();
-        (new MailController)->requestLeave();
-
+        $details = $studentLeaveRequest;
+        $email = "vansao.hang@student.passerellesnumeriques.org";
+        \Mail::to($email)->send(new RequestLeaveMail($details));
         return response()->json(['message:'=>'create studentLeaveRequest successfully']);
     }
 
@@ -69,8 +73,11 @@ class StudentLeaveRquestController extends Controller
         $studentLeaveRequest = StudentLeaveRquest::with('student')->findOrFail($id);
         $studentLeaveRequest->status = $request->status;
         $studentLeaveRequest->save();
-        (new MailController)->responeLeaveMail($studentLeaveRequest->student);
-
+        $details = $studentLeaveRequest;
+        $email = $studentLeaveRequest->student->email;
+        $start_date = Carbon::parse($studentLeaveRequest->start_date)->isoFormat('MMM Do YYYY');
+        $end_date = Carbon::parse($studentLeaveRequest->end_date)->isoFormat('MMM Do YYYY');
+        \Mail::to($email)->send(new ResponseLeave($details,$start_date,$end_date));
         return response()->json(['message:'=>"Response student's leave request successfully"]);
     }
     /**
