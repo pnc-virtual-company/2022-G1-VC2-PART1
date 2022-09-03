@@ -23,6 +23,7 @@ class ResponseLeave extends Mailable
     {
         $this->details = $details;
         $this->start_date = $start_date;
+        $this->end_date = $end_date;
 
     }
 

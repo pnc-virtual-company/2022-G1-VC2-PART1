@@ -9,15 +9,20 @@ use Illuminate\Queue\SerializesModels;
 class RequestLeaveMail extends Mailable
 {
     use Queueable, SerializesModels;
+    public $details;
+    public $start_date;
+    public $end_date;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($details, $start_date)
+    public function __construct($details,$start_date,$end_date)
     {
         $this->details = $details;
+        $this->start_date = $start_date;
+        $this->end_date = $end_date;
     }
 
     /**

@@ -115,221 +115,224 @@
   </section>
 </template>
 <script>
-  import axios from "@/axios-http";
-  import swal from "sweetalert";
-  export default {
-    data() {
-      return {
-        seen: false,
-        listOfStudentsLeave: [],
-        listOfALeave: [],
-      };
+import axios from "@/axios-http";
+import swal from "sweetalert";
+export default {
+  data() {
+    return {
+      seen: false,
+      listOfStudentsLeave: [],
+      listOfALeave: [],
+    };
+  },
+  methods: {
+    getlistOfStudentsLeave() {
+      axios.get("student_leave_request").then((res) => {
+        this.listOfStudentsLeave = res.data;
+        console.log(this.listOfStudentsLeave.reverse());
+      });
     },
-    methods: {
-      getlistOfStudentsLeave() {
-        axios.get("student_leave_request").then((res) => {
-          this.listOfStudentsLeave = res.data;
-          console.log(this.listOfStudentsLeave.reverse());
+    getAleave(id) {
+      axios.get("student_leave_request/" + id).then((res) => {
+        this.listOfALeave = res.data;
+        this.seen = !this.seen;
+      });
+    },
+    updateReject(leave) {
+      axios
+        .put("student_leave_request/" + leave.id, { status: "Rejected" })
+        .then((res) => {
+          this.getAleave(leave.id);
+          this.getlistOfStudentsLeave();
+          return res.data;
         });
-      },
-      getAleave(id) {
-        axios.get("student_leave_request/" + id).then((res) => {
-          this.listOfALeave = res.data;
-          this.seen = !this.seen;
+      console.log(this.listOfALeave[0].student.email);
+
+      swal("Rejected!", "You rejected this leave request !", "success");
+    },
+    updateAproved(leave) {
+      axios
+        .put("student_leave_request/" + leave.id, { status: "Approved" })
+        .then((res) => {
+          this.getAleave(leave.id);
+          this.getlistOfStudentsLeave();
+          axios.get("responeMail/" + leave.id);
+          return res.data;
         });
-      },
-      updateReject(leave) {
-        axios
-          .put("student_leave_request/" + leave.id, { status: "Rejected" })
-          .then((res) => {
-            return res.data;
-          });
-          swal("Rejected!", "You rejected this leave request !", "success").then(()=>{
-            this.getAleave(leave.id);
-            this.getlistOfStudentsLeave();
-          });
-      },
-      updateAproved(leave) {
-        axios
-          .put("student_leave_request/" + leave.id, { status: "Approved" })
-          .then((res) => {
-            return res.data;
-          });
-          swal("Approved!", "You approved this leave request !", "success").then(()=>{
-            this.getAleave(leave.id);
-            this.getlistOfStudentsLeave();
-          });
-      },
+      swal("Approved!", "You approved this leave request !", "success").then(()=>{
+        
+      });
     },
-    mounted() {
-      this.getlistOfStudentsLeave();
-    },
-  };
-  </script>
+  },
+  mounted() {
+    this.getlistOfStudentsLeave();
+  },
+};
+</script>
   
   <style scoped>
-  section {
-    display: flex;
-    justify-content: center;
-  }
-  .student-leave {
-    width: 60%;
-    margin-top: 2rem;
-    border-radius: 5px;
-    border: 0.5px solid rgb(195, 195, 195);
-  }
-  .leave {
-    width: 60%;
-    margin-right: 5rem;
-  }
-  .student-leave h1 {
-    padding: 15px;
-    font-size: 1.5rem;
-    color: white;
-    border-radius: 5px 5px 0 0;
-    background: #23bbea;
-  }
-  .students-card {
-    border: 0.5px solid rgb(195, 195, 195);
-    margin: 1rem;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  .card {
-    display: flex;
-    justify-content: space-between;
-    margin-right: 10px;
-  }
-  .student {
-    display: flex;
-  }
-  .student-infor {
-    background: #23bbea;
-    border-radius: 5px 5px 0 0;
-    margin-top: -17px;
-    display: flex;
-    justify-content: space-between;
-    padding: 0.5rem 1.7rem 0.5rem 1.7rem;
-  }
-  .student-profile-detail img {
-    width: 3rem;
-    height: 3rem;
-    background: #000;
-    border-radius: 50%;
-    margin-left: 10px;
-    margin-top: 2px;
-  }
-  .student-info {
-    margin-top: 25px;
-    margin-left: 20px;
-  }
-  .student-info p {
-    font-size: 0.9rem;
-  }
-  .padding {
-    color: #ff9620;
-  }
-  .approved {
-    color: green;
-  }
-  .rejected {
-    color: red;
-  }
-  .padding,
-  .approved,
-  .rejected {
-    margin-top: 2.5rem;
-  }
-  .border-padding {
-    border-left: 3px solid #ff9620;
-  }
-  .border-approved {
-    border-left: 3px solid rgb(13, 236, 13);
-  }
-  .border-rejected {
-    border-left: 3px solid red;
-  }
-  .student-profile {
-    padding: 0.5rem;
-  }
-  .student-profile img {
-    width: 3.5rem;
-    height: 3.5rem;
-    border-radius: 50%;
-  }
-  /* Detail information style */
-  
-  .detail-card {
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-    margin: 30px;
-    border-radius: 5px;
-    width: 100%;
-  }
-  .leave-info {
-    display: flex;
-    justify-content: space-between;
-    margin: 10px;
-    justify-content: space-around;
-  }
-  .leave-date {
-    width: 45%;
-    margin-left: 1rem;
-  }
-  .leave-text {
-    width: 50%;
-  }
-  .leave-date div,
-  .leave-text div {
-    display: flex;
-    padding: 0.5rem;
-    margin: 10px;
-  }
-  
-  .leave-date p,
-  .leave-text p {
-    margin-left: 4px;
-  }
-  .leave-date h5,
-  .leave-text h5 {
-    font-size: 1.1rem;
-    line-height: -10px;
-  }
-  .textArea {
-    line-height: 1.7rem;
-  }
-  .btn {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    margin: 0 2.3rem 0 0;
-  }
-  .btn-aproved {
-    background: #23bbea;
-  }
-  .btn-reject {
-    background: #ff9620;
-    margin-left: 1rem;
-  }
-  .btn-aproved,
-  .btn-reject {
-    color: white;
-    border: none;
-    padding: 10px;
-    width: 5rem;
-    border-radius: 10px;
-    font-size: 15px;
-    margin-bottom: 2rem;
-    cursor: pointer;
-  }
-  .cancelIcon img {
-    width: 2.2rem;
-    height: 2.2rem;
-    cursor: pointer;
-    padding: 4px;
-  }
-  #status-detail {
-    font-weight: 800;
-    margin-top: -3px;
-  }
-  </style>
+section {
+  display: flex;
+  justify-content: center;
+}
+.student-leave {
+  width: 60%;
+  margin-top: 2rem;
+  border-radius: 5px;
+  border: 0.5px solid rgb(195, 195, 195);
+}
+.leave {
+  width: 60%;
+  margin-right: 5rem;
+}
+.student-leave h1 {
+  padding: 15px;
+  font-size: 1.5rem;
+  color: white;
+  border-radius: 5px 5px 0 0;
+  background: #23bbea;
+}
+.students-card {
+  border: 0.5px solid rgb(195, 195, 195);
+  margin: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.card {
+  display: flex;
+  justify-content: space-between;
+  margin-right: 10px;
+}
+.student {
+  display: flex;
+}
+.student-infor {
+  background: #23bbea;
+  border-radius: 5px 5px 0 0;
+  margin-top: -17px;
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 1.7rem 0.5rem 1.7rem;
+}
+.student-profile-detail img {
+  width: 3rem;
+  height: 3rem;
+  background: #000;
+  border-radius: 50%;
+  margin-left: 10px;
+  margin-top: 2px;
+}
+.student-info {
+  margin-top: 25px;
+  margin-left: 20px;
+}
+.student-info p {
+  font-size: 0.9rem;
+}
+.padding {
+  color: #ff9620;
+}
+.approved {
+  color: green;
+}
+.rejected {
+  color: red;
+}
+.padding,
+.approved,
+.rejected {
+  margin-top: 2.5rem;
+}
+.border-padding {
+  border-left: 3px solid #ff9620;
+}
+.border-approved {
+  border-left: 3px solid rgb(13, 236, 13);
+}
+.border-rejected {
+  border-left: 3px solid red;
+}
+.student-profile {
+  padding: 0.5rem;
+}
+.student-profile img {
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 50%;
+}
+/* Detail information style */
+
+.detail-card {
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  margin: 30px;
+  border-radius: 5px;
+  width: 100%;
+}
+.leave-info {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px;
+  justify-content: space-around;
+}
+.leave-date {
+  width: 45%;
+  margin-left: 1rem;
+}
+.leave-text {
+  width: 50%;
+}
+.leave-date div,
+.leave-text div {
+  display: flex;
+  padding: 0.5rem;
+  margin: 10px;
+}
+
+.leave-date p,
+.leave-text p {
+  margin-left: 4px;
+}
+.leave-date h5,
+.leave-text h5 {
+  font-size: 1.1rem;
+  line-height: -10px;
+}
+.textArea {
+  line-height: 1.7rem;
+}
+.btn {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin: 0 2.3rem 0 0;
+}
+.btn-aproved {
+  background: #23bbea;
+}
+.btn-reject {
+  background: #ff9620;
+  margin-left: 1rem;
+}
+.btn-aproved,
+.btn-reject {
+  color: white;
+  border: none;
+  padding: 10px;
+  width: 5rem;
+  border-radius: 10px;
+  font-size: 15px;
+  margin-bottom: 2rem;
+  cursor: pointer;
+}
+.cancelIcon img {
+  width: 2.2rem;
+  height: 2.2rem;
+  cursor: pointer;
+  padding: 4px;
+}
+#status-detail {
+  font-weight: 800;
+  margin-top: -3px;
+}
+</style>
   <!--                                                    End Updated                                 -->

@@ -61,7 +61,7 @@
     </div>
     <div class="form-group">
       <p>Cause(Reason) :</p>
-      <textarea cols="53" rows="5" v-model="cause" class="textarea"></textarea>
+      <textarea cols="63" rows="5" v-model="cause" class="textarea"></textarea>
     </div>
 
     <div class="form-group">
@@ -242,7 +242,7 @@ export default {
 
 <style scoped>
 form {
-  width: 30%;
+  width: 100%;
   margin: 2rem auto;
   padding: 10px;
   box-shadow: rgb(177, 176, 176) 0px 5px 15px;

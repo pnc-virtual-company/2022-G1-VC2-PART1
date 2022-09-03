@@ -301,8 +301,8 @@ export default {
         dangerMode: true,
       }).then((willDelete) => {
         if (willDelete) {
-          http.delete("student/" + id).then((res) => {
-            console.log(res);
+          http.delete("student/" + id).then(() => {
+            console.log("OK");
           });
           this.listOfStudents.splice(index, 1);
         }
@@ -557,6 +557,7 @@ img:hover {
 
 .icon {
   display: flex;
+  cursor: pointer;
 }
 .icon img {
   cursor: pointer;

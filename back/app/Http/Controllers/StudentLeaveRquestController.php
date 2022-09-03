@@ -4,10 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\StudentLeaveRquest;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
-use \App\Mail\ResponseLeave;
 use \App\Mail\RequestLeaveMail;
 use \Carbon\Carbon;
+
 class StudentLeaveRquestController extends Controller
 {
     /**
@@ -18,7 +17,7 @@ class StudentLeaveRquestController extends Controller
     public function index()
     {
         //
-        return StudentLeaveRquest:: with('student')->get();
+        return StudentLeaveRquest::with('student')->get();
     }
 
     /**
@@ -36,12 +35,15 @@ class StudentLeaveRquestController extends Controller
         $studentLeaveRequest->duration = $request->duration;
         $studentLeaveRequest->status = "Padding";
         $studentLeaveRequest->reason = $request->reason;
-        $studentLeaveRequest->student_id= $request->student_id;
+        $studentLeaveRequest->student_id = $request->student_id;
         $studentLeaveRequest->save();
-        $details = $studentLeaveRequest;
+        $details = StudentLeaveRquest::with('student')->find($studentLeaveRequest->id);
         $email = "vansao.hang@student.passerellesnumeriques.org";
-        \Mail::to($email)->send(new RequestLeaveMail($details));
-        return response()->json(['message:'=>'create studentLeaveRequest successfully']);
+        $start_date = Carbon::parse($details->start_date)->isoFormat('MMM Do YYYY');
+        $end_date = Carbon::parse($details->end_date)->isoFormat('MMM Do YYYY');
+        // $date_created =" Carbon::parse($details->created_at)->isoFormat('MMM Do YYYY')";
+        \Mail::to($email)->send(new RequestLeaveMail($details, $start_date, $end_date));
+        return response()->json(['message:' => 'create studentLeaveRequest successfully']);
     }
 
     /**
@@ -55,7 +57,7 @@ class StudentLeaveRquestController extends Controller
         //
         return StudentLeaveRquest::with('student')->where('id', $id)->get();
     }
-    public function getLeaveByStudentId(Request $request,$student_id)
+    public function getLeaveByStudentId(Request $request, $student_id)
     {
         //
         return StudentLeaveRquest::where('student_id', $student_id)->get();
@@ -68,7 +70,7 @@ class StudentLeaveRquestController extends Controller
      * @param  \App\Models\StudentLeaveRquest  $studentLeaveRquest
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,$id)
+    public function update(Request $request, $id)
     {
         $studentLeaveRequest = StudentLeaveRquest::with('student')->findOrFail($id);
         $studentLeaveRequest->status = $request->status;
@@ -77,8 +79,8 @@ class StudentLeaveRquestController extends Controller
         $email = $studentLeaveRequest->student->email;
         $start_date = Carbon::parse($studentLeaveRequest->start_date)->isoFormat('MMM Do YYYY');
         $end_date = Carbon::parse($studentLeaveRequest->end_date)->isoFormat('MMM Do YYYY');
-        \Mail::to($email)->send(new ResponseLeave($details,$start_date,$end_date));
-        return response()->json(['message:'=>"Response student's leave request successfully"]);
+        // \Mail::to($email)->send(new ResponseLeave($details,$start_date,$end_date));
+        return response()->json(['message:' => "Response student's leave request successfully"]);
     }
     /**
      * Remove the specified resource from storage.
