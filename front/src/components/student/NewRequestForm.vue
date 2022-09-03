@@ -3,7 +3,7 @@
     <h2>REQUEST LEAVE</h2>
     <div class="form-group">
       <p>Leave Type :</p>
-      <select class="form-control" v-model="leaveType">
+      <select class="form-controll" v-model="leaveType">
         <option value="" selected disabled>Choose your leave type</option>
         <option value="family event">Family Event</option>
         <option value="check health">Check Health</option>
@@ -15,7 +15,7 @@
     <div class="form-group">
       <p>Start Date :</p>
       <div
-        class="form-controll"
+        class=""
         style="display: flex; justify-content: space-between"
       >
         <input
@@ -35,7 +35,7 @@
     <div class="form-group">
       <p>End Date :</p>
       <div
-        class="form-controll"
+        class=""
         style="display: flex; justify-content: space-between"
       >
         <input
@@ -63,9 +63,8 @@
       <p>Cause(Reason) :</p>
       <textarea cols="63" rows="5" v-model="cause" class="textarea"></textarea>
     </div>
-
     <div class="form-group">
-      <div class="form-controll btn-group">
+      <div class="btn-group">
         <button
           class="two-input cancele"
           type="submit"
@@ -256,7 +255,7 @@ h2 {
 .form-group {
   margin: 10px;
 }
-.form-control {
+.form-controll {
   box-sizing: border-box;
   padding: 13px;
   font-size: 15px;
@@ -276,7 +275,6 @@ p {
   font-weight: 400;
   margin-bottom: 10px;
   outline: none;
-  /* color: #23BBEA; */
 }
 .two-input {
   padding: 7px;

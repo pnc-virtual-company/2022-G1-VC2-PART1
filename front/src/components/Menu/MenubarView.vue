@@ -132,10 +132,7 @@ li {
   width: 3rem;
   height: 3rem;
 }
-
-
 .profile-image {
-  
   border-radius: 50%;
   border: 2px solid orange;
   width: 40px;

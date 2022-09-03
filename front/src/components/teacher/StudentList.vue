@@ -98,9 +98,9 @@
           <div>
             <label for="phone">Phone</label>
           </div>
-          <input class="form-control" type="tel" id="phone" v-model="phone" />
+          <input class="form-control" type="number" id="phone" @keyup="checkNumber" v-model="phone"/>
+          <div class="alt-error text-center" v-if="lenPhoneNumber<9 && 10<lenPhoneNumber"> Your phone number is invalid format!!</div>
         </div>
-
         <div class="two-input">
           <div class="form-group">
             <div>
@@ -119,7 +119,7 @@
             </div>
             <input
               class="form-control"
-              type="text"
+              type="number"
               id="generation"
               v-model="generation"
             />
@@ -172,7 +172,6 @@
           <button class="btn-add" @click="addStudent()">ADD STUDENT</button>
         </div>
       </div>
-
       <div class="tb-container" v-if="!isDetail">
         <table class="table">
           <thead>
@@ -222,7 +221,7 @@
         </table>
       </div>
     </div>
-
+    <!-- +++++++++++++++++++ STUDENT DETIAL +++++++++++++++++++ -->
     <student-detail
       v-if="isDetail"
       :student="student"
@@ -266,6 +265,8 @@ export default {
       isUpdated: false,
       search: "",
       batch: "",
+      errorMsg: "",
+      lenPhoneNumber:null,
       // +++++++++++ student detail data ++++++++++++++++++++
       isDetail: false,
       isTeacherDetail: false,
@@ -323,7 +324,6 @@ export default {
       this.generation = student.batch;
     },
     uploadImage(e) {
-      console.log("This file image", e.target.files[0]);
       this.image = e.target.files[0];
     },
     toUpdate() {
@@ -356,7 +356,6 @@ export default {
         index++;
       }
     },
-
     viewStudentDetail(student_id) {
       http.get("student/" + student_id).then((res) => {
         this.student = res.data[0];
@@ -371,6 +370,7 @@ export default {
       });
     },
   },
+  
   computed: {
     // ++++++++ filter students list by username and batch ++++++++++++++++
     filteredStudentLists() {
@@ -648,5 +648,12 @@ tr td:last-child {
 }
 .tb-btn {
   width: 6rem;
+}
+
+.alt-error{
+  color: red;
+}
+.text-center{
+  text-align: center;
 }
 </style>

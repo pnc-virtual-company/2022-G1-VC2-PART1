@@ -1,11 +1,11 @@
 <template>
   <section>
+    <!-- ++++++++++++++++ Change password ++++++++++++++++++ -->
     <div v-if="clickEdit" class="mainDiv">
       <div class="cardStyle">
         <form id="signupForm">
           <div class="card_profile">
-            <img
-              :src="profile"
+            <img :src="profile"
               class="img-profile"
             />
           </div>
@@ -60,6 +60,7 @@
         </form>
       </div>
     </div>
+    <!-- ++++++++++++++++ Profile datial student ++++++++++++++++++ -->
     <div v-if="!clickEdit && !clickChangeprofile" class="contianer">
       <div class="card" v-if="user!=null">
         <div class="card_profile">
@@ -81,7 +82,6 @@
           {{ user.firstname }} {{ user.lastname }}
         </h1>
         <hr />
-       
         <ul>
             <li>
               <div class="bold-text">Class : </div>
@@ -105,9 +105,7 @@
           Change Password
         </button>
       </div>
-      
     </div>
-
     <!-- update profile -->
     <div class="update-pf" v-if="clickChangeprofile">
       <h2 class="title">Update your profile</h2>
@@ -260,6 +258,7 @@ export default {
 </script>
 
 <style scoped>
+
 .contianer {
   width: 100vh;
   margin: 2rem auto;
@@ -287,7 +286,7 @@ ul li {
   display: flex;
   width: 4rem;
 }
-
+/* ++++++++ Profile Student +++++++++++ */
 .card_profile {
   border-radius: 90%;
   padding: 5px;
@@ -306,9 +305,6 @@ ul li {
   border-radius: 100%;
   border:none;
 }
-
-
-
 .student-name {
   font-weight: bolder;
 }

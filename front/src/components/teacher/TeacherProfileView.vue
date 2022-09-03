@@ -98,12 +98,15 @@
         />
       </div>
       <div class="card-change">
-        <input @change="tageImage" id="profile-upload" type="file" accept="image/*" hidden>
-        <label :for="isUpload? 'profile-upload': 'not-upload'" class="change" @click="hadleUpload">
+        <input 
+        @change="tageImage" 
+        id="profile-upload" type="file" 
+        accept="image/*" hidden>
+        <label :for="isUpload? 'profile-upload': 'not-upload'" 
+        class="change" @click="hadleUpload">
           <i class="fa fa-edit" style="font-size: 36px; color: #3cabce"></i>
           <p>{{isUpload? "Save":"Change"}}</p>
         </label>
-
         <div class="trash" @click="clearUploadImage">
           <p>Back</p>
         </div>
@@ -145,9 +148,6 @@ export default {
       });
     },
     validatePassword(id) {
-      console.log(id);
-      console.log(this.password);
-      console.log(this.confirmPassword);
       if (this.password != "") {
         if (this.confirmPassword != "") {
           if (this.confirmPassword == this.password) {
@@ -209,9 +209,8 @@ export default {
         let userProfile = new FormData();
         userProfile.append("image", this.image);
         userProfile.append("_method", 'PUT');
-        console.log(userProfile);
         axios.post("user_update_image/" + this.user.id, userProfile)
-        .then(response => {console.log("My data is", response.data)});
+        .then(() => {console.log("Update image successfully")});
         this.clickChangeprofile=!this.clickChangeprofile;
       }
       this.isUpload = !this.isUpload;
@@ -234,7 +233,6 @@ export default {
     getUserById(id){
       axios.get("user/"+id).then((res)=>{
         this.user = res.data[0];
-        console.log('admin',this.user);
       });
     },
   },

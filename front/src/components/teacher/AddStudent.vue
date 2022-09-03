@@ -36,13 +36,17 @@
       <div>
         <label for="email">Email</label>
       </div>
-      <input class="form-control" type="text" id="email" v-model="email" />
+      <input class="form-control" 
+      type="text" id="email" 
+      v-model="email"/>
     </div>
     <div class="form-group">
       <div>
         <label for="phone">Phone</label>
       </div>
-      <input class="form-control" type="tel" id="phone" v-model="phone" />
+      <input class="form-control" 
+      type="tel" id="phone" 
+      v-model="phone"/>
     </div>
 
     <div class="two-input">
@@ -91,10 +95,14 @@
       <label for="F">Female</label>
     </div>
     <div class="btn-group">
-      <button class="btn btn-cancele" type="submit" @click.prevent="canceleAdd">
+      <button class="btn btn-cancele" 
+      type="submit" 
+      @click.prevent="canceleAdd">
         Cancele
       </button>
-      <button class="btn btn-submit" type="submit" @click.prevent="addUser">
+      <button class="btn btn-submit" 
+      type="submit" 
+      @click.prevent="addUser">
         ADD
       </button>
     </div>
@@ -102,8 +110,6 @@
 </template>
 <!-- +++++++++++++++++++++++++++ MY CODE +++++++++++++++++ -->
 <script>
-// <!-- +++++++++++++++++++++++++++ MY CODE +++++++++++++++++ -->
-
 import axios from "@/axios-http";
 import swal from "sweetalert";
 export default {
@@ -205,7 +211,6 @@ export default {
 // <!-- +++++++++++++++++++++++++++ MY CODE +++++++++++++++++ -->
 </script>
 <style scoped>
-
 form {
   width: 40%;
   margin: auto;
