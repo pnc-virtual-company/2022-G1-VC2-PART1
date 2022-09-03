@@ -2,19 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\RequestLeaveMail;
-use App\Mail\responeLeaveMail;
+use App\Models\StudentLeaveRquest;
+use \App\Mail\ResponseLeave;
+use \Carbon\Carbon;
 
 class MailController extends Controller
 {
-    public function requestLeave()
+
+    public function responeLeave($leave_id)
     {
-        Mail::to("samoulvann@gmail.com")->send(new RequestLeaveMail());
+        $details = StudentLeaveRquest::with('student')->findOrFail($leave_id);
+        $start_date = Carbon::parse($details->start_date)->isoFormat('MMM Do YYYY');
+        $end_date = Carbon::parse($details->end_date)->isoFormat('MMM Do YYYY');
+        \Mail::to("vansao.hang@student.passerellesnumeriques.org")->send(new ResponseLeave($details,$start_date,$end_date));
+        return $details;
     }
-    public function responeLeaveMail($detail)
-    {
-        Mail::to([$detail->email])->send(new responeLeaveMail($detail));
-    }
+
 }
