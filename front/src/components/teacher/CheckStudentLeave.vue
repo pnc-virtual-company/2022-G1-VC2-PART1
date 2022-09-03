@@ -6,7 +6,7 @@
     <div class="filter_container">
       <div class="all_filter filter" @click="getlistOfStudentsLeave('all')">
         <p>ALL</p>
-        <h2>{{listOfStudentsLeaveFilter.length}}</h2>
+        <h2>{{ listOfStudentsLeaveFilter.length }}</h2>
       </div>
       <div
         class="padding_filter filter"
@@ -20,7 +20,7 @@
         @click="getlistOfStudentsLeave('approved')"
       >
         <p>Approved</p>
-        <h2>{{filterApproved }}</h2>
+        <h2>{{ filterApproved }}</h2>
       </div>
       <div
         class="rejected_filter filter"
@@ -33,7 +33,10 @@
 
     <!------------- list all students' leaves ------------->
     <div class="student-leave" v-if="!seen">
-      <h1>{{studentLeaveText}}</h1>
+      <h1>{{ studentLeaveText }}</h1>
+      <div v-if="listOfStudentsLeave.length == 0">
+        <h2 style="margin: 1rem">There is no student leave.</h2>
+      </div>
       <div v-for="leave of listOfStudentsLeave" :key="leave">
         <div
           class="students-card"
@@ -158,7 +161,7 @@ export default {
       listOfStudentsLeaveFilter: [],
       listOfALeave: [],
       filter_padding: 0,
-      studentLeaveText :'Student Leaves'
+      studentLeaveText: "Student Leaves",
     };
   },
   methods: {
@@ -167,9 +170,9 @@ export default {
       axios.get("student_leave_request").then((res) => {
         this.listOfStudentsLeave = res.data;
         this.listOfStudentsLeaveFilter = res.data;
-        this.studentLeaveText = 'Student Leaves'
+        this.studentLeaveText = "Student Leaves";
         if (status != "all") {
-          this.studentLeaveText += ' ' + status;
+          this.studentLeaveText += " " + status;
           this.listOfStudentsLeave = res.data.filter(
             (leave) => leave.status.toLowerCase() == status
           );
@@ -187,7 +190,7 @@ export default {
         .put("student_leave_request/" + leave.id, { status: "Rejected" })
         .then((res) => {
           this.getAleave(leave.id);
-          this.getlistOfStudentsLeave();
+          this.getlistOfStudentsLeave("all");
           axios.get("responeMail/" + leave.id);
           return res.data;
         });
@@ -200,22 +203,13 @@ export default {
         .put("student_leave_request/" + leave.id, { status: "Approved" })
         .then((res) => {
           this.getAleave(leave.id);
-          this.getlistOfStudentsLeave();
+          this.getlistOfStudentsLeave("all");
           axios.get("responeMail/" + leave.id);
           return res.data;
         });
       swal("Approved!", "You approved this leave request !", "success").then(
         () => {}
       );
-    },
-    filter(status) {
-      this.getlistOfStudentsLeave();
-      let result = [];
-      result = this.listOfStudentsLeave.filter(
-        (leave) => leave.status.toLowerCase() == status
-      );
-      this.listOfStudentsLeave = result;
-      return result;
     },
   },
   computed: {
@@ -263,15 +257,14 @@ section {
 }
 .student-leave {
   width: 60%;
-  margin-top: 2rem;
   border-radius: 5px;
   border: 0.5px solid rgb(195, 195, 195);
-  margin: auto;
+  margin: 0 auto 2rem auto;
 }
 .leave {
   width: 60%;
-  margin-right: 5rem;
   margin: auto;
+  margin-left: 15.3rem;
 }
 .student-leave h1 {
   padding: 15px;
