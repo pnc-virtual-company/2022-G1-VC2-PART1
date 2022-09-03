@@ -16,7 +16,6 @@
               <input
                 :type="isPasswordShown ? 'text' : 'password'"
                 v-model="password"
-                name="password"
                 required
                 autocomplete="on"
               />
@@ -33,7 +32,6 @@
               <input
                 :type="isPasswordConfirmed ? 'text' : 'password'"
                 v-model="confirmPassword"
-                name="password"
                 required
                 autocomplete="on"
               />
@@ -213,9 +211,10 @@ export default {
     
     saveUpload(event){
         this.profile = URL.createObjectURL(event.target.files[0]);
+        console.log("Profile", this.profile);
+        localStorage.setItem('image',this.profile);
         this.image = event.target.files[0];
     },
-
     hadleUploadImage() {
       if(this.isUpload){
           let formData = new FormData();

@@ -4,48 +4,43 @@
       <div class="header header-detail">
         <h3>Personal Information</h3>
         <img
-          src="@/assets/cross.png"
+          id="back"
+          src="@/assets/x-mark.png"
           alt=""
           @click="this.$emit('hide-detail')"
         />
       </div>
 
-      <div class="personal-info">
-        <div class="header header-info">
-          <h3>Personal Information</h3>
+      <div class="main-content">
+        <div class="profile-container">
+          <div class="profile">
+            <img
+              :src="'http://127.0.0.1:8000/storage/pictures/' + teacher.image"
+            />
+          </div>
+          <h1 class="username">
+            {{ teacher.firstname }} {{ teacher.lastname }}
+          </h1>
         </div>
 
-        <div class="main-content">
-          <div class="profile-container">
-            <div class="profile">
-              <img
-                :src="'http://127.0.0.1:8000/storage/pictures/' + teacher.image"
-              />
+        <div class="user-info">
+          <div class="two-info">
+            <div class="user-group">
+              <p>First name</p>
+              <div class="user-control">
+                <p>{{ teacher.firstname }}</p>
+              </div>
             </div>
-            <h1 class="username">
-              {{ teacher.firstname }} {{ teacher.lastname }}
-            </h1>
-          </div>
-
-          <div class="user-info">
-            <div class="two-info">
-              <div class="user-group">
-                <p>First name</p>
-                <div class="user-control">
-                  <p>{{ teacher.firstname }}</p>
-                </div>
+            <div class="user-group">
+              <p>Last name</p>
+              <div class="user-control">
+                <p>{{ teacher.lastname }}</p>
               </div>
-              <div class="user-group">
-                <p>Last name</p>
-                <div class="user-control">
-                  <p>{{ teacher.lastname }}</p>
-                </div>
-              </div>
-              <div class="user-group">
-                <p>Email</p>
-                <div class="user-control">
-                  <p>{{ teacher.email }}</p>
-                </div>
+            </div>
+            <div class="user-group">
+              <p>Email</p>
+              <div class="user-control">
+                <p>{{ teacher.email }}</p>
               </div>
             </div>
           </div>
@@ -95,13 +90,8 @@ export default {
   top: 0;
 }
 
-.header-detail img {
-  width: 2.5rem;
-  height: 2.5rem;
-  margin: auto 1rem;
-}
 .header-detail {
-  background-color: none;
+  background-color: #23bbea;
 }
 .personal-info {
   margin-bottom: 2.5rem;
@@ -211,5 +201,10 @@ thead tr th {
 tbody tr:hover {
   background-color: rgba(100, 100, 111, 0.2);
 }
-
+#back {
+  cursor: pointer;
+  width: 2rem;
+  height: 2rem;
+  margin: auto 1.2rem;
+}
 </style>

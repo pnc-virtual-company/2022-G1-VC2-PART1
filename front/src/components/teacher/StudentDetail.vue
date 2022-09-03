@@ -2,8 +2,8 @@
   <section>
     <div class="student-detail">
       <div class="header header-detail">
-        <h3>Personal Information</h3>
-        <img
+        <h3>Student Details</h3>
+        <img id="back"
           src="@/assets/cross.png"
           alt=""
           @click="this.$emit('hide-detail')"
@@ -15,14 +15,13 @@
         </div>
         <div class="main-content">
           <div class="profile-container">
-           
             <div class="profile">
               <div class="edit">
                 <i
-                class="fa fa-edit fa-2x"
-                style="color:#4facff"
-                @click="editStudent(student)"
-              ></i>
+                  class="fa fa-edit fa-2x"
+                  style="color: #4facff"
+                  @click="editStudent(student)"
+                ></i>
               </div>
               <img
                 :src="'http://127.0.0.1:8000/storage/pictures/' + student.image"
@@ -31,7 +30,6 @@
             <h1 class="username">
               {{ student.firstname }} {{ student.lastname }}
             </h1>
-           
           </div>
           <div class="user-info">
             <div class="two-info">
@@ -65,7 +63,7 @@
             <div class="user-group">
               <p>Gender</p>
               <div class="user-control">
-                <p>{{student.gender}}</p>
+                <p>{{ student.gender }}</p>
               </div>
             </div>
 
@@ -89,7 +87,13 @@
         <div class="header header-info">
           <h3>Student Leave Request</h3>
         </div>
-        <table>
+        <div v-if="studentLeaves.length <= 0" id="noRequest">
+          <h4>
+            {{ student.firstname }} {{ student.lastname }} hasn't requested any
+            leaves.
+          </h4>
+        </div>
+        <table v-else>
           <thead>
             <tr>
               <th>Start Date</th>
@@ -157,10 +161,9 @@ export default {
 }
 .student-detail {
   width: 58%;
-  margin: 6rem 20.2%;
-  position: absolute;
+  margin: 2rem 20.2%;
   background: white;
-  top: 0;
+  padding-bottom: 1rem;
 }
 
 .header-detail img {
@@ -207,7 +210,7 @@ export default {
   border-radius: 5px;
   margin: 1rem;
 }
-.profile-container .fa{
+.profile-container .fa {
   display: flex;
   justify-content: center;
   margin-bottom: 5px;
@@ -216,7 +219,7 @@ export default {
   width: 9rem;
   height: 9rem;
   border-radius: 50%;
-  margin:auto;
+  margin: auto;
 }
 .username {
   text-align: center;
@@ -253,6 +256,7 @@ export default {
   margin-bottom: 2rem;
   border-radius: 5px;
   margin: 1rem;
+  padding-bottom: 1rem;
 }
 
 table {
@@ -293,8 +297,14 @@ tbody tr:hover {
   color: #fe0000;
 }
 
-.edit{
+.edit {
   display: flex;
   justify-content: flex-end;
+}
+#noRequest{
+  margin: 1rem;
+}
+#back{
+  cursor: pointer;
 }
 </style>

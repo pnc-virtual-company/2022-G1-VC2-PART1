@@ -26,7 +26,6 @@ export default {
         axios.get("userlogin").then((res) => {
           this.userData = res.data;
           this.role = this.userData.role;
-          console.log(this.role)
         });
       }
 

@@ -365,7 +365,7 @@ ul li {
   margin: auto;
 }
 input {
-  height: 40px;
+  height: 30px;
   width: 100%;
   font-size: 16px;
   border: none;
