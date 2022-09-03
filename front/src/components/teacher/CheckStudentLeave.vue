@@ -1,8 +1,39 @@
 <!--                                            All Update                             -->
 <template>
-  <section>
+  <section style="display: flex; flex-direction: column">
+    <!-- Filter students leave by leave status -->
+
+    <div class="filter_container">
+      <div class="all_filter filter" @click="getlistOfStudentsLeave('all')">
+        <p>ALL</p>
+        <h2>{{listOfStudentsLeaveFilter.length}}</h2>
+      </div>
+      <div
+        class="padding_filter filter"
+        @click="getlistOfStudentsLeave('padding')"
+      >
+        <p>Padding</p>
+        <h2>{{ filterPadding }}</h2>
+      </div>
+      <div
+        class="approved_filter filter"
+        @click="getlistOfStudentsLeave('approved')"
+      >
+        <p>Approved</p>
+        <h2>{{filterApproved }}</h2>
+      </div>
+      <div
+        class="rejected_filter filter"
+        @click="getlistOfStudentsLeave('rejected')"
+      >
+        <p>Rejected</p>
+        <h2>{{ filterRejected }}</h2>
+      </div>
+    </div>
+
+    <!------------- list all students' leaves ------------->
     <div class="student-leave" v-if="!seen">
-      <h1>Student Leave</h1>
+      <h1>{{studentLeaveText}}</h1>
       <div v-for="leave of listOfStudentsLeave" :key="leave">
         <div
           class="students-card"
@@ -34,6 +65,8 @@
         </div>
       </div>
     </div>
+
+    <!-------------------------- Student Leave Details -------------------->
     <div v-if="seen" class="leave">
       <div class="leave-card" v-for="leave of listOfALeave" :key="leave">
         <div class="detail-card">
@@ -122,14 +155,25 @@ export default {
     return {
       seen: false,
       listOfStudentsLeave: [],
+      listOfStudentsLeaveFilter: [],
       listOfALeave: [],
+      filter_padding: 0,
+      studentLeaveText :'Student Leaves'
     };
   },
   methods: {
-    getlistOfStudentsLeave() {
+    getlistOfStudentsLeave(status) {
+      console.log(status);
       axios.get("student_leave_request").then((res) => {
         this.listOfStudentsLeave = res.data;
-        console.log(this.listOfStudentsLeave.reverse());
+        this.listOfStudentsLeaveFilter = res.data;
+        this.studentLeaveText = 'Student Leaves'
+        if (status != "all") {
+          this.studentLeaveText += ' ' + status;
+          this.listOfStudentsLeave = res.data.filter(
+            (leave) => leave.status.toLowerCase() == status
+          );
+        }
       });
     },
     getAleave(id) {
@@ -144,6 +188,7 @@ export default {
         .then((res) => {
           this.getAleave(leave.id);
           this.getlistOfStudentsLeave();
+          axios.get("responeMail/" + leave.id);
           return res.data;
         });
       console.log(this.listOfALeave[0].student.email);
@@ -159,13 +204,54 @@ export default {
           axios.get("responeMail/" + leave.id);
           return res.data;
         });
-      swal("Approved!", "You approved this leave request !", "success").then(()=>{
-        
-      });
+      swal("Approved!", "You approved this leave request !", "success").then(
+        () => {}
+      );
+    },
+    filter(status) {
+      this.getlistOfStudentsLeave();
+      let result = [];
+      result = this.listOfStudentsLeave.filter(
+        (leave) => leave.status.toLowerCase() == status
+      );
+      this.listOfStudentsLeave = result;
+      return result;
+    },
+  },
+  computed: {
+    filterPadding: function () {
+      let result = 0;
+      for (let leave of this.listOfStudentsLeaveFilter) {
+        console.log(leave.status);
+        if (leave.status.toLowerCase() == "padding") {
+          result += 1;
+        }
+      }
+      return result;
+    },
+    filterApproved: function () {
+      let result = 0;
+      for (let leave of this.listOfStudentsLeaveFilter) {
+        console.log(leave.status);
+        if (leave.status.toLowerCase() == "approved") {
+          result += 1;
+        }
+      }
+      return result;
+    },
+    filterRejected: function () {
+      let result = 0;
+      for (let leave of this.listOfStudentsLeaveFilter) {
+        console.log(leave.status);
+        if (leave.status.toLowerCase() == "rejected") {
+          result += 1;
+        }
+      }
+      return result;
     },
   },
   mounted() {
-    this.getlistOfStudentsLeave();
+    this.getlistOfStudentsLeave("all");
   },
 };
 </script>
@@ -180,10 +266,12 @@ section {
   margin-top: 2rem;
   border-radius: 5px;
   border: 0.5px solid rgb(195, 195, 195);
+  margin: auto;
 }
 .leave {
   width: 60%;
   margin-right: 5rem;
+  margin: auto;
 }
 .student-leave h1 {
   padding: 15px;
@@ -333,6 +421,39 @@ section {
 #status-detail {
   font-weight: 800;
   margin-top: -3px;
+}
+
+/* <!-- Filter students leave by leave status --> */
+.filter_container {
+  width: 60%;
+  margin: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0 1rem 0;
+}
+.filter {
+  width: 22%;
+  height: 15vh;
+  border-radius: 5px;
+  background: rgb(233, 233, 233);
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  cursor: pointer;
+}
+.filter h2 {
+  text-align: center;
+  margin-top: 1rem;
+}
+.filter p {
+  width: 100%;
+  height: 5vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px 5px 0 0;
+  font-weight: 550;
+  background: #23bbea;
 }
 </style>
   <!--                                                    End Updated                                 -->
