@@ -38,16 +38,16 @@
           </tr>
         </thead>
           
-        <tbody>
-          <tr v-for:="student in students">
-            <th>{{ student.start_date }}</th>
-            <th>{{ student.end_date }}</th>
-            <th>{{ student.reason }}</th>
-            <th>{{ student.duration }}</th>
-            <th>{{ student.leave_type }}</th>
-            <th :class="student.status.toLowerCase()">{{ student.status }}</th>
-            <th>{{ student.created_at }}</th>
-          </tr>
+          <tbody>
+            <tr v-for:="student in students">
+              <th>{{ student.start_date }}</th>
+              <th>{{ student.end_date }}</th>
+              <th>{{ student.reason }}</th>
+              <th>{{ student.duration }}</th>
+              <th>{{ student.leave_type }}</th>
+              <th :class="student.status.toLowerCase()">{{ student.status }}</th>
+              <th>{{ student.created_at }}</th>
+            </tr>
         </tbody>
       </table>
     </div>

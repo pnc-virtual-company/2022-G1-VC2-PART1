@@ -49,20 +49,10 @@
     </div>
   </section>
 </template>
-  
+
   <script>
 export default {
   props: ["teacher"],
-  data() {
-    return {
-      firstname: "",
-      lastname: "",
-      email: "",
-      role: "",
-      image: null,
-    };
-  },
-
   methods: {
     editStudent(student) {
       this.$emit("studentUpdate", student);
@@ -71,7 +61,7 @@ export default {
 };
 </script>
   
-  <style scoped>
+<style scoped>
 .personal-info,
 .header,
 .profile-container,

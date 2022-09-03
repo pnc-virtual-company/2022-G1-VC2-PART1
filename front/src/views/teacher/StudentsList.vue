@@ -10,10 +10,8 @@
       @cancele-add="canceleAddStudent"
       v-if="dialog && infor == null"
     ></add-student>
-
   </div>
 </template>
-
 <script>
 import StudentList from "../../components/teacher/StudentList.vue";
 import AddStudents from "../../components/teacher/AddStudent.vue";
@@ -23,7 +21,6 @@ export default {
     "student-list": StudentList,
     "add-student": AddStudents,
   },
-
   data() {
     return {
       dialog: false,
