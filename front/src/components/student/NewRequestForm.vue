@@ -12,12 +12,10 @@
         <option value="brother/sister married">brother/sister married</option>
       </select>
     </div>
+    <p class="error">{{ leaveType_error }}</p>
     <div class="form-group">
       <p>Start Date :</p>
-      <div
-        class=""
-        style="display: flex; justify-content: space-between"
-      >
+      <div class="" style="display: flex; justify-content: space-between">
         <input
           required
           type="date"
@@ -25,6 +23,8 @@
           v-model="startDate"
           :min="getCurrentDate"
         />
+        <p class="error">{{ startDate_error }}</p>
+
         <select class="two-input" v-model="startTime">
           <option value="Morning">Morning</option>
           <option value="Afternoon">Afternoon</option>
@@ -34,10 +34,7 @@
     </div>
     <div class="form-group">
       <p>End Date :</p>
-      <div
-        class=""
-        style="display: flex; justify-content: space-between"
-      >
+      <div class="" style="display: flex; justify-content: space-between">
         <input
           required
           type="date"
@@ -45,6 +42,7 @@
           v-model="endDate"
           :min="getCurrentDate"
         />
+        <p class="error">{{ endDate_error }}</p>
         <select class="two-input" v-model="endTime">
           <option value="Morning">Morning</option>
           <option value="Afternoon">Afternoon</option>
@@ -63,6 +61,8 @@
       <p>Cause(Reason) :</p>
       <textarea cols="63" rows="5" v-model="cause" class="textarea"></textarea>
     </div>
+    <p class="error">{{ reason_error }}</p>
+
     <div class="form-group">
       <div class="btn-group">
         <button
@@ -98,6 +98,12 @@ export default {
       startTime: "",
       endTime: "",
       cause: "",
+      leaveType_error: "",
+      startDate_error: "",
+      endDate_error: "",
+      startTime_error: "",
+      endTime_error: "",
+      reason_error: "",
       student_id: null,
     };
   },
@@ -119,33 +125,63 @@ export default {
       });
     },
 
+    validationRequest() {
+      if (this.leaveType == "") {
+        this.leaveType_error = "Please select a type of leave request.";
+      } else if (this.startDate == "") {
+        this.startDate_error = "Please select a start date.";
+      } else if (this.startTime == "") {
+        this.startTime_error = "Please select a start time.";
+      } else if (this.endDate == "") {
+        this.endDate_error = "Please select a end date.";
+      } else if (this.endTime == "") {
+        this.endDate_error = "Please select a end time.";
+      } else if (this.cause == "") {
+        this.reason_error = "Please write some reason.";
+      }
+    },
+
     addRequestLeave() {
-      let requestleave = {
-        leave_type: this.leaveType,
-        start_date: this.startDate,
-        end_date: this.endDate,
-        duration: this.duration,
-        reason: this.cause,
-        student_id: this.student_id,
-      };
-      swal({
-        title: "Okay!",
-        text: "Your leave request has been sent !",
-        icon: "success",
-      }).then((isOkay) => {
-        if (isOkay) {
-          this.$router.push("/studentListAllLeave");
-        }
-      });
-      axios.post("/student_leave_request", requestleave).then((res) => {
-        this.leaveType = "";
-        this.startDate = "";
-        this.endDate = "";
-        this.cause = "";
-        this.startTime = "";
-        this.endTime = "";
-        return res;
-      });
+      this.validationRequest();
+      console.log(this.startDate_error);
+      if (
+        this.leaveType_error == "" &&
+        this.startDate_error == "" &&
+        this.endDate_error == "" &&
+        this.startTime_error == "" &&
+        this.endTime_error == "" &&
+        this.reason_error == ""
+      ) {
+        console.log(this.leaveType_error);
+        console.log("Please write some reason.");
+        let requestleave = {
+          leave_type: this.leaveType,
+          start_date: this.startDate,
+          end_date: this.endDate,
+          duration: this.duration,
+          reason: this.cause,
+          student_id: this.student_id,
+        };
+
+        axios.post("/student_leave_request", requestleave).then((res) => {
+          swal({
+            title: "Okay!",
+            text: "Your leave request has been sent !",
+            icon: "success",
+          }).then((isOkay) => {
+            if (isOkay) {
+              this.$router.push("/studentListAllLeave");
+            }
+          });
+          this.leaveType = "";
+          this.startDate = "";
+          this.endDate = "";
+          this.cause = "";
+          this.startTime = "";
+          this.endTime = "";
+          return res;
+        });
+      }
     },
 
     userlogin() {
@@ -312,5 +348,10 @@ button {
 .invalid {
   color: red;
   margin-top: 5px;
+}
+.error {
+  color: rgb(255, 97, 97);
+  margin: 5px 0 0 0.8rem;
+  text-align: left;
 }
 </style>
