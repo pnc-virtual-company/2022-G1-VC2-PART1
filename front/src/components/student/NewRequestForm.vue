@@ -23,13 +23,13 @@
           v-model="startDate"
           :min="getCurrentDate"
         />
-        <p class="error">{{ startDate_error }}</p>
 
         <select class="two-input" v-model="startTime">
           <option value="Morning">Morning</option>
           <option value="Afternoon">Afternoon</option>
         </select>
       </div>
+      <p class="error">{{ startDate_error }}</p>
       <p class="invalid">{{ invalidStartDate }}</p>
     </div>
     <div class="form-group">
@@ -42,12 +42,12 @@
           v-model="endDate"
           :min="getCurrentDate"
         />
-        <p class="error">{{ endDate_error }}</p>
         <select class="two-input" v-model="endTime">
           <option value="Morning">Morning</option>
           <option value="Afternoon">Afternoon</option>
         </select>
       </div>
+      <p class="error">{{ endDate_error }}</p>
       <p class="invalid">{{ invalidEndDate }}</p>
     </div>
     <div class="form-group">
@@ -104,6 +104,7 @@ export default {
       startTime_error: "",
       endTime_error: "",
       reason_error: "",
+      isValidRequest: false;
       student_id: null,
     };
   },
@@ -130,10 +131,11 @@ export default {
         this.leaveType_error = "Please select a type of leave request.";
       } else if (this.startDate == "") {
         this.startDate_error = "Please select a start date.";
+      } else if (this.endDate == "") {
+        console.error("Please select a end date.");
+        this.endDate_error = "Please select a end date.";
       } else if (this.startTime == "") {
         this.startTime_error = "Please select a start time.";
-      } else if (this.endDate == "") {
-        this.endDate_error = "Please select a end date.";
       } else if (this.endTime == "") {
         this.endDate_error = "Please select a end time.";
       } else if (this.cause == "") {
@@ -152,8 +154,12 @@ export default {
         this.endTime_error == "" &&
         this.reason_error == ""
       ) {
+        this.isValidRequest = true;
         console.log(this.leaveType_error);
         console.log("Please write some reason.");
+       
+      }
+      if (this.isValidRequest) {
         let requestleave = {
           leave_type: this.leaveType,
           start_date: this.startDate,
