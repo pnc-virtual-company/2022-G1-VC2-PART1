@@ -76,7 +76,6 @@ export default {
   methods: {
     uploadImage(e) {
       this.image = e.target.files[0];
-      console.log(e.target.files);
       this.profile = URL.createObjectURL(e.target.files[0]);
     },
     addUser() {
@@ -87,9 +86,9 @@ export default {
       user.append("password", this.password);
       user.append("role", 1);
       user.append("image", this.image);
-      axios.post("register", user).then((response) => {
+      axios.post("register", user).then(() => {
         this.$emit("add-teacher", false);
-        return response;
+        return "Teacher added successfully";
       });
     },
 
