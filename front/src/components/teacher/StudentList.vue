@@ -492,14 +492,12 @@ export default {
 .contianer_update {
   position: absolute;
   width: 100%;
-  /* padding: 1rem 0; */
   background-color: white;
 }
 form {
   width: 30rem;
   margin: auto;
   padding: 10px;
-  margin-top: 1rem;
   border-radius: 10px;
   box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px,
     rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
@@ -628,7 +626,7 @@ label {
   transition: 1s;
 }
 img:hover {
-  transform: scale(1.3);
+  transform: scale(1.1);
   z-index: 2;
 }
 
