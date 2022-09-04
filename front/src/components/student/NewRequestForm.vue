@@ -104,7 +104,7 @@ export default {
       startTime_error: "",
       endTime_error: "",
       reason_error: "",
-      isValidRequest: false;
+      isValidRequest: false,
       student_id: null,
     };
   },
