@@ -25,6 +25,7 @@ export default {
       if (localStorage.accessToken) {
         axios.get("userlogin").then((res) => {
           this.userData = res.data;
+          console.log(this.userData);
           this.role = this.userData.role;
         });
       }

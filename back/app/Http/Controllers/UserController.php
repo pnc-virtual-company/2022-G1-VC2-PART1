@@ -35,6 +35,7 @@ class UserController extends Controller
             // 'email' => 'required|unique:users|email|regex:/(.*)@passerellesnumeriques.org\.com/i',
 
         ]);
+        $request->file('image')->store('public/profiles');
         $user = new User();
         $user->firstname = $request->firstname;
         $user->lastname = $request->lastname;
@@ -43,7 +44,6 @@ class UserController extends Controller
         $user->role = $request->role;
         $user->image = $request->file("image")->hashName();
         $user->save();
-
         return response()->json($user);
     }
 

@@ -1,16 +1,16 @@
 <template>
   <form>
-    <label for="image" style="color: black">
-      <div class="user-profile">
-        <img v-if="profile != null" :src="profile" alt="" />
-        <img v-else src="@/assets/profile1.png" alt="" />
-      </div>
-      <input
-        type="file"
-        style="display: none"
-        id="image"
-        @change="uploadImage"
-      />
+      <label for="image" style="color: black">
+        <div class="user-profile">
+          <img v-if="profile != null" :src="profile" alt="" />
+          <img v-else src="@/assets/profile1.png" alt="" />
+        </div>
+        <input
+          type="file"
+          style="display: none"
+          id="image"
+          @change="uploadImage"
+        />
     </label>
     <div class="two-input">
       <div class="form-group">
@@ -55,7 +55,6 @@
 </template>
 <script>
 import axios from "@/axios-http";
-// import swal from "sweetalert";
 export default {
   
   data() {
@@ -77,7 +76,6 @@ export default {
   methods: {
     uploadImage(e) {
       this.image = e.target.files[0];
-      console.log(this.image);
       console.log(e.target.files);
       this.profile = URL.createObjectURL(e.target.files[0]);
     },
@@ -103,7 +101,7 @@ export default {
 </script>
 <style scoped>
 form {
-  width: 40%;
+  width: 30rem;
   margin:2rem auto;
   padding: 10px;
   border-radius: 10px;

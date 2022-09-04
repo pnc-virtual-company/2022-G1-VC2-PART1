@@ -26,12 +26,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 ================= User route =====================
  */
 
-Route::post("register", [UserController::class, "register"]);
+Route::post("register", [UserController::class, "store"]);
 Route::post("user/sigin", [UserController::class, "sigin"]);
 Route::put("user_update_image/{id}", [UserController::class, "updateImage"]);
-
 Route::group(['middleware' => ['auth:sanctum']], function () {
-    Route::post("/admin", [UserController::class, "store"]);
     Route::post("/userlogin", [UserController::class, "admin"]);
     Route::get("/user/{id}", [UserController::class, "show"]);
     Route::delete("/deleteuser/{id}", [UserController::class, "destroy"]);
