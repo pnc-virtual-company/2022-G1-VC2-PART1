@@ -34,6 +34,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post("/admin", [UserController::class, "store"]);
     Route::post("/userlogin", [UserController::class, "admin"]);
     Route::get("/user/{id}", [UserController::class, "show"]);
+    Route::delete("/deleteuser/{id}", [UserController::class, "destroy"]);
     Route::put("user_update_image/{id}", [UserController::class, "updateImage"]);
     Route::put("student_update_image/{id}", [StudentController::class, "updateImage"]);
     Route::apiresource("/student", StudentController::class);  
