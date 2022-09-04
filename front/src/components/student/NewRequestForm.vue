@@ -104,7 +104,7 @@ export default {
       startTime_error: "",
       endTime_error: "",
       reason_error: "",
-      isValidRequest: false;
+      isValidRequest: false,
       student_id: null,
     };
   },
@@ -145,7 +145,6 @@ export default {
 
     addRequestLeave() {
       this.validationRequest();
-      console.log(this.startDate_error);
       if (
         this.leaveType_error == "" &&
         this.startDate_error == "" &&
@@ -155,10 +154,8 @@ export default {
         this.reason_error == ""
       ) {
         this.isValidRequest = true;
-        console.log(this.leaveType_error);
-        console.log("Please write some reason.");
-       
       }
+      console.log(this.isValidRequest);
       if (this.isValidRequest) {
         let requestleave = {
           leave_type: this.leaveType,

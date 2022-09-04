@@ -6,7 +6,23 @@
         class="tb-container"
         v-if="!isTeacherDetail && isUpdated == false && isDetail == false"
       >
-        <h2 class="teacher">Social Affair</h2>
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+          "
+        >
+          <h2 class="teacher">Social Affair</h2>
+          <div class="btnadd">
+            <button class="btn-add" @click="isAddTeacher()">ADD TEACHER</button>
+          </div>
+        </div>
+        <add-teacher
+          v-if="isAdd_teacher"
+          @add-teacher="addTeacher()"
+          @cancele-add="canceleAddTeacher()"
+        ></add-teacher>
         <table class="table">
           <thead>
             <tr>
@@ -42,6 +58,10 @@
                     alt=""
                     @click="viewTeacherDetail(teacher.id)"
                   />
+                  <i
+                    class="fa fa-trash fa-2x"
+                    @click="remove_teacher(index,teacher.id)"
+                  ></i>
                 </div>
               </td>
             </tr>
@@ -98,8 +118,19 @@
           <div>
             <label for="phone">Phone</label>
           </div>
-          <input class="form-control" type="number" id="phone" @keyup="checkNumber" v-model="phone"/>
-          <div class="alt-error text-center" v-if="lenPhoneNumber<9 && 10<lenPhoneNumber"> Your phone number is invalid format!!</div>
+          <input
+            class="form-control"
+            type="number"
+            id="phone"
+            @keyup="checkNumber"
+            v-model="phone"
+          />
+          <div
+            class="alt-error text-center"
+            v-if="lenPhoneNumber < 9 && 10 < lenPhoneNumber"
+          >
+            Your phone number is invalid format!!
+          </div>
         </div>
         <div class="two-input">
           <div class="form-group">
@@ -168,7 +199,7 @@
             </select>
           </div>
         </div>
-        <div class="btnadd">
+        <div class="btnadd" style="margin-right: 1.8rem">
           <button class="btn-add" @click="addStudent()">ADD STUDENT</button>
         </div>
       </div>
@@ -188,7 +219,7 @@
                   <div class="img">
                     <img
                       :src="
-                        'http://127.0.0.1:8000/storage/pictures/' +
+                        'axios://127.0.0.1:8000/storage/pictures/' +
                         student.image
                       "
                       alt=""
@@ -212,7 +243,7 @@
                   />
                   <i
                     class="fa fa-trash fa-2x"
-                    @click="removeStudent(index, student.id)"
+                    @click="removeStudent(index, student)"
                   ></i>
                 </div>
               </td>
@@ -238,14 +269,16 @@
 </template>
 
 <script>
-import http from "../../axios-http";
+import axios from "../../axios-http";
 import swal from "sweetalert";
 import StudentDetail from "./StudentDetail.vue";
 import TeacherDetail from "./TeacherDetail.vue";
+import AddTeacher from "./AddTeacherComponent.vue";
 export default {
   components: {
     "student-detail": StudentDetail,
     "teacher-detail": TeacherDetail,
+    "add-teacher": AddTeacher,
   },
   data() {
     return {
@@ -266,34 +299,46 @@ export default {
       search: "",
       batch: "",
       errorMsg: "",
-      lenPhoneNumber:null,
+      lenPhoneNumber: null,
       // +++++++++++ student detail data ++++++++++++++++++++
       isDetail: false,
       isTeacherDetail: false,
       student: [],
       teacher: [],
       studentLeaves: [],
+      isAdd_teacher: false,
     };
   },
 
   methods: {
     studentFromAPI() {
-      http.get("student").then((res) => {
+      axios.get("student").then((res) => {
         this.listOfStudents = res.data;
       });
     },
 
     teacherFromAPI() {
-      http.get("teacher").then((res) => {
+      axios.get("teacher").then((res) => {
         this.listOfTeachers = res.data;
       });
     },
 
+    isAddTeacher() {
+      this.isAdd_teacher = !this.isAdd_teacher;
+    },
+    addTeacher() {
+      this.isAdd_teacher = !this.isAdd_teacher;
+      this.teacherFromAPI();
+    },
+    canceleAddTeacher() {
+      this.isAdd_teacher = !this.isAdd_teacher;
+      this.teacherFromAPI();
+    },
     addStudent() {
       this.$emit("add-student", true);
       this.studentFromAPI();
     },
-    removeStudent(index, id) {
+    removeStudent(index, student) {
       swal({
         title: "Are you sure to delete?",
         text: "This student will be remove from the list of students",
@@ -302,10 +347,29 @@ export default {
         dangerMode: true,
       }).then((willDelete) => {
         if (willDelete) {
-          http.delete("student/" + id).then(() => {
-            console.log("OK");
+          axios.delete("student/" + student.id).then((res) => {
+            return res;
+          });
+          axios.delete("deleteuser/" + student.user_id).then((res) => {
+            return res;
           });
           this.listOfStudents.splice(index, 1);
+        }
+      });
+    },
+    remove_teacher(index,id) {
+      swal({
+        title: "Are you sure to delete?",
+        text: "This teacher will be remove from the list of teachers",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      }).then((willDelete) => {
+        if (willDelete) {
+          axios.delete("deleteuser/" + id).then((res) => {
+            return res;
+          });
+          this.listOfTeachers.splice(index, 1);
         }
       });
     },
@@ -357,20 +421,20 @@ export default {
       }
     },
     viewStudentDetail(student_id) {
-      http.get("student/" + student_id).then((res) => {
+      axios.get("student/" + student_id).then((res) => {
         this.student = res.data[0];
         this.studentLeaves = this.student.studentleavequest;
         this.isDetail = !this.isDetail;
       });
     },
     viewTeacherDetail(id) {
-      http.get("user/" + id).then((res) => {
+      axios.get("user/" + id).then((res) => {
         this.teacher = res.data[0];
         this.isTeacherDetail = !this.isTeacherDetail;
       });
     },
   },
-  
+
   computed: {
     // ++++++++ filter students list by username and batch ++++++++++++++++
     filteredStudentLists() {
@@ -650,10 +714,10 @@ tr td:last-child {
   width: 6rem;
 }
 
-.alt-error{
+.alt-error {
   color: red;
 }
-.text-center{
+.text-center {
   text-align: center;
 }
 </style>
