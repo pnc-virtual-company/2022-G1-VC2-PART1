@@ -249,8 +249,8 @@ export default {
   margin: 2rem auto;
 }
 .card {
-  max-width: 50%;
-  margin: 150px auto 0;
+  width: 30rem;
+  margin: 150px auto;
   background-color: #f7fcff;
   box-shadow: 0 10px 90px #00000024;
   text-align: center;
@@ -287,10 +287,12 @@ ul li {
 
 .fa-camera {
   position: absolute;
-  margin-top: 3.5rem;
-  color: rgb(156, 155, 155);
-  padding: 20px;
+  margin-top: 5.6rem;
+  color: rgb(15, 15, 15);
+  background: #66666670;
+  padding:0 25px;
   opacity: 0.1;
+  border-radius: 0 0 50px 50px;
 }
 .fa-camera:hover{
   opacity: 100;

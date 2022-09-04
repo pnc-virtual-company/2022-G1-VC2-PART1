@@ -203,7 +203,6 @@ export default {
         });
     },
     canceleAdd() {
-      console.log("hh");
       this.$emit("cancele-add", false);
     },
   },
@@ -212,7 +211,7 @@ export default {
 </script>
 <style scoped>
 form {
-  width: 40%;
+  width: 30rem;
   margin: auto;
   padding: 10px;
   margin-top: 2rem;

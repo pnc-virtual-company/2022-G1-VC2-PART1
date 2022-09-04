@@ -1,269 +1,279 @@
 <template>
+
   <section>
-    <!--++++++++++++++++++++++++++ Show all information of teacher ++++++++++++++++++++++-->
-    <div>
-      <div
-        class="tb-container"
-        v-if="!isTeacherDetail && isUpdated == false && isDetail == false"
-      >
-        <div
-          style="
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-          "
-        >
-          <h2 class="teacher">Social Affair</h2>
-          <div class="btnadd">
-            <button class="btn-add" @click="isAddTeacher()">ADD TEACHER</button>
-          </div>
-        </div>
+      <div class="dialog" v-if="isAdd_teacher">
         <add-teacher
-          v-if="isAdd_teacher"
           @add-teacher="addTeacher()"
           @cancele-add="canceleAddTeacher()"
         ></add-teacher>
-        <table class="table">
-          <thead>
-            <tr>
-              <th>USER</th>
-              <th>ACTION</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for:="(teacher, index) of listOfTeachers">
-              <td>
-                <div class="user">
-                  <div class="img">
-                    <img
-                      :src="
-                        'http://127.0.0.1:8000/storage/pictures/' +
-                        teacher.image
-                      "
-                      alt=""
-                    />
-                  </div>
-                  <div class="info">
-                    <strong>{{
-                      teacher.firstname + " " + teacher.lastname
-                    }}</strong>
-                    <p>social affair</p>
-                  </div>
-                </div>
-              </td>
-              <td class="tb-btn">
-                <div class="icon">
-                  <img
-                    src="../../assets/view-details.png"
-                    alt=""
-                    @click="viewTeacherDetail(teacher.id)"
-                  />
-                  <i
-                    class="fa fa-trash fa-2x"
-                    @click="remove_teacher(index,teacher.id)"
-                  ></i>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
       </div>
-    </div>
+    <!--++++++++++++++++++++++++++ Show all information of teacher ++++++++++++++++++++++-->
+  <div class="dialog_student" v-else>
 
-    <!-- ++++++++++++++++++++++++++++ Form Update +++++++++++++++++ +++++++++++++++++-->
-    <div v-if="isUpdated" class="contianer_update">
-      <form @submit.prevent="toUpdate">
-        <label for="image" style="color: black">
-          <div class="user-profile">
-            <img :src="'http://127.0.0.1:8000/storage/pictures/' + image" />
-          </div>
-          <input
-            type="file"
-            style="display: none"
-            id="image"
-            @change="uploadImage"
-          />
-        </label>
-        <div class="two-input">
-          <div class="form-group">
-            <div>
-              <label for="firstname">First Name</label>
+      <div class="contianer_list_user">
+        <div
+          class="tb-container"
+          v-if="!isTeacherDetail && isUpdated == false && isDetail == false"
+        >
+          <div class="action">
+            <h2 class="teacher">Social Affair</h2>
+            <div class="btnadd" style="margin-right:0x">
+              <button class="btn-add" @click="isAddTeacher()">ADD TEACHER</button>
             </div>
-            <input
-              class="form-control"
-              type="text"
-              id="firstname"
-              v-model="firstname"
+          </div>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>USER</th>
+                <th>ACTION</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for:="(teacher, index) of listOfTeachers">
+                <td>
+                  <div class="user">
+                    <div class="img">
+                      <img
+                        :src="
+                          'http://127.0.0.1:8000/storage/pictures/' +
+                          teacher.image
+                        "
+                        alt=""
+                      />
+                    </div>
+                    <div class="info">
+                      <strong>{{
+                        teacher.firstname + " " + teacher.lastname
+                      }}</strong>
+                      <p>social affair</p>
+                    </div>
+                  </div>
+                </td>
+                <td class="tb-btn">
+                  <div class="icon">
+                    <img
+                      src="../../assets/view-details.png"
+                      alt=""
+                      @click="viewTeacherDetail(teacher.id)"
+                    />
+                    <i
+                      class="fa fa-trash fa-2x"
+                      @click="remove_teacher(index,teacher.id)"
+                    ></i>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!-- ++++++++++++++++++++++++++++ Form Update +++++++++++++++++ +++++++++++++++++-->
+      <div v-if="isUpdated" class="contianer_update">
+        <form @submit.prevent="toUpdate">
+          <div class="icon_back_update">
+              <img id="back"
+              src="@/assets/cross.png"
+              @click="noUppdated()"
             />
           </div>
-          <div class="form-group">
-            <div>
-              <label for="lastname">Last Name</label>
+          <label for="image" style="color: black">
+            <div class="user-profile">
+              <img :src="'http://127.0.0.1:8000/storage/pictures/' + image" />
             </div>
             <input
-              class="form-control"
-              type="text"
-              id="lastname"
-              v-model="lastname"
+              type="file"
+              style="display: none"
+              id="image"
+              @change="uploadImage"
             />
-          </div>
-        </div>
-        <div class="form-group">
-          <div>
-            <label for="email">Email</label>
-          </div>
-          <input class="form-control" type="text" id="email" v-model="email" />
-        </div>
-        <div class="form-group">
-          <div>
-            <label for="phone">Phone</label>
-          </div>
-          <input
-            class="form-control"
-            type="number"
-            id="phone"
-            @keyup="checkNumber"
-            v-model="phone"
-          />
-          <div
-            class="alt-error text-center"
-            v-if="lenPhoneNumber < 9 && 10 < lenPhoneNumber"
-          >
-            Your phone number is invalid format!!
-          </div>
-        </div>
-        <div class="two-input">
-          <div class="form-group">
-            <div>
-              <label for="class">Classroom</label>
+          </label>
+          <div class="two-input">
+            <div class="form-group">
+              <div>
+                <label for="firstname">First Name</label>
+              </div>
+              <input
+                class="form-control"
+                type="text"
+                id="firstname"
+                v-model="firstname"
+              />
             </div>
-            <input
-              class="form-control"
-              type="text"
-              id="class"
-              v-model="classroom"
-            />
+            <div class="form-group">
+              <div>
+                <label for="lastname">Last Name</label>
+              </div>
+              <input
+                class="form-control"
+                type="text"
+                id="lastname"
+                v-model="lastname"
+              />
+            </div>
           </div>
           <div class="form-group">
             <div>
-              <label for="generation">Generation</label>
+              <label for="email">Email</label>
+            </div>
+            <input class="form-control" type="text" id="email" v-model="email" />
+          </div>
+          <div class="form-group">
+            <div>
+              <label for="phone">Phone</label>
             </div>
             <input
               class="form-control"
               type="number"
-              id="generation"
-              v-model="generation"
+              id="phone"
+              @keyup="checkNumber"
+              v-model="phone"
             />
+            <div
+              class="alt-error text-center"
+              v-if="lenPhoneNumber < 9 && 10 < lenPhoneNumber"
+            >
+              Your phone number is invalid format!!
+            </div>
+          </div>
+          <div class="two-input">
+            <div class="form-group">
+              <div>
+                <label for="class">Classroom</label>
+              </div>
+              <input
+                class="form-control"
+                type="text"
+                id="class"
+                v-model="classroom"
+              />
+            </div>
+            <div class="form-group">
+              <div>
+                <label for="generation">Generation</label>
+              </div>
+              <input
+                class="form-control"
+                type="number"
+                id="generation"
+                v-model="generation"
+              />
+            </div>
+          </div>
+          <div class="form-group radio">
+            <span>Gender : </span>
+            <input
+              class="radio-input"
+              type="radio"
+              id="M"
+              value="M"
+              name="gender"
+              v-model="gender"
+            />
+            <label for="M">Male</label>
+            <input
+              class="radio-input"
+              type="radio"
+              id="F"
+              value="F"
+              name="gender"
+              v-model="gender"
+            />
+            <label for="F">Famale</label>
+          </div>
+          <div class="btn-group">
+            <button class="btn btn-submit" type="submit">Update</button>
+          </div>
+        </form>
+      </div>
+      <!-- ++++++++++++++++++++ List students ++++++++++++++++ -->
+      <div v-if="!isTeacherDetail" class="contianer_list_user">
+        <div class="action" v-if="!isDetail">
+          <div style="display: flex">
+            <h2 class="students">Students</h2>
+            <div class="search">
+              <input type="text" placeholder="search" v-model="search" />
+            </div>
+            <div class="filter">
+              <select v-model="batch">
+                <option value="" selected disabled>Batch</option>
+                <option value="all">All</option>
+                <option value="2022">2022</option>
+                <option value="2023">2023</option>
+              </select>
+            </div>
+          </div>
+          <div class="btnadd" style="margin-right: 6px">
+            <button class="btn-add" @click="addStudent()">ADD STUDENT</button>
           </div>
         </div>
-        <div class="form-group radio">
-          <span>Gender : </span>
-          <input
-            class="radio-input"
-            type="radio"
-            id="M"
-            value="M"
-            name="gender"
-            v-model="gender"
-          />
-          <label for="M">Male</label>
-          <input
-            class="radio-input"
-            type="radio"
-            id="F"
-            value="F"
-            name="gender"
-            v-model="gender"
-          />
-          <label for="F">Famale</label>
-        </div>
-        <div class="btn-group">
-          <button class="btn btn-submit" type="submit">Update</button>
-        </div>
-      </form>
-    </div>
-    <!-- ++++++++++++++++++++ List students ++++++++++++++++ -->
-    <div v-if="!isTeacherDetail">
-      <div class="action" v-if="!isDetail">
-        <div style="display: flex">
-          <h2 class="students">Students</h2>
-          <div class="search">
-            <input type="text" placeholder="search" v-model="search" />
-          </div>
-          <div class="filter">
-            <select v-model="batch">
-              <option value="" selected disabled>Batch</option>
-              <option value="all">All</option>
-              <option value="2022">2022</option>
-              <option value="2023">2023</option>
-            </select>
-          </div>
-        </div>
-        <div class="btnadd" style="margin-right: 1.8rem">
-          <button class="btn-add" @click="addStudent()">ADD STUDENT</button>
+        <div class="tb-container" v-if="!isDetail">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>USER</th>
+                <th class="padding-right">GENDER</th>
+                <th>ACTION</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for:="(student, index) of filteredStudentLists">
+                <td>
+                  <div class="user">
+                    <div class="img">
+                      <img
+                        :src="
+                          'http://127.0.0.1:8000/storage/pictures/' +
+                          student.image
+                        "
+                        alt=""
+                      />
+                    </div>
+                    <div class="info">
+                      <strong>{{
+                        student.firstname + " " + student.lastname
+                      }}</strong>
+                      <p>{{ student.class }} {{ student.batch }}</p>
+                    </div>
+                  </div>
+                </td>
+                <td class="padding-right">{{ student.gender }}</td>
+                <td class="tb-btn">
+                  <div class="icon">
+                    <img
+                      src="../../assets/view-details.png"
+                      alt=""
+                      @click="viewStudentDetail(student.id)"
+                    />
+                    <i
+                      class="fa fa-trash fa-2x"
+                      @click="removeStudent(index, student)"
+                    ></i>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
-      <div class="tb-container" v-if="!isDetail">
-        <table class="table">
-          <thead>
-            <tr>
-              <th>USER</th>
-              <th class="padding-right">GENDER</th>
-              <th>ACTION</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for:="(student, index) of filteredStudentLists">
-              <td>
-                <div class="user">
-                  <div class="img">
-                    <img :src="'http://127.0.0.1:8000/storage/pictures/' + student.image" />
-                  </div>
-                  <div class="info">
-                    <strong>{{
-                      student.firstname + " " + student.lastname
-                    }}</strong>
-                    <p>{{ student.class }} {{ student.batch }}</p>
-                  </div>
-                </div>
-              </td>
-              <td class="padding-right">{{ student.gender }}</td>
-              <td class="tb-btn">
-                <div class="icon">
-                  <img
-                    src="../../assets/view-details.png"
-                    alt=""
-                    @click="viewStudentDetail(student.id)"
-                  />
-                  <i
-                    class="fa fa-trash fa-2x"
-                    @click="removeStudent(index, student)"
-                  ></i>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-    <!-- +++++++++++++++++++ STUDENT DETIAL +++++++++++++++++++ -->
-    <student-detail
-      v-if="isDetail"
-      :student="student"
-      :studentLeaves="studentLeaves"
-      @hide-detail="isDetail = !isDetail"
-      @studentUpdate="UpdateStudent"
-    ></student-detail>
-    <teacher-detail
-      v-if="isTeacherDetail"
-      :teacher="teacher"
-      @hide-detail="isTeacherDetail = !isTeacherDetail"
-    ></teacher-detail>
+      <!-- +++++++++++++++++++ STUDENT DETIAL +++++++++++++++++++ -->
+      <student-detail
+        v-if="isDetail"
+        :student="student"
+        :studentLeaves="studentLeaves"
+        @hide-detail="isDetail = !isDetail"
+        @studentUpdate="UpdateStudent"
+      ></student-detail>
+      <teacher-detail
+        v-if="isTeacherDetail"
+        :teacher="teacher"
+        @hide-detail="isTeacherDetail = !isTeacherDetail"
+      ></teacher-detail>
+  </div>
   </section>
 </template>
 
 <script>
-import axios from "../../axios-http";
+import axios from "@/axios-http";
 import swal from "sweetalert";
 import StudentDetail from "./StudentDetail.vue";
 import TeacherDetail from "./TeacherDetail.vue";
@@ -403,6 +413,7 @@ export default {
       });
       this.isUpdated = false;
     },
+
     updateCurrent(student, id, img) {
       let index = 0;
       for (let update of this.listOfStudents) {
@@ -413,6 +424,10 @@ export default {
         }
         index++;
       }
+    },
+
+    noUppdated(){
+      this.isUpdated = !this.isUpdated;
     },
     viewStudentDetail(student_id) {
       axios.get("student/" + student_id).then((res) => {
@@ -470,6 +485,10 @@ export default {
 </script>
 
 <style scoped>
+.contianer_list_user{
+  width: 50rem;
+  margin: auto;
+}
 .contianer_update {
   position: absolute;
   width: 100%;
@@ -612,6 +631,16 @@ img:hover {
   z-index: 2;
 }
 
+.icon_back_update{
+  display: flex;
+  justify-content: flex-end;
+}
+
+.icon_back_update #back{
+  width: 2rem;
+  height: 2rem;
+}
+
 .icon {
   display: flex;
   cursor: pointer;
@@ -646,7 +675,7 @@ img:hover {
 /* ++++++++++++++++++ table list studetns +++++++++++++++ */
 .tb-container {
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-  width: 70%;
+  width: 100%;
   margin: 10px auto;
   padding: 10px;
 }
@@ -682,7 +711,7 @@ tr td:last-child {
   padding-right: 3rem;
 }
 .action {
-  width: 74%;
+  width: 100%;
   margin: auto;
   display: flex;
   padding: 2rem 0;
