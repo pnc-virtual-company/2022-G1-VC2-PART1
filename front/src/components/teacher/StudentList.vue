@@ -473,7 +473,6 @@ export default {
 .contianer_update {
   position: absolute;
   width: 100%;
-  /* padding: 1rem 0; */
   background-color: white;
 }
 form {
