@@ -217,13 +217,7 @@
               <td>
                 <div class="user">
                   <div class="img">
-                    <img
-                      :src="
-                        'axios://127.0.0.1:8000/storage/pictures/' +
-                        student.image
-                      "
-                      alt=""
-                    />
+                    <img :src="'http://127.0.0.1:8000/storage/pictures/' + student.image" />
                   </div>
                   <div class="info">
                     <strong>{{
@@ -479,14 +473,14 @@ export default {
 .contianer_update {
   position: absolute;
   width: 100%;
-  padding: 4rem 0;
-  background-color: rgb(252, 249, 249);
+  /* padding: 1rem 0; */
+  background-color: white;
 }
 form {
-  width: 40%;
+  width: 30rem;
   margin: auto;
   padding: 10px;
-  margin-top: 2rem;
+  margin-top: 1rem;
   border-radius: 10px;
   box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px,
     rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
@@ -538,7 +532,7 @@ form {
 label,
 span {
   font-weight: 550;
-  color: rgb(60, 59, 59);
+  color: black;
 }
 .radio label {
   margin-right: 1rem;
@@ -568,7 +562,7 @@ span {
 
 label {
   font-weight: bold;
-  color: white;
+  color: black;
 }
 
 .password {
