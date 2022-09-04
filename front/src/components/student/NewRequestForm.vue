@@ -127,6 +127,12 @@ export default {
     },
 
     validationRequest() {
+      this.leaveType_error = "";
+      this.startDate_error = "";
+      this.endDate_error = "";
+      this.startTime_error = "";
+      this.endTime_error = "";
+      this.reason_error = "";
       if (this.leaveType == "") {
         this.leaveType_error = "Please select a type of leave request.";
       } else if (this.startDate == "") {
